@@ -23,7 +23,7 @@
       "aliases": {
         "SpreadSheetReader": "StepUpDream\\SpreadSheetConverter\\SpreadSheetReader\\Supports\\Facades\\SpreadSheetReader",
         "YamlFileReader": "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Supports\\Facades\\YamlFileReader",
-        "Yaml": "Symfony\Component\Yaml\Yaml",
+        "Yaml": "Symfony\\Component\\Yaml\\Yaml"
       }
     }
   }
