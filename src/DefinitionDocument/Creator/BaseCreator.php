@@ -66,7 +66,7 @@ abstract class BaseCreator
                 continue;
             }
             
-            $target_path = $output_directory_path . DIRECTORY_SEPARATOR . Str::snake($attribute->mainKeyName()) . '.yml';
+            $target_path = $output_directory_path . DIRECTORY_SEPARATOR . $attribute->mainKeyName() . '.yml';
             $blade_file = view('definition_document::' . Str::snake($category_name),
                 [
                     'attribute' => $attribute,
@@ -81,7 +81,7 @@ abstract class BaseCreator
      *
      * @param \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute[] $attributes
      */
-    protected function verifyDataType($attributes)
+    protected function verifyDataTypeTable($attributes)
     {
         foreach ($attributes as $attribute) {
             foreach ($attribute->subAttributes() as $sub_attribute) {
