@@ -58,7 +58,7 @@ class ApiAttribute
      *
      * @return string
      */
-    public function spreadsheetCategoryName()
+    public function spreadsheetCategoryName() : string
     {
         return $this->spreadsheet_category_name;
     }
@@ -68,7 +68,7 @@ class ApiAttribute
      *
      * @return array
      */
-    public function attributes()
+    public function attributes() : array
     {
         return $this->attributes;
     }
@@ -89,7 +89,7 @@ class ApiAttribute
      *
      * @return string
      */
-    public function mainKeyName()
+    public function mainKeyName() : string
     {
         return $this->main_key_name;
     }
@@ -109,7 +109,7 @@ class ApiAttribute
      *
      * @return array
      */
-    public function requestAttributes()
+    public function requestAttributes() : array
     {
         return $this->request_attributes;
     }
@@ -129,7 +129,7 @@ class ApiAttribute
      *
      * @return array
      */
-    public function responseAttributes()
+    public function responseAttributes() : array
     {
         return $this->response_attributes;
     }
@@ -149,7 +149,7 @@ class ApiAttribute
      *
      * @return string
      */
-    public function sheetName()
+    public function sheetName() : string
     {
         return $this->sheet_name;
     }

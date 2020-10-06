@@ -29,6 +29,8 @@ class DefinitionDocumentCommand extends BaseCreateCommand
     
     /**
      * run command
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function handle()
     {
@@ -45,15 +47,15 @@ class DefinitionDocumentCommand extends BaseCreateCommand
             switch ($read_spread_sheet['read_type']) {
                 case 'Table':
                     $creator = app()->make(Table::class);
-                    $creator->run($read_spread_sheet['category_name'], $read_spread_sheet['sheet_id'], $read_spread_sheet['output_directory_path'], $target_file_name);
                     break;
                 case 'Http':
                     $creator = app()->make(Http::class);
-                    $creator->run($read_spread_sheet['category_name'], $read_spread_sheet['sheet_id'], $read_spread_sheet['output_directory_path'], $target_file_name);
                     break;
                 default:
                     throw new LogicException('Unexpected value');
             }
+            
+            $creator->run($read_spread_sheet['category_name'], $read_spread_sheet['use_blade'], $read_spread_sheet['sheet_id'], $read_spread_sheet['output_directory_path'], $target_file_name);
         }
     }
 }

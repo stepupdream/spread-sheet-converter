@@ -18,7 +18,7 @@ class FileOperation
      * @param string $directory_path directory path
      * @return array file path list
      */
-    public function getAllFilePath(string $directory_path)
+    public function getAllFilePath(string $directory_path) : array
     {
         $file_paths = [];
         
@@ -28,7 +28,8 @@ class FileOperation
         
         $files = File::allFiles($directory_path);
         foreach ($files as $file) {
-            $file_paths[$file->getRealPath()] = $file->getRealPath();
+            $real_path = (string)$file->getRealPath();
+            $file_paths[$real_path] = $real_path;
         }
         
         return $file_paths;

@@ -45,7 +45,7 @@ abstract class BaseCreator
      * @param string|null $target_file_name
      * @return bool
      */
-    public function isReadSkip($attribute, ?string $target_file_name)
+    public function isReadSkip($attribute, ?string $target_file_name) : bool
     {
         return $target_file_name !== null && Str::snake($target_file_name) !== Str::snake($attribute->mainKeyName());
     }
@@ -54,11 +54,11 @@ abstract class BaseCreator
      * Generate a definition document
      *
      * @param \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute[] $attributes
+     * @param string $use_blade
      * @param string|null $target_file_name
-     * @param string $category_name
      * @param string $output_directory_path
      */
-    protected function createDefinitionDocument(array $attributes, ?string $target_file_name, string $category_name, string $output_directory_path)
+    protected function createDefinitionDocument(array $attributes, string $use_blade, ?string $target_file_name, string $output_directory_path)
     {
         foreach ($attributes as $attribute) {
             // If there is a specification to get only a part, skip other data
@@ -67,7 +67,7 @@ abstract class BaseCreator
             }
             
             $target_path = $output_directory_path . DIRECTORY_SEPARATOR . $attribute->mainKeyName() . '.yml';
-            $blade_file = view('definition_document::' . Str::snake($category_name),
+            $blade_file = view('definition_document::' . Str::snake($use_blade),
                 [
                     'attribute' => $attribute,
                 ])->render();
@@ -81,7 +81,7 @@ abstract class BaseCreator
      *
      * @param \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute[] $attributes
      */
-    protected function verifyDataTypeTable($attributes)
+    protected function verifyDataTypeTable(array $attributes)
     {
         foreach ($attributes as $attribute) {
             foreach ($attribute->subAttributes() as $sub_attribute) {
@@ -95,7 +95,7 @@ abstract class BaseCreator
      *
      * @param \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\ApiAttribute[] $attributes
      */
-    protected function verifyDataTypeForHttp($attributes)
+    protected function verifyDataTypeForHttp(array $attributes)
     {
         foreach ($attributes as $attribute) {
             foreach ($attribute->requestAttributes() as $sub_attribute) {

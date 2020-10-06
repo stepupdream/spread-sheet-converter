@@ -39,7 +39,7 @@ class BaseReader
      * @param string|null $target_sheet_name
      * @return array Table information array containing information for each sheet：key is sheet name
      */
-    public function read(string $sheet_id, string $target_sheet_name = null)
+    public function read(string $sheet_id, string $target_sheet_name = null) : array
     {
         $credentials_path = config('spread_sheet.credentials_path');
         
@@ -58,10 +58,13 @@ class BaseReader
         foreach ($sheets->spreadsheets->get($sheet_id)->getSheets() as $sheet) {
             $target_sheet = $sheet->getProperties()->getTitle();
             $sheet_data_range = $sheets->spreadsheets_values->get($sheet_id, $target_sheet);
-            $spreadsheets[$target_sheet] = $this->sheet_operation->getTitleArray($sheet_data_range->getValues());
+            $spreadsheets[$target_sheet] = $this->sheet_operation->getTitleArray($sheet_data_range->getValues(), $target_sheet);
         }
         
         if (isset($target_sheet_name)) {
+            if (empty($spreadsheets[$target_sheet_name])) {
+                throw new LogicException('can not read sheet data: ' . $target_sheet_name);
+            }
             return $spreadsheets[$target_sheet_name];
         }
         
