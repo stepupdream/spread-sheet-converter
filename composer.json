@@ -3,7 +3,7 @@
   "description": "support package",
   "license": "MIT",
   "require": {
-    "laravel/framework": "^5.5|^6|^7"
+    "laravel/framework": "^6|^7|^8"
   },
   "require-dev": {
     "google/apiclient": "^2.0",

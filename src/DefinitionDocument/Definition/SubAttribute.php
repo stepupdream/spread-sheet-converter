@@ -50,7 +50,7 @@ class SubAttribute
      *
      * @return string
      */
-    public function ruleMessage()
+    public function ruleMessage() : string
     {
         return $this->rule_message;
     }
@@ -70,7 +70,7 @@ class SubAttribute
      *
      * @return string
      */
-    public function mainKeyName()
+    public function mainKeyName() : string
     {
         return $this->main_key_name;
     }

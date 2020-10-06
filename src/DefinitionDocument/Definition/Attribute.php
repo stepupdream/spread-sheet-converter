@@ -22,6 +22,11 @@ class Attribute
     /**
      * @var string
      */
+    protected $sheet_name;
+    
+    /**
+     * @var string
+     */
     protected $main_key_name = '';
     
     /**
@@ -45,7 +50,7 @@ class Attribute
      *
      * @return string
      */
-    public function spreadsheetCategoryName()
+    public function spreadsheetCategoryName() : string
     {
         return $this->spreadsheet_category_name;
     }
@@ -55,7 +60,7 @@ class Attribute
      *
      * @return array
      */
-    public function attributes()
+    public function attributes() : array
     {
         return $this->attributes;
     }
@@ -65,10 +70,12 @@ class Attribute
      *
      * @param string $value
      * @param string $header_name
+     * @param string $sheet_name
      */
-    public function setAttributes(string $value, string $header_name)
+    public function setAttributes(string $value, string $header_name, string $sheet_name)
     {
         $this->attributes[$header_name] = $value;
+        $this->sheet_name = $sheet_name;
     }
     
     /**
@@ -76,9 +83,19 @@ class Attribute
      *
      * @return string
      */
-    public function mainKeyName()
+    public function mainKeyName() : string
     {
         return $this->main_key_name;
+    }
+    
+    /**
+     * get sheet_name
+     *
+     * @return string
+     */
+    public function sheetName() : string
+    {
+        return $this->sheet_name;
     }
     
     /**
@@ -96,7 +113,7 @@ class Attribute
      *
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\SubAttribute[]
      */
-    public function subAttributes()
+    public function subAttributes() : array
     {
         return $this->sub_attributes;
     }

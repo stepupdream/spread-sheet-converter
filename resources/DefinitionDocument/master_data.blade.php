@@ -1,6 +1,7 @@
 - name: '{{ $attribute->attributes()['TableName'] }}'
   database_directory_name: '{{ $attribute->spreadsheetCategoryName() }}'
   connection_name: '{{ $attribute->attributes()['ConnectionName'] }}'
+  domain_group: '{{ $attribute->sheetName() }}'
   description: '{{ $attribute->attributes()['TableDescription'] }}'
   columns:
 @foreach($attribute->SubAttributes() as $sub_attribute)

@@ -18,23 +18,24 @@ class Table extends BaseCreator
      * Execution of processing
      *
      * @param string $category_name
+     * @param string $use_blade
      * @param string $sheet_id
      * @param string $output_directory_path
-     * @param string $target_file_name
+     * @param string|null $target_file_name
      */
-    public function run(string $category_name, string $sheet_id, string $output_directory_path, string $target_file_name = null)
+    public function run(string $category_name, string $use_blade, string $sheet_id, string $output_directory_path, string $target_file_name = null)
     {
         $converted_sheet_data = [];
         $spread_sheets = SpreadSheetReader::read($sheet_id);
         
-        foreach ($spread_sheets as $sheet) {
-            $converted_sheet_data[] = $this->convertSheetData($sheet, Str::studly($category_name));
+        foreach ($spread_sheets as $sheet_name => $sheet) {
+            $converted_sheet_data[] = $this->convertSheetData($sheet, Str::studly($category_name), $sheet_name);
         }
         
         // Return to one dimension because it is a multi-dimensional array of sheets
         $attributes = collect($converted_sheet_data)->flatten()->all();
-        $this->verifyDataType($attributes);
-        $this->createDefinitionDocument($attributes, $target_file_name, $category_name, $output_directory_path);
+        $this->verifyDataTypeTable($attributes);
+        $this->createDefinitionDocument($attributes, $use_blade, $target_file_name, $output_directory_path);
     }
     
     /**
@@ -42,9 +43,10 @@ class Table extends BaseCreator
      *
      * @param array $sheet
      * @param string $category_name
+     * @param string $sheet_name
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute[]
      */
-    protected function convertSheetData(array $sheet, string $category_name)
+    protected function convertSheetData(array $sheet, string $category_name, string $sheet_name) : array
     {
         $row_number = 0;
         $converted_sheet_data = [];
@@ -55,7 +57,7 @@ class Table extends BaseCreator
                 continue;
             }
             
-            $converted_sheet_data[] = $this->createTableAttribute($sheet, $category_name, $row_number);
+            $converted_sheet_data[] = $this->createTableAttribute($sheet, $category_name, $row_number, $sheet_name);
         }
         
         return $converted_sheet_data;
@@ -67,20 +69,21 @@ class Table extends BaseCreator
      * @param array $sheet
      * @param string $spreadsheet_category_name
      * @param int $row_number
+     * @param string $sheet_name
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute
      */
-    protected function createTableAttribute(array $sheet, string $spreadsheet_category_name, int &$row_number)
+    protected function createTableAttribute(array $sheet, string $spreadsheet_category_name, int &$row_number, string $sheet_name) : Attribute
     {
         $header_names_main = $this->sheet_operation->getMainAttributeKeyName($sheet);
         $header_names_sub = $this->sheet_operation->getSubAttributeKeyName($sheet);
         $this->verifyHeaderName($header_names_sub);
-
+    
         $sub_attributes = [];
         
         $attribute = new Attribute($spreadsheet_category_name);
         $attribute->setMainKeyName(collect($sheet[$row_number])->first());
         foreach ($header_names_main as $header_name_main) {
-            $attribute->setAttributes($sheet[$row_number][$header_name_main], $header_name_main);
+            $attribute->setAttributes($sheet[$row_number][$header_name_main], $header_name_main, $sheet_name);
         }
         
         while (!empty($sheet[$row_number]) && !$this->sheet_operation->isAllEmpty($sheet[$row_number])) {
