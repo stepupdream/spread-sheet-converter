@@ -42,7 +42,7 @@ class FileOperation
      * @param string $file_path
      * @param bool $is_overwrite
      */
-    public function createFile(string $content, string $file_path, bool $is_overwrite = false)
+    public function createFile(string $content, string $file_path, bool $is_overwrite = false) : void
     {
         $dir_path = dirname($file_path);
         

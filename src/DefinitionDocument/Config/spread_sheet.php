@@ -17,7 +17,7 @@ return [
             'use_blade'             => 'api',
             'sheet_id'              => 'sheet_id',
             'read_type'             => 'Http',
-            'output_directory_path' => base_path('definition_document/api'),
+            'output_directory_path' => base_path('definition_document/http/api'),
         ],
     ],
 ];

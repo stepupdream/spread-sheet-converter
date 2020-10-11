@@ -79,7 +79,7 @@ class ApiAttribute
      * @param string $value
      * @param string $header_name
      */
-    public function setAttributes(string $value, string $header_name)
+    public function setAttributes(string $value, string $header_name) : void
     {
         $this->attributes[$header_name] = $value;
     }
@@ -99,7 +99,7 @@ class ApiAttribute
      *
      * @param string $main_key_name
      */
-    public function setMainKeyName(string $main_key_name)
+    public function setMainKeyName(string $main_key_name) : void
     {
         $this->main_key_name = $main_key_name;
     }
@@ -119,7 +119,7 @@ class ApiAttribute
      *
      * @param array $request_attributes
      */
-    public function setRequestAttributes(array $request_attributes)
+    public function setRequestAttributes(array $request_attributes) : void
     {
         $this->request_attributes = $request_attributes;
     }
@@ -139,7 +139,7 @@ class ApiAttribute
      *
      * @param array $response_attributes
      */
-    public function setResponseAttributes(array $response_attributes)
+    public function setResponseAttributes(array $response_attributes) : void
     {
         $this->response_attributes = $response_attributes;
     }

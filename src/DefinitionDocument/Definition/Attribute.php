@@ -103,7 +103,7 @@ class Attribute
      *
      * @param string $main_key_name
      */
-    public function setMainKeyName(string $main_key_name)
+    public function setMainKeyName(string $main_key_name) : void
     {
         $this->main_key_name = $main_key_name;
     }
@@ -123,7 +123,7 @@ class Attribute
      *
      * @param array $sub_attributes
      */
-    public function setSubAttributes(array $sub_attributes)
+    public function setSubAttributes(array $sub_attributes) : void
     {
         $this->sub_attributes = $sub_attributes;
     }

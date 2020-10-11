@@ -29,7 +29,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
      *
      * @return void
      */
-    public function boot()
+    public function boot() : void
     {
         $this->loadViewsFrom(__DIR__.'/../../../resources/DefinitionDocument', 'definition_document');
     
@@ -45,7 +45,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     /**
      * Register the service provider.
      */
-    public function register()
+    public function register() : void
     {
         $this->mergeConfigFrom(__DIR__ . '/../Config/spread_sheet.php', 'spread_sheet');
     
@@ -57,8 +57,10 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     
     /**
      * Get the services provided by the provider.
+     *
+     * @return array
      */
-    public function provides()
+    public function provides() : array
     {
         return array_values($this->commands);
     }

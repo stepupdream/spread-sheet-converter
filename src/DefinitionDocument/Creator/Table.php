@@ -23,7 +23,7 @@ class Table extends BaseCreator
      * @param string $output_directory_path
      * @param string|null $target_file_name
      */
-    public function run(string $category_name, string $use_blade, string $sheet_id, string $output_directory_path, string $target_file_name = null)
+    public function run(string $category_name, string $use_blade, string $sheet_id, string $output_directory_path, string $target_file_name = null) : void
     {
         $converted_sheet_data = [];
         $spread_sheets = SpreadSheetReader::read($sheet_id);
