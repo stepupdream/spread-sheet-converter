@@ -10,7 +10,6 @@
         description: '{{ $request_attribute->attributes()['ColumnDescription'] }}'
         data_type: '{{ $request_attribute->attributes()['DataType'] }}'
         default_value: '{{ $request_attribute->attributes()['DefaultValue'] }}'
-        is_required: {{ $request_attribute->attributes()['IsRequired'] }}
         rules: '{{ $request_attribute->attributes()['RequestRule'] }}'
         messages: {!! $request_attribute->ruleMessage() !!}
 @endforeach
