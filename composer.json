@@ -17,8 +17,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\DefinitionDocumentCommandServiceProvider",
-        "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\BaseServiceProvider"
+        "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\DefinitionDocumentCommandServiceProvider"
       ],
       "aliases": {
         "SpreadSheetReader": "StepUpDream\\SpreadSheetConverter\\SpreadSheetReader\\Supports\\Facades\\SpreadSheetReader",
