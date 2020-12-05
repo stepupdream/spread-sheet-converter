@@ -23,8 +23,13 @@ class Table extends BaseCreator
      * @param string $output_directory_path
      * @param string|null $target_file_name
      */
-    public function run(string $category_name, string $use_blade, string $sheet_id, string $output_directory_path, string $target_file_name = null) : void
-    {
+    public function run(
+        string $category_name,
+        string $use_blade,
+        string $sheet_id,
+        string $output_directory_path,
+        string $target_file_name = null
+    ): void {
         $converted_sheet_data = [];
         $spread_sheets = SpreadSheetReader::read($sheet_id);
         
@@ -46,7 +51,7 @@ class Table extends BaseCreator
      * @param string $sheet_name
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute[]
      */
-    protected function convertSheetData(array $sheet, string $category_name, string $sheet_name) : array
+    protected function convertSheetData(array $sheet, string $category_name, string $sheet_name): array
     {
         $row_number = 0;
         $converted_sheet_data = [];
@@ -72,12 +77,16 @@ class Table extends BaseCreator
      * @param string $sheet_name
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute
      */
-    protected function createTableAttribute(array $sheet, string $spreadsheet_category_name, int &$row_number, string $sheet_name) : Attribute
-    {
+    protected function createTableAttribute(
+        array $sheet,
+        string $spreadsheet_category_name,
+        int &$row_number,
+        string $sheet_name
+    ): Attribute {
         $header_names_main = $this->sheet_operation->getMainAttributeKeyName($sheet);
         $header_names_sub = $this->sheet_operation->getSubAttributeKeyName($sheet);
         $this->verifyHeaderName($header_names_sub);
-    
+        
         $sub_attributes = [];
         
         $attribute = new Attribute($spreadsheet_category_name);

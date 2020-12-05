@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpUndefinedMethodInspection */
-
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Providers;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -29,19 +27,19 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
      *
      * @return void
      */
-    public function boot() : void
+    public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../Config/spread_sheet.php' => config_path('spread_sheet.php'),
+            __DIR__.'/../Config/spread_sheet.php' => config_path('spread_sheet.php'),
         ]);
-
+        
         $this->loadViewsFrom(__DIR__.'/../../../resources/DefinitionDocument', 'definition_document');
-    
+        
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../../../resources/DefinitionDocument' => $this->app->resourcePath('views/vendor/definition_document'),
             ], 'definition_document');
-        
+            
             $this->commands(array_values($this->commands));
         }
     }
@@ -49,14 +47,13 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     /**
      * Register the service provider.
      */
-    public function register() : void
+    public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../Config/spread_sheet.php', 'spread_sheet');
-    
+        $this->mergeConfigFrom(__DIR__.'/../Config/spread_sheet.php', 'spread_sheet');
+        
         $this->app->singleton('command.create.definition.document', function ($app) {
             return $app->make(DefinitionDocumentCommand::class);
         });
-    
     }
     
     /**
@@ -64,7 +61,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
      *
      * @return array
      */
-    public function provides() : array
+    public function provides(): array
     {
         return array_values($this->commands);
     }

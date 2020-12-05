@@ -3,7 +3,6 @@
 namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Reader;
 
 use Google_Client;
-use Google_Exception;
 use Google_Service_Sheets;
 use Google_Service_Sheets_Sheet;
 use LogicException;
@@ -39,17 +38,13 @@ class BaseReader
      * @param string|null $target_sheet_name
      * @return array Table information array containing information for each sheet：key is sheet name
      */
-    public function read(string $sheet_id, string $target_sheet_name = null) : array
+    public function read(string $sheet_id, string $target_sheet_name = null): array
     {
         $credentials_path = config('spread_sheet.credentials_path');
         
         $client = new Google_Client();
         $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
-        try {
-            $client->setAuthConfig($credentials_path);
-        } catch (Google_Exception $e) {
-            throw new LogicException('Failed to get information from spreadsheet');
-        }
+        $client->setAuthConfig($credentials_path);
         
         $sheets = new Google_Service_Sheets($client);
         $spreadsheets = [];
@@ -63,7 +58,7 @@ class BaseReader
         
         if (isset($target_sheet_name)) {
             if (empty($spreadsheets[$target_sheet_name])) {
-                throw new LogicException('can not read sheet data: ' . $target_sheet_name);
+                throw new LogicException('can not read sheet data: '.$target_sheet_name);
             }
             return $spreadsheets[$target_sheet_name];
         }

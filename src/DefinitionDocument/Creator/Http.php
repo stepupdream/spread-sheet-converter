@@ -2,9 +2,9 @@
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creator;
 
-use LogicException;
 use SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\ApiAttribute;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\SubAttribute;
 use Str;
 
@@ -24,8 +24,13 @@ class Http extends BaseCreator
      * @param string $output_directory_path
      * @param string|null $target_file_name
      */
-    public function run(string $category_name, string $use_blade, string $sheet_id, string $output_directory_path, string $target_file_name = null) : void
-    {
+    public function run(
+        string $category_name,
+        string $use_blade,
+        string $sheet_id,
+        string $output_directory_path,
+        string $target_file_name = null
+    ): void {
         $converted_sheet_data = [];
         $spread_sheets = SpreadSheetReader::read($sheet_id);
         $request_rule_sheet_name = config('spread_sheet.request_rule_sheet_name');
@@ -40,7 +45,8 @@ class Http extends BaseCreator
         }
         
         // Return to one dimension because it is a multi-dimensional array of sheets
-        $this->createDefinitionDocument(collect($converted_sheet_data)->flatten()->all(), $use_blade, $target_file_name, $output_directory_path);
+        $this->createDefinitionDocument(collect($converted_sheet_data)->flatten()->all(), $use_blade, $target_file_name,
+            $output_directory_path);
     }
     
     /**
@@ -50,9 +56,9 @@ class Http extends BaseCreator
      * @param array $request_rule_sheet
      * @param string $category_name
      * @param string $sheet_name
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute[]
+     * @return Attribute[]
      */
-    protected function convertSheetData(array $sheet, array $request_rule_sheet, string $category_name, string $sheet_name) : array
+    protected function convertSheetData(array $sheet, array $request_rule_sheet, string $category_name, string $sheet_name): array
     {
         $row_number = 0;
         $converted_sheet_data = [];
@@ -79,8 +85,13 @@ class Http extends BaseCreator
      * @param string $sheet_name
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\ApiAttribute
      */
-    protected function createHttpAttribute(array $sheet, array $request_rule_sheet, string $spreadsheet_category_name, int &$row_number, string $sheet_name) : ApiAttribute
-    {
+    protected function createHttpAttribute(
+        array $sheet,
+        array $request_rule_sheet,
+        string $spreadsheet_category_name,
+        int &$row_number,
+        string $sheet_name
+    ): ApiAttribute {
         $header_names_main = $this->sheet_operation->getMainAttributeKeyName($sheet);
         $header_names_sub = $this->sheet_operation->getSubAttributeKeyName($sheet);
         $rule_column_name = config('spread_sheet.request_rule_column_name');
@@ -148,7 +159,7 @@ class Http extends BaseCreator
      * @param string $rule_column_name
      * @return string
      */
-    protected function createRuleMessage(array $sheet, array $sheet_request_rule, int $row_number, string $rule_column_name) : string
+    protected function createRuleMessage(array $sheet, array $sheet_request_rule, int $row_number, string $rule_column_name): string
     {
         $message = '';
         $rules = explode('|', $sheet[$row_number][$rule_column_name]);
@@ -170,6 +181,6 @@ class Http extends BaseCreator
             }
         }
         
-        return '{' . $message . '}';
+        return '{'.$message.'}';
     }
 }
