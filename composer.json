@@ -7,11 +7,18 @@
   },
   "require-dev": {
     "google/apiclient": "^2.0",
-    "symfony/yaml": "^4.3"
+    "symfony/yaml": "^4.3",
+    "phpunit/phpunit": "^9.5",
+    "orchestra/testbench": "^6.7"
   },
   "autoload": {
     "psr-4": {
       "StepUpDream\\SpreadSheetConverter\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "StepUpDream\\SpreadSheetConverter\\Test\\": "tests/"
     }
   },
   "extra": {
