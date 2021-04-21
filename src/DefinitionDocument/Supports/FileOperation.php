@@ -15,59 +15,59 @@ class FileOperation
     /**
      * Recursively get a list of file paths from a directory
      *
-     * @param string $directory_path directory path
-     * @return array file path list
+     * @param  string  $directoryPath
+     * @return array
      */
-    public function getAllFilePath(string $directory_path): array
+    public function getAllFilePath(string $directoryPath): array
     {
-        $file_paths = [];
+        $filePaths = [];
         
-        if (!File::isDirectory($directory_path)) {
+        if (!File::isDirectory($directoryPath)) {
             throw new LogicException('Not a Directory');
         }
         
-        $files = File::allFiles($directory_path);
+        $files = File::allFiles($directoryPath);
         foreach ($files as $file) {
-            $real_path = (string)$file->getRealPath();
-            $file_paths[$real_path] = $real_path;
+            $realPath = (string) $file->getRealPath();
+            $filePaths[$realPath] = $realPath;
         }
         
-        return $file_paths;
+        return $filePaths;
     }
     
     /**
      * Create the same file as the first argument at the position specified by the second argument
      *
-     * @param string $content
-     * @param string $file_path
-     * @param bool $is_overwrite
+     * @param  string  $content
+     * @param  string  $filePath
+     * @param  bool  $isOverwrite
      */
-    public function createFile(string $content, string $file_path, bool $is_overwrite = false): void
+    public function createFile(string $content, string $filePath, bool $isOverwrite = false): void
     {
-        $dir_path = dirname($file_path);
+        $dirPath = dirname($filePath);
         
-        if (!File::isDirectory($dir_path)) {
-            $result = File::makeDirectory($dir_path, 0777, true);
+        if (!File::isDirectory($dirPath)) {
+            $result = File::makeDirectory($dirPath, 0777, true);
             if (!$result) {
-                throw new LogicException($file_path.'');
+                throw new LogicException($filePath.'');
             }
         }
         
-        if (!File::exists($file_path)) {
-            $result = File::put($file_path, $content);
+        if (!File::exists($filePath)) {
+            $result = File::put($filePath, $content);
             if (!$result) {
-                throw new LogicException($file_path.': Failed to create');
+                throw new LogicException($filePath.': Failed to create');
             }
             return;
         }
         
-        if ($is_overwrite && File::exists($file_path)) {
+        if ($isOverwrite && File::exists($filePath)) {
             // Hack:
             // An error occurred when overwriting, so always delete → create
-            File::delete($file_path);
-            $result = File::put($file_path, $content);
+            File::delete($filePath);
+            $result = File::put($filePath, $content);
             if (!$result) {
-                throw new LogicException($file_path.': Failed to create');
+                throw new LogicException($filePath.': Failed to create');
             }
         }
     }

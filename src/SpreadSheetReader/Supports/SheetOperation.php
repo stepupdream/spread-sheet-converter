@@ -5,7 +5,7 @@ namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Supports;
 use LogicException;
 
 /**
- * Class SheetOperation
+ * class SheetOperation
  *
  * @package StepUpDream\SpreadSheetConverter\SpreadSheetReader\Supports
  */
@@ -14,41 +14,41 @@ class SheetOperation
     /**
      * @var array the first row in an array
      */
-    protected $main_attribute_key_name = [];
+    protected $mainAttributeKeyName = [];
     
     /**
      * @var array the first row in an array
      */
-    protected $sub_attribute_key_name = [];
+    protected $subAttributeKeyName = [];
     
     /**
      * Make the first row the key of the associative array
      *
-     * @param $sheet_values
-     * @param $target_sheet
+     * @param  array  $sheetValues
+     * @param  string  $targetSheet
      * @return array
      */
-    public function getTitleArray($sheet_values, $target_sheet): array
+    public function getTitleArray(array $sheetValues, string $targetSheet): array
     {
         $result = [];
-        $header_row = [];
-        $is_header = true;
+        $headerRow = [];
+        $isHeader = true;
         
-        if (empty($sheet_values)) {
-            throw new LogicException('need sheet header: '.$target_sheet);
+        if (empty($sheetValues)) {
+            throw new LogicException('need sheet header: '.$targetSheet);
         }
         
-        foreach ($sheet_values as $row) {
-            if ($is_header) {
-                $header_row = $row;
-                $is_header = false;
+        foreach ($sheetValues as $row) {
+            if ($isHeader) {
+                $headerRow = $row;
+                $isHeader = false;
             } else {
-                $row_with_key = [];
-                foreach ($header_row as $key => $value) {
-                    $row_with_key[$value] = $row[$key] ?? '';
+                $rowWithKey = [];
+                foreach ($headerRow as $key => $value) {
+                    $rowWithKey[$value] = $row[$key] ?? '';
                 }
                 
-                $result[] = $row_with_key;
+                $result[] = $rowWithKey;
             }
         }
         
@@ -58,28 +58,28 @@ class SheetOperation
     /**
      * Get the first row in an array
      *
-     * @param array $sheet
+     * @param  array  $sheet
      * @return string[] Sheet header list
      */
     public function getMainAttributeKeyName(array $sheet): array
     {
-        $sheet_first_row = collect($sheet)->first();
+        $sheetFirstRow = collect($sheet)->first();
         $names = [];
         
-        $cache_key = collect($sheet_first_row)->first();
+        $cacheKey = collect($sheetFirstRow)->first();
         
-        if (!empty($this->main_attribute_key_name[$cache_key])) {
-            return $this->main_attribute_key_name[$cache_key];
+        if (!empty($this->mainAttributeKeyName[$cacheKey])) {
+            return $this->mainAttributeKeyName[$cacheKey];
         }
         
-        foreach ($sheet_first_row as $key => $value) {
+        foreach ($sheetFirstRow as $key => $value) {
             if ($key === '') {
                 break;
             }
-            $names[] = $key;
+            $names[$key] = $key;
         }
         
-        $this->main_attribute_key_name[$cache_key] = $names;
+        $this->mainAttributeKeyName[$cacheKey] = $names;
         
         return $names;
     }
@@ -87,33 +87,33 @@ class SheetOperation
     /**
      * Get the first row in an array
      *
-     * @param array $sheet
+     * @param  array  $sheet
      * @return string[] Sheet header list
      */
     public function getSubAttributeKeyName(array $sheet): array
     {
-        $sheet_first_row = collect($sheet)->first();
-        $should_add_start = false;
+        $sheetFirstRow = collect($sheet)->first();
+        $shouldAddStart = false;
         $names = [];
         
-        $cache_key = collect($sheet_first_row)->first();
+        $cacheKey = collect($sheetFirstRow)->first();
         
-        if (!empty($this->sub_attribute_key_name[$cache_key])) {
-            return $this->sub_attribute_key_name[$cache_key];
+        if (!empty($this->subAttributeKeyName[$cacheKey])) {
+            return $this->subAttributeKeyName[$cacheKey];
         }
         
         // Get what's to the right of the blank part of the header row in Spreadsheet
-        foreach ($sheet_first_row as $key => $value) {
+        foreach ($sheetFirstRow as $key => $value) {
             if ($key === '') {
-                $should_add_start = true;
+                $shouldAddStart = true;
                 continue;
             }
-            if ($should_add_start) {
+            if ($shouldAddStart) {
                 $names[$key] = $key;
             }
         }
         
-        $this->sub_attribute_key_name[$cache_key] = $names;
+        $this->subAttributeKeyName[$cacheKey] = $names;
         
         return $names;
     }
@@ -121,7 +121,7 @@ class SheetOperation
     /**
      * Whether the entire row is all empty
      *
-     * @param array $values
+     * @param  array  $values
      * @return bool
      */
     public function isAllEmpty(array $values): bool

@@ -3,7 +3,7 @@
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Reader\BaseReader;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Readers\BaseReader;
 
 /**
  * Class YamlFileReader

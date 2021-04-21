@@ -3,7 +3,7 @@
 namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Supports\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Reader\BaseReader;
+use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\BaseReader;
 
 /**
  * Class SpreadSheetReader
