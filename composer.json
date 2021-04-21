@@ -6,10 +6,10 @@
     "laravel/framework": "^6|^7|^8"
   },
   "require-dev": {
-    "google/apiclient": "^2.0",
-    "symfony/yaml": "^4.3",
+    "orchestra/testbench": "^6.15",
     "phpunit/phpunit": "^9.5",
-    "orchestra/testbench": "^6.7"
+    "google/apiclient": "^2.9",
+    "symfony/yaml": "^5.2"
   },
   "autoload": {
     "psr-4": {
