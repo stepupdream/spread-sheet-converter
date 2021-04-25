@@ -15,7 +15,7 @@ use StepUpDream\SpreadSheetConverter\Test\TestCase;
  */
 class OtherTest extends TestCase
 {
-    public function testConvertSheetData()
+    public function testConvertSheetData(): void
     {
         $sheetValues = [
             [
