@@ -13,7 +13,7 @@ use Str;
 class Other extends Base
 {
     /**
-     * Generate Attribute class based on Sheet data
+     * Generate Attribute class based on Sheet data.
      *
      * @param  array  $sheet
      * @param  string  $spreadsheetCategoryName

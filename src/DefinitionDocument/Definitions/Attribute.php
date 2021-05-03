@@ -10,17 +10,21 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 class Attribute
 {
     /**
+     * Array of contents by column.
+     *
      * @var array
      */
     protected $attributeDetails = [];
     
     /**
+     * Rule message text.
+     *
      * @var string
      */
     protected $ruleMessage = '';
     
     /**
-     * Get attribute detail
+     * Get attribute detail.
      *
      * @return array
      */
@@ -30,7 +34,7 @@ class Attribute
     }
     
     /**
-     * Set attribute details
+     * Set attribute details.
      *
      * @param  string  $value
      * @param  string  $headerName
@@ -41,7 +45,7 @@ class Attribute
     }
     
     /**
-     * Unset attribute detail
+     * Unset attribute detail.
      *
      * @param  string  $headerName
      */
@@ -51,7 +55,7 @@ class Attribute
     }
     
     /**
-     * Get rule message
+     * Get rule message.
      *
      * @return string
      */
@@ -61,7 +65,7 @@ class Attribute
     }
     
     /**
-     * Set rule message
+     * Set rule message.
      *
      * @param  string  $ruleMessage
      */
