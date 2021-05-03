@@ -1,7 +1,8 @@
-- database_directory_name: '{{ $attribute->spreadsheetCategoryName() }}'
-  domain_group: '{{ $attribute->sheetName() }}'
-  columns:
-@foreach($attribute->SubAttributes() as $sub_attribute)
-    - name: '{{ $sub_attribute->attributes()['ColumnName'] }}'
-      description: '{{ $sub_attribute->attributes()['ColumnDescription'] }}'
+- names:
+@foreach($parentAttribute->getAttributesGroupByKeyName('*') as $attribute)
+    - name: '{{ $attribute->attributeDetails()['ColumnName'] }}'
+      description: '{{ $attribute->attributeDetails()['TableName'] }}'
+      description: '{{ $attribute->attributeDetails()['TableDescription'] }}'
+      description: '{{ $attribute->attributeDetails()['ColumnDescription'] }}'
+      data_type: '{{ $attribute->attributeDetails()['DataType'] }}'
 @endforeach
