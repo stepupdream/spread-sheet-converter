@@ -29,7 +29,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
     protected $description = 'create definition document {any:category} {any:file_name}';
     
     /**
-     * Run command
+     * Run command.
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */

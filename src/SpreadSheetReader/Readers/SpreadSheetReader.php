@@ -14,17 +14,21 @@ use LogicException;
 class SpreadSheetReader
 {
     /**
-     * @var array the first row in an array
+     * A cache of the first row in an array.
+     *
+     * @var array
      */
     protected $parentAttributeKeyName = [];
     
     /**
-     * @var array the first row in an array
+     * A cache of the first row in an array.
+     *
+     * @var array
      */
     protected $attributeKeyName = [];
     
     /**
-     * Read spreadsheet data
+     * Read spreadsheet data.
      *
      * @param  string  $sheetId
      * @param  string|null  $targetSheetName
@@ -45,7 +49,7 @@ class SpreadSheetReader
     }
     
     /**
-     * Verification of correct type specification
+     * Verification of correct type specification.
      *
      * @param  array  $attribute
      */
@@ -55,7 +59,7 @@ class SpreadSheetReader
     }
     
     /**
-     * Gets the first row of the array up to the specified key
+     * Gets the first row of the array up to the specified key.
      *
      * @param  array  $sheet
      * @param  string  $separationKey
@@ -84,7 +88,7 @@ class SpreadSheetReader
     }
     
     /**
-     * Gets the first row of the array after the specified key
+     * Gets the first row of the array after the specified key.
      *
      * @param  array  $sheet
      * @param  string  $separationKey
@@ -119,7 +123,7 @@ class SpreadSheetReader
     }
     
     /**
-     * Whether the entire row is all empty
+     * Whether the entire row is all empty.
      *
      * @param  array  $values
      * @return bool
@@ -136,14 +140,14 @@ class SpreadSheetReader
     }
     
     /**
-     * Read spreadsheet data
+     * Read spreadsheet data.
      *
      * @param  string  $sheetId
      * @return array Table information array containing information for each sheet：key is sheet name
      */
     protected function readFromGoogleServiceSheet(string $sheetId): array
     {
-        $credentialsPath = config('spread_sheet.credentials_path');
+        $credentialsPath = config('step_up_dream.spread_sheet_converter.credentials_path');
         
         $client = new Google_Client();
         $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
@@ -162,7 +166,7 @@ class SpreadSheetReader
     }
     
     /**
-     * Make the first row the key of the associative array
+     * Make the first row the key of the associative array.
      *
      * @param  array  $sheetValues
      * @param  string  $targetSheet
