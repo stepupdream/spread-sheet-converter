@@ -13,8 +13,6 @@ abstract class BaseCreateCommand extends Command
 {
     /**
      * Create a new console command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
