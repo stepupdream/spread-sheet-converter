@@ -10,122 +10,63 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 class Attribute
 {
     /**
-     * @var string
-     */
-    protected $spreadsheetCategoryName;
-    
-    /**
      * @var array
      */
-    protected $attributes = [];
+    protected $attributeDetails = [];
     
     /**
      * @var string
      */
-    protected $sheetName;
+    protected $ruleMessage = '';
     
     /**
-     * @var string
-     */
-    protected $mainKeyName = '';
-    
-    /**
-     * @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\SubAttribute[]
-     */
-    protected $subAttributes = [];
-    
-    /**
-     * Attribute constructor.
-     *
-     * @param  string  $spreadsheetCategoryName
-     * @param  string  $sheetName
-     */
-    public function __construct(
-        string $spreadsheetCategoryName,
-        string $sheetName
-    ) {
-        $this->spreadsheetCategoryName = $spreadsheetCategoryName;
-        $this->sheetName = $sheetName;
-    }
-    
-    /**
-     * get spreadsheet tile name
-     *
-     * @return string
-     */
-    public function spreadsheetCategoryName(): string
-    {
-        return $this->spreadsheetCategoryName;
-    }
-    
-    /**
-     * get attribute
+     * Get attribute detail
      *
      * @return array
      */
-    public function attributes(): array
+    public function attributeDetails(): array
     {
-        return $this->attributes;
+        return $this->attributeDetails;
     }
     
     /**
-     * set attribute
+     * Set attribute details
      *
      * @param  string  $value
      * @param  string  $headerName
      */
-    public function setAttributes(string $value, string $headerName): void
+    public function setAttributeDetails(string $value, string $headerName): void
     {
-        $this->attributes[$headerName] = $value;
+        $this->attributeDetails[$headerName] = $value;
     }
     
     /**
-     * get main key name
+     * Unset attribute detail
+     *
+     * @param  string  $headerName
+     */
+    public function unsetAttributeDetail(string $headerName): void
+    {
+        unset($this->attributeDetails[$headerName]);
+    }
+    
+    /**
+     * Get rule message
      *
      * @return string
      */
-    public function mainKeyName(): string
+    public function ruleMessage(): string
     {
-        return $this->mainKeyName;
+        return $this->ruleMessage;
     }
     
     /**
-     * set main key name
+     * Set rule message
      *
-     * @param  string  $mainKeyName
+     * @param  string  $ruleMessage
      */
-    public function setMainKeyName(string $mainKeyName): void
+    public function setRuleMessage(string $ruleMessage): void
     {
-        $this->mainKeyName = $mainKeyName;
-    }
-    
-    /**
-     * get sheet name
-     *
-     * @return string
-     */
-    public function sheetName(): string
-    {
-        return $this->sheetName;
-    }
-    
-    /**
-     * get sub attributes
-     *
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\SubAttribute[]
-     */
-    public function subAttributes(): array
-    {
-        return $this->subAttributes;
-    }
-    
-    /**
-     * set sub attributes
-     *
-     * @param  array  $subAttributes
-     */
-    public function setSubAttributes(array $subAttributes): void
-    {
-        $this->subAttributes = $subAttributes;
+        $this->ruleMessage = $ruleMessage;
     }
 }

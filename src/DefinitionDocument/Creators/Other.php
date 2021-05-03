@@ -2,9 +2,7 @@
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\SubAttribute;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Supports\Facades\SpreadSheetReader;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use Str;
 
 /**
@@ -12,36 +10,8 @@ use Str;
  *
  * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators
  */
-class Other extends BaseCreator
+class Other extends Base
 {
-    /**
-     * Execution of processing
-     *
-     * @param  string  $categoryName
-     * @param  string  $useBlade
-     * @param  string  $sheetId
-     * @param  string  $outputDirectoryPath
-     * @param  string|null  $targetFileName
-     */
-    public function run(
-        string $categoryName,
-        string $useBlade,
-        string $sheetId,
-        string $outputDirectoryPath,
-        string $targetFileName = null
-    ): void {
-        $convertedSheetData = [];
-        $spreadSheets = SpreadSheetReader::read($sheetId);
-        
-        foreach ($spreadSheets as $sheetName => $sheet) {
-            $convertedSheetData[] = $this->convertSheetData($sheet, Str::studly($categoryName), $sheetName);
-        }
-        
-        // Return to one dimension because it is a multi-dimensional array of sheets
-        $attributes = collect($convertedSheetData)->flatten()->all();
-        $this->createDefinitionDocument($attributes, $useBlade, $targetFileName, $outputDirectoryPath);
-    }
-    
     /**
      * Generate Attribute class based on Sheet data
      *
@@ -49,29 +19,26 @@ class Other extends BaseCreator
      * @param  string  $spreadsheetCategoryName
      * @param  int  $rowNumber
      * @param  string  $sheetName
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute
+     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute
      */
-    protected function createAttribute(
+    protected function createParentAttribute(
         array $sheet,
         string $spreadsheetCategoryName,
         int &$rowNumber,
         string $sheetName
-    ): Attribute {
-        $subAttributes = [];
-        $headerNames = $this->sheetOperation->getMainAttributeKeyName($sheet);
+    ): ParentAttribute {
+        $headerNamesParent = $this->spreadSheetReader->getParentAttributeKeyName($sheet, '');
         
-        $attribute = new Attribute($spreadsheetCategoryName, $sheetName);
-        $attribute->setMainKeyName($sheetName);
-        while (!empty($sheet[$rowNumber]) && !$this->sheetOperation->isAllEmpty($sheet[$rowNumber])) {
-            $subAttribute = new SubAttribute();
-            foreach ($headerNames as $headerName) {
-                $subAttribute->setAttributes($sheet[$rowNumber][$headerName], $headerName);
-            }
-            $subAttributes[] = $subAttribute;
-            $rowNumber++;
+        $parentAttribute = new ParentAttribute($spreadsheetCategoryName, $sheetName);
+        foreach ($headerNamesParent as $headerNameParent) {
+            $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
         }
-        $attribute->setSubAttributes($subAttributes);
         
-        return $attribute;
+        while (!empty($sheet[$rowNumber]) && !$this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
+            $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNamesParent);
+            $parentAttribute->setAttributesGroup($attributes);
+        }
+        
+        return $parentAttribute;
     }
 }
