@@ -1,8 +1,4 @@
 # Spreadsheet Converter
-[![Latest Stable Version](https://poser.pugx.org/stepupdream/spread-sheet-converter/v/stable)](https://packagist.org/packages/stepupdream/spread-sheet-converter)
-[![Latest Unstable Version](https://poser.pugx.org/stepupdream/spread-sheet-converter/v/unstable)](https://packagist.org/packages/stepupdream/spread-sheet-converter)
-[![License](https://poser.pugx.org/stepupdream/spread-sheet-converter/license)](https://packagist.org/packages/stepupdream/spread-sheet-converter)
-
 ## Introduction
 
 You can read the information in Google Sheets and convert it to a Yaml file.  
