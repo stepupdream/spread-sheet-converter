@@ -7,9 +7,7 @@ use Google_Service_Sheets;
 use LogicException;
 
 /**
- * Class SpreadSheetReader
- *
- * @package StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers
+ * Class SpreadSheetReader.
  */
 class SpreadSheetReader
 {
@@ -19,14 +17,14 @@ class SpreadSheetReader
      * @var array
      */
     protected $parentAttributeKeyName = [];
-    
+
     /**
      * A cache of the first row in an array.
      *
      * @var array
      */
     protected $attributeKeyName = [];
-    
+
     /**
      * Read spreadsheet data.
      *
@@ -37,17 +35,18 @@ class SpreadSheetReader
     public function read(string $sheetId, string $targetSheetName = null): array
     {
         $spreadsheets = $this->readFromGoogleServiceSheet($sheetId);
-        
+
         if (isset($targetSheetName)) {
             if (empty($spreadsheets[$targetSheetName])) {
                 throw new LogicException('can not read sheet data: '.$targetSheetName);
             }
+
             return $spreadsheets[$targetSheetName];
         }
-        
+
         return $spreadsheets;
     }
-    
+
     /**
      * Verification of correct type specification.
      *
@@ -57,7 +56,7 @@ class SpreadSheetReader
     {
         // Optional
     }
-    
+
     /**
      * Gets the first row of the array up to the specified key.
      *
@@ -70,23 +69,23 @@ class SpreadSheetReader
         $sheetFirstRow = collect($sheet)->first();
         $cacheKey = collect($sheetFirstRow)->first();
         $names = [];
-        
-        if (!empty($this->parentAttributeKeyName[$cacheKey])) {
+
+        if (! empty($this->parentAttributeKeyName[$cacheKey])) {
             return $this->parentAttributeKeyName[$cacheKey];
         }
-        
+
         foreach ($sheetFirstRow as $key => $value) {
             if ($key === $separationKey) {
                 break;
             }
             $names[$key] = $key;
         }
-        
+
         $this->parentAttributeKeyName[$cacheKey] = $names;
-        
+
         return $names;
     }
-    
+
     /**
      * Gets the first row of the array after the specified key.
      *
@@ -99,29 +98,29 @@ class SpreadSheetReader
         $sheetFirstRow = collect($sheet)->first();
         $shouldAddStart = false;
         $names = [];
-        
+
         $cacheKey = collect($sheetFirstRow)->first();
-        
-        if (!empty($this->attributeKeyName[$cacheKey])) {
+
+        if (! empty($this->attributeKeyName[$cacheKey])) {
             return $this->attributeKeyName[$cacheKey];
         }
-        
+
         // Get what's to the right of the separation key part of the header row in Spreadsheet
         foreach ($sheetFirstRow as $key => $value) {
             if ($key === $separationKey) {
                 $shouldAddStart = true;
             }
-            
+
             if ($shouldAddStart) {
                 $names[$key] = $key;
             }
         }
-        
+
         $this->attributeKeyName[$cacheKey] = $names;
-        
+
         return $names;
     }
-    
+
     /**
      * Whether the entire row is all empty.
      *
@@ -135,10 +134,10 @@ class SpreadSheetReader
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * Read spreadsheet data.
      *
@@ -148,23 +147,23 @@ class SpreadSheetReader
     protected function readFromGoogleServiceSheet(string $sheetId): array
     {
         $credentialsPath = config('step_up_dream.spread_sheet_converter.credentials_path');
-        
+
         $client = new Google_Client();
         $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
         $client->setAuthConfig($credentialsPath);
-        
+
         $sheets = new Google_Service_Sheets($client);
         $spreadsheets = [];
-        
+
         foreach ($sheets->spreadsheets->get($sheetId)->getSheets() as $sheet) {
             $targetSheet = $sheet->getProperties()->getTitle();
             $sheetDataRange = $sheets->spreadsheets_values->get($sheetId, $targetSheet);
             $spreadsheets[$targetSheet] = $this->getTitleArray($sheetDataRange->getValues(), $targetSheet);
         }
-        
+
         return $spreadsheets;
     }
-    
+
     /**
      * Make the first row the key of the associative array.
      *
@@ -177,11 +176,11 @@ class SpreadSheetReader
         $result = [];
         $headerRow = [];
         $isHeader = true;
-        
+
         if (empty($sheetValues)) {
             throw new LogicException('need sheet header: '.$targetSheet);
         }
-        
+
         foreach ($sheetValues as $row) {
             if ($isHeader) {
                 $headerRow = $row;
@@ -191,11 +190,11 @@ class SpreadSheetReader
                 foreach ($headerRow as $key => $value) {
                     $rowWithKey[$value] = $row[$key] ?? '';
                 }
-                
+
                 $result[] = $rowWithKey;
             }
         }
-        
+
         return $result;
     }
 }

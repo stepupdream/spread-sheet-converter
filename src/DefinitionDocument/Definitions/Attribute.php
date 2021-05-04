@@ -3,9 +3,7 @@
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 
 /**
- * Class Attribute
- *
- * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions
+ * Class Attribute.
  */
 class Attribute
 {
@@ -15,14 +13,14 @@ class Attribute
      * @var array
      */
     protected $attributeDetails = [];
-    
+
     /**
      * Rule message text.
      *
      * @var string
      */
     protected $ruleMessage = '';
-    
+
     /**
      * Get attribute detail.
      *
@@ -32,7 +30,7 @@ class Attribute
     {
         return $this->attributeDetails;
     }
-    
+
     /**
      * Set attribute details.
      *
@@ -43,7 +41,7 @@ class Attribute
     {
         $this->attributeDetails[$headerName] = $value;
     }
-    
+
     /**
      * Unset attribute detail.
      *
@@ -53,7 +51,7 @@ class Attribute
     {
         unset($this->attributeDetails[$headerName]);
     }
-    
+
     /**
      * Get rule message.
      *
@@ -63,7 +61,7 @@ class Attribute
     {
         return $this->ruleMessage;
     }
-    
+
     /**
      * Set rule message.
      *

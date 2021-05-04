@@ -3,9 +3,7 @@
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 
 /**
- * Class ParentAttribute
- *
- * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions
+ * Class ParentAttribute.
  */
 class ParentAttribute
 {
@@ -15,28 +13,28 @@ class ParentAttribute
      * @var string
      */
     protected $spreadsheetCategoryName;
-    
+
     /**
      * Array of contents by column.
      *
      * @var array
      */
     protected $parentAttributeDetails = [];
-    
+
     /**
-     * GoogleSpreadSheet sheet name
+     * GoogleSpreadSheet sheet name.
      *
      * @var string
      */
     protected $sheetName;
-    
+
     /**
      * The Attribute instance array.
      *
      * @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[][]
      */
     protected $attributesGroup = [];
-    
+
     /**
      * Attribute constructor.
      *
@@ -50,9 +48,9 @@ class ParentAttribute
         $this->spreadsheetCategoryName = $spreadsheetCategoryName;
         $this->sheetName = $sheetName;
     }
-    
+
     /**
-     * Get spreadsheet category name. (Specified in the config file)
+     * Get spreadsheet category name. (Specified in the config file).
      *
      * @return string
      */
@@ -60,7 +58,7 @@ class ParentAttribute
     {
         return $this->spreadsheetCategoryName;
     }
-    
+
     /**
      * Get parent attribute detail.
      *
@@ -70,7 +68,7 @@ class ParentAttribute
     {
         return $this->parentAttributeDetails;
     }
-    
+
     /**
      * Set parent attribute detail.
      *
@@ -81,7 +79,7 @@ class ParentAttribute
     {
         $this->parentAttributeDetails[$headerName] = $value;
     }
-    
+
     /**
      * Get sheet name.
      *
@@ -91,7 +89,7 @@ class ParentAttribute
     {
         return $this->sheetName;
     }
-    
+
     /**
      * Get attributes group.
      *
@@ -101,7 +99,7 @@ class ParentAttribute
     {
         return $this->attributesGroup;
     }
-    
+
     /**
      * Set attributes group.
      *
@@ -112,7 +110,7 @@ class ParentAttribute
     {
         $this->attributesGroup[$groupKey] = $attributesGroup;
     }
-    
+
     /**
      * Get attributes group.
      *
