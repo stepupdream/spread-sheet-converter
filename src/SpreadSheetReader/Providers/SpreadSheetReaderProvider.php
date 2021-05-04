@@ -7,9 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 
 /**
- * Class SpreadSheetReaderProvider
- *
- * @package StepUpDream\SpreadSheetConverter\SpreadSheetReader\Providers
+ * Class SpreadSheetReaderProvider.
  */
 class SpreadSheetReaderProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -22,7 +20,7 @@ class SpreadSheetReaderProvider extends ServiceProvider implements DeferrablePro
             return new SpreadSheetReader();
         });
     }
-    
+
     /**
      * Get the services provided by the provider.
      *

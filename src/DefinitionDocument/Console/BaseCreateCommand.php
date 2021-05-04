@@ -5,9 +5,7 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Console;
 use Illuminate\Console\Command;
 
 /**
- * Class BaseCreateCommand
- *
- * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Console
+ * Class BaseCreateCommand.
  */
 abstract class BaseCreateCommand extends Command
 {
@@ -17,7 +15,7 @@ abstract class BaseCreateCommand extends Command
     public function __construct()
     {
         ini_set('memory_limit', '2056M');
-        
+
         parent::__construct();
     }
 }

@@ -12,9 +12,7 @@ use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
 /**
- * Class MultiGroupTest
- *
- * @package StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators
+ * Class MultiGroupTest.
  */
 class MultiGroupTest extends TestCase
 {
@@ -30,7 +28,7 @@ class MultiGroupTest extends TestCase
                 'GroupType'         => 'Request',
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int'
+                'DataType'          => 'int',
             ],
             [
                 'ApiName'           => '',
@@ -38,7 +36,7 @@ class MultiGroupTest extends TestCase
                 'GroupType'         => '',
                 'ColumnName'        => 'name',
                 'ColumnDescription' => 'name',
-                'DataType'          => 'string'
+                'DataType'          => 'string',
             ],
             [
                 'ApiName'           => '',
@@ -46,21 +44,21 @@ class MultiGroupTest extends TestCase
                 'GroupType'         => 'Response',
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int'
+                'DataType'          => 'int',
             ],
             [
                 'TableName'         => '',
                 'TableDescription'  => '',
                 'ColumnName'        => '',
                 'ColumnDescription' => '',
-                'DataType'          => ''
+                'DataType'          => '',
             ],
             [
                 'TableName'         => '',
                 'TableDescription'  => '',
                 'ColumnName'        => '',
                 'ColumnDescription' => '',
-                'DataType'          => ''
+                'DataType'          => '',
             ],
             [
                 'ApiName'           => 'Get2',
@@ -68,7 +66,7 @@ class MultiGroupTest extends TestCase
                 'GroupType'         => 'Request',
                 'ColumnName'        => '',
                 'ColumnDescription' => '',
-                'DataType'          => ''
+                'DataType'          => '',
             ],
             [
                 'ApiName'           => '',
@@ -76,7 +74,7 @@ class MultiGroupTest extends TestCase
                 'GroupType'         => 'Response',
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int'
+                'DataType'          => 'int',
             ],
             [
                 'ApiName'           => '',
@@ -84,10 +82,10 @@ class MultiGroupTest extends TestCase
                 'GroupType'         => '',
                 'ColumnName'        => 'name',
                 'ColumnDescription' => 'name',
-                'DataType'          => 'string'
+                'DataType'          => 'string',
             ],
         ];
-        
+
         // Group1
         $parentAttribute = new ParentAttribute('Api', 'sheetName');
         $parentAttribute->setParentAttributeDetails('Get', 'ApiName');
@@ -106,7 +104,7 @@ class MultiGroupTest extends TestCase
         $attribute3->setAttributeDetails('id', 'ColumnDescription');
         $attribute3->setAttributeDetails('int', 'DataType');
         $parentAttribute->setAttributesGroup([$attribute3], 'Response');
-        
+
         // Group2
         $parentAttribute2 = new ParentAttribute('Api', 'sheetName');
         $parentAttribute2->setParentAttributeDetails('Get2', 'ApiName');
@@ -121,7 +119,7 @@ class MultiGroupTest extends TestCase
         $attribute5->setAttributeDetails('name', 'ColumnDescription');
         $attribute5->setAttributeDetails('string', 'DataType');
         $parentAttribute2->setAttributesGroup([$attribute4, $attribute5], 'Response');
-        
+
         $argument = [
             'category_name'               => 'MasterData',
             'use_blade'                   => 'master_data',
@@ -132,19 +130,19 @@ class MultiGroupTest extends TestCase
         ];
         $fileOperation = $this->app->make(FileOperation::class);
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
-        
+
         // createRuleMessage includes Google processing, so cut it out as a separate test
         $multiGroup = Mockery::mock(MultiGroup::class, [$fileOperation, $spreadSheetReader, $argument])
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
         $multiGroup->shouldReceive('createRuleMessage')->andReturn();
-        
+
         /* @see MultiGroup::convertSheetData() */
         $response = $this->executePrivateFunction($multiGroup, 'convertSheetData', [$sheetValues, 'Api', 'sheetName']);
-        
+
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }
-    
+
     /**
      * @test
      */
@@ -152,7 +150,7 @@ class MultiGroupTest extends TestCase
     {
         Config::set('step_up_dream.spread_sheet_converter.request_rule_sheet_name', 'RequestRule');
         Config::set('step_up_dream.spread_sheet_converter.request_rule_column_name', 'RequestRule');
-        
+
         $sheetValues = [
             [
                 'ApiName'           => 'Get',
@@ -161,7 +159,7 @@ class MultiGroupTest extends TestCase
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
                 'DataType'          => 'int',
-                'RequestRule'       => 'required'
+                'RequestRule'       => 'required',
             ],
             [
                 'ApiName'           => 'Get',
@@ -170,7 +168,7 @@ class MultiGroupTest extends TestCase
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
                 'DataType'          => 'int',
-                'RequestRule'       => 'required | int'
+                'RequestRule'       => 'required | int',
             ],
             [
                 'ApiName'           => '',
@@ -179,7 +177,7 @@ class MultiGroupTest extends TestCase
                 'ColumnName'        => 'name',
                 'ColumnDescription' => 'name',
                 'DataType'          => 'string',
-                'RequestRule'       => ''
+                'RequestRule'       => '',
             ],
             [
                 'ApiName'           => '',
@@ -190,7 +188,7 @@ class MultiGroupTest extends TestCase
                 'DataType'          => 'string',
             ],
         ];
-        
+
         $ruleSheetValues = [
             [
                 'ruleDataType' => 'int',
@@ -201,7 +199,7 @@ class MultiGroupTest extends TestCase
                 'ruleMessage'  => 'required message',
             ],
         ];
-        
+
         $argument = [
             'category_name'               => 'MasterData',
             'use_blade'                   => 'master_data',
@@ -218,7 +216,7 @@ class MultiGroupTest extends TestCase
             'spreadSheetReader' => $spreadSheetReaderMock,
             'readSpreadSheet'   => $argument,
         ]);
-        
+
         /* @see MultiGroup::createRuleMessage() */
         $response = $this->executePrivateFunction($multiGroup, 'createRuleMessage', [$sheetValues, 0]);
         self::assertEquals("{'required': 'required message'}", $response);

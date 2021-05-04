@@ -3,9 +3,7 @@
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
 /**
- * Class SingleGroup
- *
- * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators
+ * Class SingleGroup.
  */
 class SingleGroup extends Base
 {
