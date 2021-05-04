@@ -10,9 +10,7 @@ use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
 /**
- * Class SingleGroupTest
- *
- * @package StepUpDream\SpreadSheetConverter\Test\SpreadSheetReaders
+ * Class SingleGroupTest.
  */
 class SingleGroupTest extends TestCase
 {
@@ -27,31 +25,31 @@ class SingleGroupTest extends TestCase
                 'TableDescription'  => 'CharacterData',
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int'
+                'DataType'          => 'int',
             ],
             [
                 'TableName'         => '',
                 'TableDescription'  => '',
                 'ColumnName'        => 'name',
                 'ColumnDescription' => 'name',
-                'DataType'          => 'string'
+                'DataType'          => 'string',
             ],
             [
                 'TableName'         => '',
                 'TableDescription'  => '',
                 'ColumnName'        => '',
                 'ColumnDescription' => '',
-                'DataType'          => ''
+                'DataType'          => '',
             ],
             [
                 'TableName'         => 'equipments',
                 'TableDescription'  => 'EquipmentData',
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int'
+                'DataType'          => 'int',
             ],
         ];
-        
+
         // Group1
         $parentAttribute = new ParentAttribute('MasterData', 'sheetName');
         $parentAttribute->setParentAttributeDetails('characters', 'TableName');
@@ -65,7 +63,7 @@ class SingleGroupTest extends TestCase
         $attribute2->setAttributeDetails('name', 'ColumnDescription');
         $attribute2->setAttributeDetails('string', 'DataType');
         $parentAttribute->setAttributesGroup([$attribute, $attribute2]);
-        
+
         // Group2
         $parentAttribute2 = new ParentAttribute('MasterData', 'sheetName');
         $parentAttribute2->setParentAttributeDetails('equipments', 'TableName');
@@ -75,7 +73,7 @@ class SingleGroupTest extends TestCase
         $attribute->setAttributeDetails('id', 'ColumnDescription');
         $attribute->setAttributeDetails('int', 'DataType');
         $parentAttribute2->setAttributesGroup([$attribute]);
-        
+
         $argument = [
             'category_name'               => 'MasterData',
             'use_blade'                   => 'master_data',
@@ -86,11 +84,11 @@ class SingleGroupTest extends TestCase
         ];
         $fileOperation = $this->app->make(FileOperation::class);
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
-        
+
         /* @see SingleGroup::convertSheetData() */
         $singleGroup = new SingleGroup($fileOperation, $spreadSheetReader, $argument);
         $response = $this->executePrivateFunction($singleGroup, 'convertSheetData', [$sheetValues, 'MasterData', 'sheetName']);
-        
+
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }
 }
