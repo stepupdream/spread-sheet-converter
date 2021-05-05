@@ -1,4 +1,4 @@
-name: spread-sheet-converter-testing
+name: testing
 
 on:
   push:
@@ -25,11 +25,6 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-
       - name: Version
         run: |
           cat /etc/os-release
@@ -43,4 +38,3 @@ jobs:
       - name: Execute tests via PHPUnit
         run: |
           vendor/bin/phpunit
-
