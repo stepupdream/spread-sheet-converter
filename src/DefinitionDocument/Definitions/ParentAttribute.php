@@ -5,7 +5,7 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 /**
  * Class ParentAttribute.
  */
-class ParentAttribute
+class ParentAttribute extends BaseAttribute
 {
     /**
      * Category name for classification.
@@ -78,6 +78,28 @@ class ParentAttribute
     public function setParentAttributeDetails(string $value, string $headerName): void
     {
         $this->parentAttributeDetails[$headerName] = $value;
+    }
+
+    /**
+     * Get parent attribute details by header key.
+     *
+     * @param  string  $headerKey
+     * @return mixed
+     */
+    public function getParentAttributeDetailsByKey(string $headerKey)
+    {
+        return $this->getAttributeByKey($this->parentAttributeDetails, $headerKey);
+    }
+
+    /**
+     * Get parent attribute details by header key.
+     *
+     * @param  string  $headerKey
+     * @return array
+     */
+    public function getParentAttributeDetailsArrayByKey(string $headerKey): array
+    {
+        return $this->getAttributeArrayByKey($this->parentAttributeDetails, $headerKey);
     }
 
     /**
