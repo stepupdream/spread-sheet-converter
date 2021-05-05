@@ -65,9 +65,10 @@ class MultiGroup extends Base
 
         foreach ($rules as $rule) {
             $rule = trim($rule);
-            $ruleMessage = collect($this->requestRuleSheet)->first(function ($value) use ($rule) {
+            $ruleMessageFind = collect($this->requestRuleSheet)->first(function ($value) use ($rule) {
                 return $value['ruleDataType'] === trim($rule);
-            })['ruleMessage'] ?? null;
+            });
+            $ruleMessage = $ruleMessageFind['ruleMessage'] ?? null;
 
             if (empty($ruleMessage)) {
                 continue;
