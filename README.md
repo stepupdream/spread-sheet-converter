@@ -1,4 +1,10 @@
 # Spreadsheet Converter
+[![testing](https://github.com/stepupdream/spread-sheet-converter/actions/workflows/testing.yml/badge.svg)](https://github.com/stepupdream/spread-sheet-converter/actions/workflows/testing.yml)
+[![StyleCI](https://github.styleci.io/repos/253229801/shield?branch=master)](https://github.styleci.io/repos/253229801?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/stepupdream/spread-sheet-converter/v)](//packagist.org/packages/stepupdream/spread-sheet-converter)
+[![Laravel 6|7|8](https://img.shields.io/badge/Laravel-6|7|8-orange.svg)](http://laravel.com)
+[![License](https://poser.pugx.org/stepupdream/spread-sheet-converter/license)](//packagist.org/packages/stepupdream/spread-sheet-converter)
+
 ## Introduction
 
 You can read the information in Google Sheets and convert it to a Yaml file.  
@@ -74,7 +80,7 @@ return [
     'request_rule_sheet_name'  => 'RequestRule',
     'read_spread_sheets'       => [
         [
-            'sheet_id'                    => '***************************',
+            'sheet_id'                    => env('READ_SHEET_ID_01', '***************************'),
             'category_name'               => 'MasterData',
             'read_type'                   => 'SingleGroup',
             'use_blade'                   => 'single',
@@ -90,6 +96,9 @@ return [
 - [SingleGroup](https://docs.google.com/spreadsheets/d/1RBz_OWf99gg4t0b0PxkkLImg3AzCAduQc88kmYCOiJ8/edit#gid=0)
 - [MultiGroup](https://docs.google.com/spreadsheets/d/1bef99e4UWHBmCVuRvgkayfolBXtL85vC8iN2a8n7GxY/edit?usp=sharing)
 - [Other](https://docs.google.com/spreadsheets/d/1vvc4X7OoDwMXQyngXLoVQMwxnyALDxnyvKTjCqgKT7M/edit#gid=0)
+
+## Contributing
+Please see [CONTRIBUTING](https://github.com/stepupdream/spread-sheet-converter/blob/master/.github/CONTRIBUTING.md) for details.
 
 ## Important Point
 
