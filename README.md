@@ -1,7 +1,8 @@
 # Spreadsheet Converter
 [![testing](https://github.com/stepupdream/spread-sheet-converter/actions/workflows/testing.yml/badge.svg)](https://github.com/stepupdream/spread-sheet-converter/actions/workflows/testing.yml)
 [![StyleCI](https://github.styleci.io/repos/253229801/shield?branch=master)](https://github.styleci.io/repos/253229801?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/stepupdream/spread-sheet-converter/v)](//packagist.org/packages/stepupdream/spread-sheet-converter)
+[![Latest Stable Version](https://img.shields.io/badge/stable-v1.1.0-blue)](//packagist.org/packages/stepupdream/spread-sheet-converter)
+[![Latest Unstable Version](https://img.shields.io/badge/dev-develop-orange)](//packagist.org/packages/stepupdream/spread-sheet-converter)
 [![Laravel 6|7|8](https://img.shields.io/badge/Laravel-6|7|8-orange.svg)](http://laravel.com)
 [![License](https://poser.pugx.org/stepupdream/spread-sheet-converter/license)](//packagist.org/packages/stepupdream/spread-sheet-converter)
 
