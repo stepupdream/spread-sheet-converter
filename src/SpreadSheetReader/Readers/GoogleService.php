@@ -6,6 +6,7 @@ namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers;
 
 use Google_Client;
 use Google_Service_Sheets;
+use LogicException;
 
 class GoogleService
 {
@@ -17,7 +18,7 @@ class GoogleService
      */
     public function readFromGoogleServiceSheet(string $sheetId): array
     {
-        $credentialsPath = config('step_up_dream.spread_sheet_converter.credentials_path');
+        $credentialsPath = $this->credentialsPath();
 
         $client = new Google_Client();
         $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
@@ -34,5 +35,21 @@ class GoogleService
         }
 
         return $spreadsheets;
+    }
+
+    /**
+     * credentials path.
+     *
+     * @return string
+     */
+    protected function credentialsPath(): string
+    {
+        $credentialsPath = config('step_up_dream.spread_sheet_converter.credentials_path');
+
+        if (! is_string($credentialsPath) || $credentialsPath === '') {
+            throw new LogicException('The name of the credentials path is incorrect.');
+        }
+
+        return $credentialsPath;
     }
 }

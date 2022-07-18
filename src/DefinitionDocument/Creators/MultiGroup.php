@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
 use Illuminate\Support\Str;
+use LogicException;
 
 class MultiGroup extends Base
 {
@@ -48,13 +49,13 @@ class MultiGroup extends Base
      */
     protected function createRuleMessage(array $sheet, int $rowNumber): string
     {
-        $requestRuleSheetName = config('step_up_dream.spread_sheet_converter.request_rule_sheet_name');
-        $ruleColumnName = config('step_up_dream.spread_sheet_converter.request_rule_column_name');
+        $ruleColumnName = $this->ruleColumnName();
 
         if (empty($sheet[$rowNumber][$ruleColumnName])) {
             return '';
         }
 
+        $requestRuleSheetName = $this->requestRuleSheetName();
         if ($this->requestRuleSheet === []) {
             $this->requestRuleSheet = $this->spreadSheetReader->readBySheetName($this->sheetId, $requestRuleSheetName);
         }
@@ -81,5 +82,37 @@ class MultiGroup extends Base
         }
 
         return '{'.$message.'}';
+    }
+
+    /**
+     * request rule sheet name.
+     *
+     * @return string
+     */
+    protected function requestRuleSheetName(): string
+    {
+        $requestRuleSheetName = config('step_up_dream.spread_sheet_converter.request_rule_sheet_name');
+
+        if (! is_string($requestRuleSheetName) || $requestRuleSheetName === '') {
+            throw new LogicException('The name of the request rule sheet is incorrect.');
+        }
+
+        return $requestRuleSheetName;
+    }
+
+    /**
+     * rule column name.
+     *
+     * @return string
+     */
+    protected function ruleColumnName(): string
+    {
+        $ruleColumnName = config('step_up_dream.spread_sheet_converter.request_rule_column_name');
+
+        if (! is_string($ruleColumnName) || $ruleColumnName === '') {
+            throw new LogicException('The name of the rule colum name is incorrect.');
+        }
+
+        return $ruleColumnName;
     }
 }
