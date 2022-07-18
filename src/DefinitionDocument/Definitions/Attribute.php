@@ -43,9 +43,9 @@ class Attribute extends BaseAttribute
      * @param  string  $headerKey
      * @return mixed[]
      */
-    public function getAttributeDetailsByKey(string $headerKey): array
+    public function getAttributeDetailJsonByKey(string $headerKey): array
     {
-        return $this->attributesByKey($this->attributeDetails, $headerKey);
+        return $this->attributeJsonByKey($this->attributeDetails, $headerKey);
     }
 
     /**

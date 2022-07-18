@@ -64,25 +64,25 @@ class ParentAttribute extends BaseAttribute
     }
 
     /**
-     * Get parent attribute details by header key.
+     * Get parent attribute detail by header key.
      *
      * @param  string  $headerKey
      * @return string
      */
-    public function getParentAttributeDetailsByKey(string $headerKey): string
+    public function getParentAttributeDetailByKey(string $headerKey): string
     {
         return $this->attributeByKey($this->parentAttributeDetails, $headerKey);
     }
 
     /**
-     * Get parent attribute details by header key.
+     * Get parent attribute detail by header key.
      *
      * @param  string  $headerKey
      * @return mixed[]
      */
-    public function getParentAttributeDetailsArrayByKey(string $headerKey): array
+    public function getParentAttributeDetailJsonByKey(string $headerKey): array
     {
-        return $this->attributesByKey($this->parentAttributeDetails, $headerKey);
+        return $this->attributeJsonByKey($this->parentAttributeDetails, $headerKey);
     }
 
     /**
