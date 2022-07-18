@@ -273,7 +273,7 @@ abstract class Base
      */
     protected function loadBladeFile(string $useBladeFileName, ParentAttribute $parentAttribute): string
     {
-        return view('spread_sheet_converter::'.Str::snake($useBladeFileName), [
+        return view('spread-sheet-converter::'.Str::snake($useBladeFileName), [
             'parentAttribute' => $parentAttribute,
         ])->render();
     }

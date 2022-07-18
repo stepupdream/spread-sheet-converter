@@ -1,22 +1,22 @@
 - controller_name: '{{ Str::studly($parentAttribute->sheetName()) }}'
   route_prefix: '{{ Str::snake($parentAttribute->spreadsheetCategoryName()) }}'
-  http_method: '{{ Str::studly($parentAttribute->parentAttributeDetails()['HttpMethod']) }}'
-  name: '{{ Str::studly($parentAttribute->parentAttributeDetails()['ApiName']) }}'
-  description: '{{ $parentAttribute->parentAttributeDetails()['HttpDescription'] }}'
+  http_method: '{{ Str::studly($parentAttribute->getParentAttributeDetailByKey('HttpMethod')) }}'
+  name: '{{ Str::studly($parentAttribute->getParentAttributeDetailByKey('ApiName')) }}'
+  description: '{{ $parentAttribute->getParentAttributeDetailByKey('HttpDescription') }}'
   request:
     columns:
-@foreach($parentAttribute->getAttributesGroupByKeyName('Request') as $request_attribute)
-      - name: '{{ $request_attribute->attributeDetails()['ColumnName'] }}'
-        description: '{{ $request_attribute->attributeDetails()['ColumnDescription'] }}'
-        data_type: '{{ $request_attribute->attributeDetails()['DataType'] }}'
-        default_value: '{{ $request_attribute->attributeDetails()['DefaultValue'] }}'
-        rules: '{{ $request_attribute->attributeDetails()['RequestRule'] }}'
-        messages: {!! $request_attribute->ruleMessage() !!}
+@foreach($parentAttribute->getAttributesGroupByKeyName('Request') as $requestAttribute)
+      - name: '{{ $requestAttribute->getAttributeDetailByKey('ColumnName') }}'
+        description: '{{ $requestAttribute->getAttributeDetailByKey('ColumnDescription') }}'
+        data_type: '{{ $requestAttribute->getAttributeDetailByKey('DataType') }}'
+        default_value: '{{ $requestAttribute->getAttributeDetailByKey('DefaultValue') }}'
+        rules: '{{ $requestAttribute->getAttributeDetailByKey('RequestRule') }}'
+        messages: {!! $requestAttribute->ruleMessage() !!}
 @endforeach
   response:
     columns:
-@foreach($parentAttribute->getAttributesGroupByKeyName('Response') as $response_attribute)
-      - name: '{{ $response_attribute->attributeDetails()['ColumnName'] }}'
-        description: '{{ $response_attribute->attributeDetails()['ColumnDescription'] }}'
-        data_type: '{{ $response_attribute->attributeDetails()['DataType'] }}'
+@foreach($parentAttribute->getAttributesGroupByKeyName('Response') as $responseAttribute)
+      - name: '{{ $responseAttribute->getAttributeDetailByKey('ColumnName') }}'
+        description: '{{ $responseAttribute->getAttributeDetailByKey('ColumnDescription') }}'
+        data_type: '{{ $responseAttribute->getAttributeDetailByKey('DataType') }}'
 @endforeach

@@ -21,8 +21,8 @@ class MultiGroupTest extends TestCase
      */
     public function convertSheetData(): void
     {
-        Config::set('step_up_dream.spread_sheet_converter.request_rule_sheet_name', 'RequestRule');
-        Config::set('step_up_dream.spread_sheet_converter.request_rule_column_name', 'RequestRule');
+        Config::set('stepupdream.spread-sheet-converter.request_rule_sheet_name', 'RequestRule');
+        Config::set('stepupdream.spread-sheet-converter.request_rule_column_name', 'RequestRule');
 
         $sheetValues = [
             [
@@ -146,8 +146,8 @@ class MultiGroupTest extends TestCase
      */
     public function createRuleMessage(): void
     {
-        Config::set('step_up_dream.spread_sheet_converter.request_rule_sheet_name', 'RequestRule');
-        Config::set('step_up_dream.spread_sheet_converter.request_rule_column_name', 'RequestRule');
+        Config::set('stepupdream.spread-sheet-converter.request_rule_sheet_name', 'RequestRule');
+        Config::set('stepupdream.spread-sheet-converter.request_rule_column_name', 'RequestRule');
 
         $sheetValues = [
             [

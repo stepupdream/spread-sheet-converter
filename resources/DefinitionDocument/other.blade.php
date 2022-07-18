@@ -1,8 +1,6 @@
 - names:
 @foreach($parentAttribute->getAttributesGroupByKeyName('*') as $attribute)
-    - name: '{{ $attribute->attributeDetails()['ColumnName'] }}'
-      description: '{{ $attribute->attributeDetails()['TableName'] }}'
-      description: '{{ $attribute->attributeDetails()['TableDescription'] }}'
-      description: '{{ $attribute->attributeDetails()['ColumnDescription'] }}'
-      data_type: '{{ $attribute->attributeDetails()['DataType'] }}'
+    - id: '{{ $attribute->getAttributeDetailByKey('id') }}'
+      name: '{{ $attribute->getAttributeDetailByKey('name') }}'
+      name_detail: '{{ $attribute->getAttributeDetailByKey('name_detail') }}'
 @endforeach

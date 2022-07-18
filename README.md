@@ -57,7 +57,7 @@ composer require --dev stepupdream/spread-sheet-converter
 Generate yaml files
 
 ```bash
-php artisan spread_sheet_converter:create_definition_document
+php artisan spread-sheet-converter:create-definition-document
 ```
 
 ## Example Config
@@ -91,14 +91,14 @@ return [
 ```
 
 ## Sample
-- SingleGroup
+- [SingleGroup](https://docs.google.com/spreadsheets/d/1RBz_OWf99gg4t0b0PxkkLImg3AzCAduQc88kmYCOiJ8/edit#gid=0)
 ![2021-12-31_22h07_44](https://user-images.githubusercontent.com/95772377/147825699-73056b80-921a-4237-8b40-34822f74db33.png)
 
-- MultiGroup
+- [MultiGroupパターン](https://docs.google.com/spreadsheets/d/1bef99e4UWHBmCVuRvgkayfolBXtL85vC8iN2a8n7GxY/edit#gid=0)
 ![2021-12-31_22h08_37](https://user-images.githubusercontent.com/95772377/147825723-b02ead73-468d-4ad0-8e67-fc52b689b6c7.png)
 
-- Other
-![2021-12-31_22h08_37](https://user-images.githubusercontent.com/95772377/147825734-9bef66e8-9cdc-49c3-9204-822a013240aa.png)
+- [Otherパターン](https://docs.google.com/spreadsheets/d/1vvc4X7OoDwMXQyngXLoVQMwxnyALDxnyvKTjCqgKT7M/edit#gid=0)  
+![2021-12-31_22h08_02](https://user-images.githubusercontent.com/95772377/147826406-cdec3adf-aa32-4e2f-837f-c06ace0bdd86.png)
 
 ## Contributing
 Please see [CONTRIBUTING](https://github.com/stepupdream/spread-sheet-converter/blob/main/.github/CONTRIBUTING.md) for details.

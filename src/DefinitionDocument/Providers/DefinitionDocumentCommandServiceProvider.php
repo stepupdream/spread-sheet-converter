@@ -15,7 +15,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
      *
      * @var string
      */
-    protected string $originPathConfig = __DIR__.'/../Config/step_up_dream/spread_sheet_converter.php';
+    protected string $originPathConfig = __DIR__.'/../Config/stepupdream/spread-sheet-converter.php';
 
     /**
      * The commands to be registered.
@@ -32,17 +32,16 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->loadViewsFrom(__DIR__.'/../../../resources/DefinitionDocument', 'spread_sheet_converter');
+            $this->loadViewsFrom(__DIR__.'/../../../resources/DefinitionDocument', 'spread-sheet-converter');
 
             $originPathDocument = __DIR__.'/../../../resources/DefinitionDocument';
-            $targetPathDocument = __DIR__.'views/vendor/spread_sheet_converter';
+            $targetPathDocument = 'views/vendor/spread-sheet-converter';
             $this->publishes([
                 $originPathDocument => $this->app->resourcePath($targetPathDocument),
-            ], 'spread_sheet_converter');
+            ], 'spread-sheet-converter');
 
-            $targetPathConfig = config_path('step_up_dream/spread_sheet_converter.php');
             $this->publishes([
-                $this->originPathConfig => $targetPathConfig,
+                $this->originPathConfig => config_path('stepupdream/spread-sheet-converter.php'),
             ]);
         }
     }
@@ -53,7 +52,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     public function register(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->mergeConfigFrom($this->originPathConfig, 'step_up_dream.spread_sheet_converter');
+            $this->mergeConfigFrom($this->originPathConfig, 'stepupdream.spread-sheet-converter');
 
             $this->app->singleton('command.create.definition.document', function () {
                 return new DefinitionDocumentCommand();

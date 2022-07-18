@@ -44,7 +44,7 @@ class GoogleService
      */
     protected function credentialsPath(): string
     {
-        $credentialsPath = config('step_up_dream.spread_sheet_converter.credentials_path');
+        $credentialsPath = config('stepupdream.spread-sheet-converter.credentials_path');
 
         if (! is_string($credentialsPath) || $credentialsPath === '') {
             throw new LogicException('The name of the credentials path is incorrect.');

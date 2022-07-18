@@ -24,7 +24,7 @@ class MultiGroup extends Base
     public function run(?string $targetFileName): void
     {
         $convertedSheetData = [];
-        $requestRuleSheetName = config('step_up_dream.spread_sheet_converter.request_rule_sheet_name');
+        $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
         $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
         foreach ($spreadSheets as $sheetName => $sheet) {
             if (! empty($requestRuleSheetName) && $sheetName === $requestRuleSheetName) {
@@ -91,7 +91,7 @@ class MultiGroup extends Base
      */
     protected function requestRuleSheetName(): string
     {
-        $requestRuleSheetName = config('step_up_dream.spread_sheet_converter.request_rule_sheet_name');
+        $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
 
         if (! is_string($requestRuleSheetName) || $requestRuleSheetName === '') {
             throw new LogicException('The name of the request rule sheet is incorrect.');
@@ -107,7 +107,7 @@ class MultiGroup extends Base
      */
     protected function ruleColumnName(): string
     {
-        $ruleColumnName = config('step_up_dream.spread_sheet_converter.request_rule_column_name');
+        $ruleColumnName = config('stepupdream.spread-sheet-converter.request_rule_column_name');
 
         if (! is_string($ruleColumnName) || $ruleColumnName === '') {
             throw new LogicException('The name of the rule colum name is incorrect.');

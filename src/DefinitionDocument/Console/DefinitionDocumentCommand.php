@@ -16,7 +16,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
      *
      * @var string
      */
-    protected $signature = 'spread_sheet_converter:create_definition_document {--category=} {--file_name=}';
+    protected $signature = 'spread-sheet-converter:create-definition-document {--category=} {--file_name=}';
 
     /**
      * The console command description.
@@ -96,7 +96,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
      */
     private function readSpreadSheets(): array
     {
-        $readSpreadSheets = config('step_up_dream.spread_sheet_converter.read_spread_sheets');
+        $readSpreadSheets = config('stepupdream.spread-sheet-converter.read_spread_sheets');
 
         if (! is_array($readSpreadSheets) || ! $this->isMultidimensional($readSpreadSheets)) {
             throw new LogicException('Must be a two-dimensional array:read_spread_sheets');
