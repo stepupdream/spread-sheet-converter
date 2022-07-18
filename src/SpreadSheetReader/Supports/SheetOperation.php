@@ -2,6 +2,8 @@
 
 namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Supports;
 
+use LogicException;
+
 /**
  * Class SheetOperation
  *
@@ -23,13 +25,18 @@ class SheetOperation
      * Make the first row the key of the associative array
      *
      * @param $sheet_values
+     * @param $target_sheet
      * @return array
      */
-    public function getTitleArray($sheet_values)
+    public function getTitleArray($sheet_values, $target_sheet) : array
     {
         $result = [];
         $header_row = [];
         $is_header = true;
+        
+        if (empty($sheet_values)) {
+            throw new LogicException('need sheet header: ' . $target_sheet);
+        }
         
         foreach ($sheet_values as $row) {
             if ($is_header) {
@@ -55,7 +62,7 @@ class SheetOperation
      * @param array $sheet
      * @return string[] Sheet header list
      */
-    public function getMainAttributeKeyName(array $sheet)
+    public function getMainAttributeKeyName(array $sheet) : array
     {
         $sheet_first_row = collect($sheet)->first();
         $names = [];
@@ -84,7 +91,7 @@ class SheetOperation
      * @param array $sheet
      * @return string[] Sheet header list
      */
-    public function getSubAttributeKeyName(array $sheet)
+    public function getSubAttributeKeyName(array $sheet) : array
     {
         $sheet_first_row = collect($sheet)->first();
         $should_add_start = false;
@@ -118,7 +125,7 @@ class SheetOperation
      * @param array $values
      * @return bool
      */
-    public function isAllEmpty(array $values)
+    public function isAllEmpty(array $values) : bool
     {
         foreach ($values as $value) {
             if ($value !== '') {

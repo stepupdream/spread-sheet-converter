@@ -22,13 +22,4 @@ class BaseServiceProvider extends ServiceProvider
             __DIR__ . '/../Config/spread_sheet.php' => config_path('spread_sheet.php'),
         ]);
     }
-    
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-    }
 }

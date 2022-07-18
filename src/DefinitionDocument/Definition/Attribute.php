@@ -50,7 +50,7 @@ class Attribute
      *
      * @return string
      */
-    public function spreadsheetCategoryName()
+    public function spreadsheetCategoryName() : string
     {
         return $this->spreadsheet_category_name;
     }
@@ -60,7 +60,7 @@ class Attribute
      *
      * @return array
      */
-    public function attributes()
+    public function attributes() : array
     {
         return $this->attributes;
     }
@@ -83,7 +83,7 @@ class Attribute
      *
      * @return string
      */
-    public function mainKeyName()
+    public function mainKeyName() : string
     {
         return $this->main_key_name;
     }
@@ -93,7 +93,7 @@ class Attribute
      *
      * @return string
      */
-    public function sheetName()
+    public function sheetName() : string
     {
         return $this->sheet_name;
     }
@@ -113,7 +113,7 @@ class Attribute
      *
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\SubAttribute[]
      */
-    public function subAttributes()
+    public function subAttributes() : array
     {
         return $this->sub_attributes;
     }
