@@ -160,7 +160,7 @@ class Http extends BaseCreator
                 })['ruleMessage'] ?? null;
             
             if (empty($rule_message)) {
-                throw new LogicException('not match rule message: ' . $rule);
+                continue;
             }
             
             if ($message === '') {
