@@ -3,8 +3,9 @@
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Console;
 
 use LogicException;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creator\Http;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creator\Table;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Api;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Table;
 
 /**
  * Class DefinitionDocumentCommand
@@ -34,31 +35,38 @@ class DefinitionDocumentCommand extends BaseCreateCommand
      */
     public function handle(): void
     {
-        $target_category = $this->option('category');
-        $target_file_name = $this->option('file_name');
+        $targetCategory = $this->option('category');
+        $targetFileName = $this->option('file_name');
         
-        $read_spread_sheets = config('spread_sheet.read_spread_sheets');
+        $readSpreadSheets = config('spread_sheet.read_spread_sheets');
         
-        foreach ($read_spread_sheets as $read_spread_sheet) {
+        foreach ($readSpreadSheets as $readSpreadSheet) {
             
-            if (!empty($target_category) && $target_category !== $read_spread_sheet['category_name']) {
+            if (!empty($targetCategory) && $targetCategory !== $readSpreadSheet['category_name']) {
                 continue;
             }
             
-            switch ($read_spread_sheet['read_type']) {
+            switch ($readSpreadSheet['read_type']) {
                 case 'Table':
                     $creator = app()->make(Table::class);
                     break;
-                case 'Http':
-                    $creator = app()->make(Http::class);
+                case 'Api':
+                    $creator = app()->make(Api::class);
+                    break;
+                case 'Other':
+                    $creator = app()->make(Other::class);
                     break;
                 default:
-                    throw new LogicException('Unexpected value');
+                    throw new LogicException(sprintf('Unexpected value: %s', $readSpreadSheet['read_type']));
             }
             
-            $creator->run($read_spread_sheet['category_name'], $read_spread_sheet['use_blade'], $read_spread_sheet['sheet_id'],
-                $read_spread_sheet['output_directory_path'], $target_file_name);
-            $this->info('Completed: '.$read_spread_sheet['category_name']);
+            $creator->run($readSpreadSheet['category_name'],
+                $readSpreadSheet['use_blade'],
+                $readSpreadSheet['sheet_id'],
+                $readSpreadSheet['output_directory_path'],
+                $targetFileName
+            );
+            $this->info('Completed: '.$readSpreadSheet['category_name']);
         }
     }
 }
