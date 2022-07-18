@@ -13,7 +13,7 @@ class YamlFileOperation
      * Parse all definition Yaml files.
      *
      * @param  array  $filePaths
-     * @return mixed
+     * @return array
      */
     public function parseAllYaml(array $filePaths): array
     {
