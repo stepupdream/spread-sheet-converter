@@ -1,31 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports;
 
+use ErrorException;
 use Illuminate\Filesystem\Filesystem;
 use LogicException;
 
-/**
- * Class FileOperation.
- */
 class FileOperation
 {
-    /**
-     * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $file;
-
-    /**
-     * FileOperation constructor.
-     */
-    public function __construct(
-        Filesystem $file
-    ) {
-        $this->file = $file;
-    }
-
     /**
      * Create the same file as the first argument at the position specified by the second argument.
      *
@@ -38,14 +22,14 @@ class FileOperation
         $dirPath = dirname($filePath);
 
         if (! is_dir($dirPath)) {
-            $result = $this->file->makeDirectory($dirPath, 0777, true);
+            $result = $this->makeDirectory($dirPath, 0777, true);
             if (! $result) {
-                throw new LogicException($filePath.'');
+                throw new LogicException($filePath.': Failed to make directory');
             }
         }
 
         if (! file_exists($filePath)) {
-            $result = $this->file->put($filePath, $content);
+            $result = $this->put($filePath, $content);
             if (! $result) {
                 throw new LogicException($filePath.': Failed to create');
             }
@@ -56,11 +40,68 @@ class FileOperation
         if ($isOverwrite && file_exists($filePath)) {
             // Hack:
             // An error occurred when overwriting, so always delete → create
-            $this->file->delete($filePath);
-            $result = $this->file->put($filePath, $content);
+            $result = $this->delete($filePath);
             if (! $result) {
-                throw new LogicException($filePath.': Failed to create');
+                throw new LogicException($filePath.': Failed to delete');
+            }
+
+            $result = $this->put($filePath, $content);
+            if (! $result) {
+                throw new LogicException($filePath.': Failed to create by overwrite');
             }
         }
+    }
+
+    /**
+     * Create a directory.
+     *
+     * @param  string  $path
+     * @param  int  $mode
+     * @param  bool  $recursive
+     * @return bool
+     * @see \Illuminate\Filesystem\Filesystem::makeDirectory
+     */
+    private function makeDirectory(string $path, int $mode = 0755, bool $recursive = false): bool
+    {
+        return mkdir($path, $mode, $recursive);
+    }
+
+    /**
+     * Write the contents of a file.
+     *
+     * @param  string  $path
+     * @param  string  $contents
+     * @return int|bool
+     * @see \Illuminate\Filesystem\Filesystem::put
+     */
+    private function put(string $path, string $contents): bool|int
+    {
+        return file_put_contents($path, $contents);
+    }
+
+    /**
+     * Delete the file at a given path.
+     *
+     * @param  string|array  $paths
+     * @return bool
+     * @see \Illuminate\Filesystem\Filesystem::delete
+     */
+    private function delete(mixed $paths): bool
+    {
+        $paths = is_array($paths) ? $paths : func_get_args();
+
+        $success = true;
+
+        foreach ($paths as $path) {
+            try {
+                if (! @unlink($path)) {
+                    $success = false;
+                }
+            } catch (ErrorException) {
+                $success = false;
+            }
+        }
+
+        return $success;
     }
 }
