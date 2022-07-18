@@ -66,7 +66,7 @@ abstract class BaseCreator
                 continue;
             }
             
-            $target_path = $output_directory_path . DIRECTORY_SEPARATOR . $attribute->mainKeyName() . '.yml';
+            $target_path = $output_directory_path . DIRECTORY_SEPARATOR . Str::studly($attribute->sheetName()) . DIRECTORY_SEPARATOR . $attribute->mainKeyName() . '.yml';
             $blade_file = view('definition_document::' . Str::snake($use_blade),
                 [
                     'attribute' => $attribute,
