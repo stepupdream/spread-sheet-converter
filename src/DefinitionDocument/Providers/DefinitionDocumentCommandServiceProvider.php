@@ -26,13 +26,17 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->loadViewsFrom(__DIR__.'/../../../resources/DefinitionDocument', 'spread_sheet_converter');
+            $this->loadViewsFrom(
+                __DIR__.'/../../../resources/DefinitionDocument',
+                'spread_sheet_converter'
+            );
             $this->publishes([
-                __DIR__.'/../../../resources/DefinitionDocument' => $this->app->resourcePath('views/vendor/spread_sheet_converter'),
+                __DIR__.'/../../../resources/DefinitionDocument' =>
+                    $this->app->resourcePath('views/vendor/spread_sheet_converter'),
             ], 'spread_sheet_converter');
-
             $this->publishes([
-                __DIR__.'/../Config/step_up_dream/spread_sheet_converter.php' => config_path('step_up_dream/spread_sheet_converter.php'),
+                __DIR__.'/../Config/step_up_dream/spread_sheet_converter.php' =>
+                    config_path('step_up_dream/spread_sheet_converter.php'),
             ]);
         }
     }
@@ -43,7 +47,8 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     public function register(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->mergeConfigFrom(__DIR__.'/../Config/step_up_dream/spread_sheet_converter.php', 'step_up_dream.spread_sheet_converter');
+            $this->mergeConfigFrom(__DIR__.'/../Config/step_up_dream/spread_sheet_converter.php',
+                'step_up_dream.spread_sheet_converter');
 
             $this->app->singleton('command.create.definition.document', function ($app) {
                 return new DefinitionDocumentCommand();
