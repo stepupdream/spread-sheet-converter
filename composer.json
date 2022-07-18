@@ -3,22 +3,28 @@
   "description": "support package",
   "license": "MIT",
   "require": {
-    "laravel/framework": "^5.5|^6|^7"
+    "laravel/framework": "^6|^7|^8"
   },
   "require-dev": {
-    "google/apiclient": "^2.0",
-    "symfony/yaml": "^4.3"
+    "orchestra/testbench": "^6.15",
+    "phpunit/phpunit": "^9.5",
+    "google/apiclient": "^2.9",
+    "symfony/yaml": "^5.2"
   },
   "autoload": {
     "psr-4": {
       "StepUpDream\\SpreadSheetConverter\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "StepUpDream\\SpreadSheetConverter\\Test\\": "tests/"
+    }
+  },
   "extra": {
     "laravel": {
       "providers": [
-        "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\DefinitionDocumentCommandServiceProvider",
-        "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\BaseServiceProvider"
+        "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\DefinitionDocumentCommandServiceProvider"
       ],
       "aliases": {
         "SpreadSheetReader": "StepUpDream\\SpreadSheetConverter\\SpreadSheetReader\\Supports\\Facades\\SpreadSheetReader",
