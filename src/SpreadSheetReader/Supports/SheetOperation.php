@@ -44,7 +44,6 @@ class SheetOperation
                 $is_header = false;
             } else {
                 $row_with_key = [];
-                
                 foreach ($header_row as $key => $value) {
                     $row_with_key[$value] = $row[$key] ?? '';
                 }
