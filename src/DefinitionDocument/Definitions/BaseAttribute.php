@@ -44,6 +44,10 @@ abstract class BaseAttribute
             $result = [];
             for ($i = 1; $i < $elementCount; $i++) {
                 $beforeConvertText = strstr($attributeNotLineArray[$i], ']', true);
+                if (! $beforeConvertText) {
+                    throw new LogicException("It's not a string that matches the array: ".$attributesNotIndent);
+                }
+
                 $result[] = explode(',', $beforeConvertText);
             }
 
