@@ -40,7 +40,7 @@ class SubAttribute
      * @param string $value
      * @param string $header_name
      */
-    public function setAttributes(string $value, string $header_name)
+    public function setAttributes(string $value, string $header_name) : void
     {
         $this->attributes[$header_name] = $value;
     }
@@ -60,7 +60,7 @@ class SubAttribute
      *
      * @param string $rule_message
      */
-    public function setRuleMessage(string $rule_message)
+    public function setRuleMessage(string $rule_message) : void
     {
         $this->rule_message = $rule_message;
     }
@@ -80,7 +80,7 @@ class SubAttribute
      *
      * @param string $main_key_name
      */
-    public function setMainKeyName(string $main_key_name)
+    public function setMainKeyName(string $main_key_name) : void
     {
         $this->main_key_name = $main_key_name;
     }

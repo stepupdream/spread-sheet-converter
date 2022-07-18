@@ -58,7 +58,7 @@ abstract class BaseCreator
      * @param string|null $target_file_name
      * @param string $output_directory_path
      */
-    protected function createDefinitionDocument(array $attributes, string $use_blade, ?string $target_file_name, string $output_directory_path)
+    protected function createDefinitionDocument(array $attributes, string $use_blade, ?string $target_file_name, string $output_directory_path) : void
     {
         foreach ($attributes as $attribute) {
             // If there is a specification to get only a part, skip other data
@@ -81,7 +81,7 @@ abstract class BaseCreator
      *
      * @param \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\Attribute[] $attributes
      */
-    protected function verifyDataTypeTable(array $attributes)
+    protected function verifyDataTypeTable(array $attributes) : void
     {
         foreach ($attributes as $attribute) {
             foreach ($attribute->subAttributes() as $sub_attribute) {
@@ -95,7 +95,7 @@ abstract class BaseCreator
      *
      * @param \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\ApiAttribute[] $attributes
      */
-    protected function verifyDataTypeForHttp(array $attributes)
+    protected function verifyDataTypeForHttp(array $attributes) : void
     {
         foreach ($attributes as $attribute) {
             foreach ($attribute->requestAttributes() as $sub_attribute) {
@@ -113,7 +113,7 @@ abstract class BaseCreator
      * @param string $name
      * @param string $data_type
      */
-    public function verifyDataTypeDetail(string $name, string $data_type)
+    public function verifyDataTypeDetail(string $name, string $data_type) : void
     {
         // Optional
     }
@@ -123,7 +123,7 @@ abstract class BaseCreator
      *
      * @param array $header_names_sub
      */
-    protected function verifyHeaderName(array $header_names_sub)
+    protected function verifyHeaderName(array $header_names_sub) : void
     {
         if (empty($header_names_sub['ColumnName']) || empty($header_names_sub['DataType'])) {
             throw new LogicException('ColumnType and ColumnName data could not be read');
@@ -135,7 +135,7 @@ abstract class BaseCreator
      *
      * @param array $header_names_sub
      */
-    protected function verifyHeaderNameForHttp(array $header_names_sub)
+    protected function verifyHeaderNameForHttp(array $header_names_sub) : void
     {
         if (empty($header_names_sub['ColumnType'] || empty($header_names_sub['ColumnName']) || empty($header_names_sub['DataType']))) {
             throw new LogicException('ColumnType and ColumnName and DataType data could not be read');
