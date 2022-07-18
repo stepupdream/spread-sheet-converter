@@ -31,12 +31,10 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
                 'spread_sheet_converter'
             );
             $this->publishes([
-                __DIR__.'/../../../resources/DefinitionDocument' =>
-                    $this->app->resourcePath('views/vendor/spread_sheet_converter'),
+                __DIR__.'/../../../resources/DefinitionDocument' => $this->app->resourcePath('views/vendor/spread_sheet_converter'),
             ], 'spread_sheet_converter');
             $this->publishes([
-                __DIR__.'/../Config/step_up_dream/spread_sheet_converter.php' =>
-                    config_path('step_up_dream/spread_sheet_converter.php'),
+                __DIR__.'/../Config/step_up_dream/spread_sheet_converter.php' => config_path('step_up_dream/spread_sheet_converter.php'),
             ]);
         }
     }
