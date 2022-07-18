@@ -2,14 +2,16 @@
   "name": "stepupdream/spread-sheet-converter",
   "description": "support package",
   "license": "MIT",
+  "keywords": ["laravel", "yaml", "spreadsheet"],
   "require": {
-    "laravel/framework": "^6|^7|^8"
+    "php": ">=7.3.0",
+    "laravel/framework": "^6|^7|^8",
+    "google/apiclient": "^2.9",
+    "symfony/yaml": "^5.2"
   },
   "require-dev": {
     "orchestra/testbench": "^6.15",
-    "phpunit/phpunit": "^9.5",
-    "google/apiclient": "^2.9",
-    "symfony/yaml": "^5.2"
+    "phpunit/phpunit": "^9.5"
   },
   "autoload": {
     "psr-4": {
@@ -24,11 +26,9 @@
   "extra": {
     "laravel": {
       "providers": [
-        "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\DefinitionDocumentCommandServiceProvider"
-      ],
-      "aliases": {
-        "SpreadSheetReader": "StepUpDream\\SpreadSheetConverter\\SpreadSheetReader\\Supports\\Facades\\SpreadSheetReader"
-      }
+        "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\DefinitionDocumentCommandServiceProvider",
+        "StepUpDream\\SpreadSheetConverter\\SpreadSheetReader\\Providers\\SpreadSheetReaderProvider"
+      ]
     }
   }
 }
