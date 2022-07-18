@@ -38,7 +38,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
         $targetCategory = $this->option('category');
         $targetFileName = $this->option('file_name');
         
-        $readSpreadSheets = config('spread_sheet.read_spread_sheets');
+        $readSpreadSheets = config('step_up_dream.spread_sheet_converter.read_spread_sheets');
         
         foreach ($readSpreadSheets as $readSpreadSheet) {
             

@@ -33,7 +33,7 @@ class Api extends BaseCreator
     ): void {
         $convertedSheetData = [];
         $spreadSheets = SpreadSheetReader::read($sheetId);
-        $requestRuleSheetName = config('spread_sheet.request_rule_sheet_name');
+        $requestRuleSheetName = config('step_up_dream.spread_sheet_converter.request_rule_sheet_name');
         $requestRuleSheet = SpreadSheetReader::read($sheetId, $requestRuleSheetName);
         
         foreach ($spreadSheets as $sheetName => $sheet) {
@@ -70,7 +70,7 @@ class Api extends BaseCreator
             
             $convertedSheetData[] = $this->createApiAttribute($sheet, $requestRuleSheet, $categoryName, $rowNumber, $sheetName);
         }
-    
+        
         return $convertedSheetData;
     }
     
@@ -93,7 +93,7 @@ class Api extends BaseCreator
     ): ApiAttribute {
         $headerNamesMain = $this->sheetOperation->getMainAttributeKeyName($sheet);
         $headerNamesSub = $this->sheetOperation->getSubAttributeKeyName($sheet);
-        $ruleColumnName = config('spread_sheet.request_rule_column_name');
+        $ruleColumnName = config('step_up_dream.spread_sheet_converter.request_rule_column_name');
         $this->verifyHeaderNameForHttp($headerNamesSub);
         $requestAttributes = [];
         $responseAttributes = [];
@@ -103,7 +103,7 @@ class Api extends BaseCreator
         foreach ($headerNamesMain as $headerNameMain) {
             $attribute->setAttributes($sheet[$rowNumber][$headerNameMain], $headerNameMain);
         }
-
+        
         // Request layer
         while (!empty($sheet[$rowNumber]) && $sheet[$rowNumber][$headerNamesSub['ColumnType']] !== 'Response') {
             // Processing ends when the column name is blank or blank from the beginning

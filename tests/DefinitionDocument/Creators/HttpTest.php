@@ -88,10 +88,10 @@ class HttpTest extends TestCase
         ],
     ];
     
-    public function testRun()
+    public function testRun(): void
     {
-        Config::set('spread_sheet.request_rule_sheet_name', 'RequestRule');
-        Config::set('spread_sheet.request_rule_column_name', 'RequestRule');
+        Config::set('step_up_dream.spread_sheet_converter.request_rule_sheet_name', 'RequestRule');
+        Config::set('step_up_dream.spread_sheet_converter.request_rule_column_name', 'RequestRule');
         SpreadSheetReader::shouldReceive('read')->andReturn($this->sheetValues, $this->sheetValues['RequestRule']);
         SpreadSheetReader::shouldReceive('verifyDataTypeDetail')->andReturn();
         $sheetOperation = $this->app->make(SheetOperation::class);
@@ -102,10 +102,10 @@ class HttpTest extends TestCase
         $mock->run('Api', 'api', 'sheet_id', base_path('definition_document/database/master_data'));
     }
     
-    public function testConvertSheetData()
+    public function testConvertSheetData(): void
     {
-        Config::set('spread_sheet.request_rule_sheet_name', 'RequestRule');
-        Config::set('spread_sheet.request_rule_column_name', 'RequestRule');
+        Config::set('step_up_dream.spread_sheet_converter.request_rule_sheet_name', 'RequestRule');
+        Config::set('step_up_dream.spread_sheet_converter.request_rule_column_name', 'RequestRule');
         $table = $this->app->make(Api::class);
         $reflection = new ReflectionClass($table);
         $method = $reflection->getMethod('convertApiSheetData');

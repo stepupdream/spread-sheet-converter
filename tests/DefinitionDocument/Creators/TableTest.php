@@ -19,7 +19,7 @@ use StepUpDream\SpreadSheetConverter\Test\TestCase;
  */
 class TableTest extends TestCase
 {
-    public function testRun()
+    public function testRun(): void
     {
         $sheetValues = [
             'sheet_title1' => [
@@ -70,7 +70,7 @@ class TableTest extends TestCase
         $mock->run('MasterData', 'master_data', 'sheet_id', base_path('definition_document/database/master_data'));
     }
     
-    public function testConvertSheetData()
+    public function testConvertSheetData(): void
     {
         $sheetValues = [
             [

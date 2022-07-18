@@ -14,7 +14,7 @@ use StepUpDream\SpreadSheetConverter\Test\TestCase;
  */
 class BaseReaderTest extends TestCase
 {
-    public function testRead()
+    public function testRead(): void
     {
         $sheetValues = [
             'sheet_title1' => [
@@ -27,11 +27,10 @@ class BaseReaderTest extends TestCase
             ],
         ];
         
-        Config::set('spread_sheet.credentials_path', __DIR__.'/credentials.json');
+        Config::set('step_up_dream.spread_sheet_converter.credentials_path', __DIR__.'/credentials.json');
         
         $mock = Mockery::mock(BaseReader::class)->makePartial();
-        $mock->shouldReceive('readFromGoogleServiceSheet')
-            ->andReturn($sheetValues);
+        $mock->shouldReceive('readFromGoogleServiceSheet')->andReturn($sheetValues);
         
         $response = $mock->read('sheet_id');
         self::assertEquals($response, $sheetValues);

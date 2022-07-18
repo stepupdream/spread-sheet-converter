@@ -2,7 +2,7 @@
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports;
 
-use File;
+use Illuminate\Filesystem\Filesystem;
 use LogicException;
 
 /**
@@ -13,26 +13,17 @@ use LogicException;
 class FileOperation
 {
     /**
-     * Recursively get a list of file paths from a directory
-     *
-     * @param  string  $directoryPath
-     * @return array
+     * @var \Illuminate\Filesystem\Filesystem
      */
-    public function getAllFilePath(string $directoryPath): array
-    {
-        $filePaths = [];
-        
-        if (!File::isDirectory($directoryPath)) {
-            throw new LogicException('Not a Directory');
-        }
-        
-        $files = File::allFiles($directoryPath);
-        foreach ($files as $file) {
-            $realPath = (string) $file->getRealPath();
-            $filePaths[$realPath] = $realPath;
-        }
-        
-        return $filePaths;
+    protected $file;
+    
+    /**
+     * FileOperation constructor.
+     */
+    public function __construct(
+        Filesystem $file
+    ) {
+        $this->file = $file;
     }
     
     /**
@@ -46,26 +37,26 @@ class FileOperation
     {
         $dirPath = dirname($filePath);
         
-        if (!File::isDirectory($dirPath)) {
-            $result = File::makeDirectory($dirPath, 0777, true);
+        if (!is_dir($dirPath)) {
+            $result = $this->file->makeDirectory($dirPath, 0777, true);
             if (!$result) {
                 throw new LogicException($filePath.'');
             }
         }
         
-        if (!File::exists($filePath)) {
-            $result = File::put($filePath, $content);
+        if (!file_exists($filePath)) {
+            $result = $this->file->put($filePath, $content);
             if (!$result) {
                 throw new LogicException($filePath.': Failed to create');
             }
             return;
         }
         
-        if ($isOverwrite && File::exists($filePath)) {
+        if ($isOverwrite && file_exists($filePath)) {
             // Hack:
             // An error occurred when overwriting, so always delete → create
-            File::delete($filePath);
-            $result = File::put($filePath, $content);
+            $this->file->delete($filePath);
+            $result = $this->file->put($filePath, $content);
             if (!$result) {
                 throw new LogicException($filePath.': Failed to create');
             }
