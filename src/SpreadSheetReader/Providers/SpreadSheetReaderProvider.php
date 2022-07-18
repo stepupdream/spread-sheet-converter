@@ -26,7 +26,7 @@ class SpreadSheetReaderProvider extends ServiceProvider implements DeferrablePro
     /**
      * Get the services provided by the provider.
      *
-     * @return array
+     * @return mixed[]
      */
     public function provides(): array
     {

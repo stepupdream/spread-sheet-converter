@@ -7,7 +7,7 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 class Attribute extends BaseAttribute
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected array $attributeDetails = [];
 
@@ -19,7 +19,7 @@ class Attribute extends BaseAttribute
     /**
      * Get attributeDetail.
      *
-     * @return array
+     * @return string[]
      */
     public function attributeDetails(): array
     {
@@ -41,7 +41,7 @@ class Attribute extends BaseAttribute
      * Get attribute detail by header key.
      *
      * @param  string  $headerKey
-     * @return array
+     * @return mixed[]
      */
     public function getAttributeDetailsByKey(string $headerKey): array
     {

@@ -13,7 +13,7 @@ class GoogleService
      * Read spreadsheet data.
      *
      * @param  string  $sheetId
-     * @return array Table information array containing information for each sheet：key is sheet name.
+     * @return string[][][] Table information array containing information for each sheet：key is sheet name.
      */
     public function readFromGoogleServiceSheet(string $sheetId): array
     {

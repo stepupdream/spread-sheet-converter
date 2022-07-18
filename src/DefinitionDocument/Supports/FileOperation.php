@@ -82,7 +82,7 @@ class FileOperation
     /**
      * Delete the file at a given path.
      *
-     * @param  string|array  $paths
+     * @param  string|string[]  $paths
      * @return bool
      * @see \Illuminate\Filesystem\Filesystem::delete
      */

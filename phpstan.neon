@@ -3,7 +3,6 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-
     paths:
         - src
 
@@ -12,5 +11,3 @@ parameters:
 
     excludePaths:
         - ./*/*/FileToBeExcluded.php
-
-    checkMissingIterableValueType: false

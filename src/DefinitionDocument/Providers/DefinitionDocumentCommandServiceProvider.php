@@ -20,7 +20,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     /**
      * The commands to be registered.
      *
-     * @var array
+     * @var string[]
      */
     protected array $commands = [
         'CreateDefinitionDocument' => 'command.create.definition.document',
@@ -66,7 +66,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     /**
      * Get the services provided by the provider.
      *
-     * @return array
+     * @return mixed[]
      */
     public function provides(): array
     {

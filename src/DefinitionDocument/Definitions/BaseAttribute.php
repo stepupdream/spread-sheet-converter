@@ -15,37 +15,37 @@ abstract class BaseAttribute
      * It can be obtained as an array.
      * Also, possible with a two-dimensional array.
      *
-     * @param  array  $attributes
+     * @param  string[]  $attributes
      * @param  string  $headerKey
-     * @return array
+     * @return mixed[]
      */
     protected function attributesByKey(array $attributes, string $headerKey): array
     {
-        $attributesNotIndent = $this->attributeByKey($attributes, $headerKey);
+        $attributeNotIndent = $this->attributeByKey($attributes, $headerKey);
 
-        $attributesNotIndent = rtrim(ltrim($attributesNotIndent));
-        if ($attributesNotIndent[0] !== '[' || ! str_ends_with($attributesNotIndent, ']')) {
-            throw new LogicException("It's not a string that matches the array: ".$attributesNotIndent);
+        $attributeNotIndent = rtrim(ltrim($attributeNotIndent));
+        if ($attributeNotIndent[0] !== '[' || ! str_ends_with($attributeNotIndent, ']')) {
+            throw new LogicException("It's not a string that matches the array: ".$attributeNotIndent);
         }
 
-        $attributesNotIndent = substr($attributesNotIndent, 1);
-        $attributesNotIndent = substr($attributesNotIndent, 0, -1);
-        $attributesNotIndent = rtrim(ltrim($attributesNotIndent));
-        if ($attributesNotIndent[0] === '[' && str_ends_with($attributesNotIndent, ']')) {
+        $attributeNotIndent = substr($attributeNotIndent, 1);
+        $attributeNotIndent = substr($attributeNotIndent, 0, -1);
+        $attributeNotIndent = rtrim(ltrim($attributeNotIndent));
+        if ($attributeNotIndent[0] === '[' && str_ends_with($attributeNotIndent, ']')) {
             // ex:attributeNotLineArray)
             // [
             //   0 => ''
             //   1 => "1,2,3],"
             //   2 => "1,2,3]"
             // ]
-            $attributeNotLineArray = explode('[', $attributesNotIndent);
+            $attributeNotLineArray = explode('[', $attributeNotIndent);
             $elementCount = count($attributeNotLineArray);
 
             $result = [];
             for ($i = 1; $i < $elementCount; $i++) {
                 $beforeConvertText = strstr($attributeNotLineArray[$i], ']', true);
                 if (! $beforeConvertText) {
-                    throw new LogicException("It's not a string that matches the array: ".$attributesNotIndent);
+                    throw new LogicException("It's not a string that matches the array: ".$attributeNotIndent);
                 }
 
                 $result[] = explode(',', $beforeConvertText);
@@ -54,13 +54,13 @@ abstract class BaseAttribute
             return $result;
         }
 
-        return explode(',', $attributesNotIndent);
+        return explode(',', $attributeNotIndent);
     }
 
     /**
      * Get attribute by key.
      *
-     * @param  array  $attributes
+     * @param  string[]  $attributes
      * @param  string  $headerKey
      * @return string
      */

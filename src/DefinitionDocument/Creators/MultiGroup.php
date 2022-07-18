@@ -11,7 +11,7 @@ class MultiGroup extends Base
     /**
      * A cache of the request rule sheet.
      *
-     * @var array
+     * @var string[][]
      */
     protected array $requestRuleSheet = [];
 
@@ -20,7 +20,7 @@ class MultiGroup extends Base
      *
      * @param  string|null  $targetFileName
      */
-    public function run(string $targetFileName = null): void
+    public function run(?string $targetFileName): void
     {
         $convertedSheetData = [];
         $requestRuleSheetName = config('step_up_dream.spread_sheet_converter.request_rule_sheet_name');
@@ -42,7 +42,7 @@ class MultiGroup extends Base
     /**
      * Generate rule message.
      *
-     * @param  array  $sheet
+     * @param  string[][]  $sheet
      * @param  int  $rowNumber
      * @return string
      */
@@ -56,7 +56,7 @@ class MultiGroup extends Base
         }
 
         if ($this->requestRuleSheet === []) {
-            $this->requestRuleSheet = $this->spreadSheetReader->read($this->sheetId, $requestRuleSheetName);
+            $this->requestRuleSheet = $this->spreadSheetReader->readBySheetName($this->sheetId, $requestRuleSheetName);
         }
 
         $message = '';

@@ -97,7 +97,7 @@ class SpreadSheetReaderTest extends TestCase
         $response = $spreadSheetReaderMock->read('sheet_id');
         self::assertEquals($response, $resultValues);
 
-        $response = $spreadSheetReaderMock->read('sheet_id', 'sheet_title1');
+        $response = $spreadSheetReaderMock->readBySheetName('sheet_id', 'sheet_title1');
         self::assertEquals($response, $resultValues['sheet_title1']);
     }
 

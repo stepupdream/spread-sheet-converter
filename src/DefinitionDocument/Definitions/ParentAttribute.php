@@ -9,7 +9,7 @@ class ParentAttribute extends BaseAttribute
     /**
      * Array of contents by column.
      *
-     * @var array
+     * @var string[]
      */
     protected array $parentAttributeDetails = [];
 
@@ -45,7 +45,7 @@ class ParentAttribute extends BaseAttribute
     /**
      * Get parent attribute detail.
      *
-     * @return array
+     * @return string[]
      */
     public function parentAttributeDetails(): array
     {
@@ -78,7 +78,7 @@ class ParentAttribute extends BaseAttribute
      * Get parent attribute details by header key.
      *
      * @param  string  $headerKey
-     * @return array
+     * @return mixed[]
      */
     public function getParentAttributeDetailsArrayByKey(string $headerKey): array
     {
@@ -108,7 +108,7 @@ class ParentAttribute extends BaseAttribute
     /**
      * Set attributes group.
      *
-     * @param  array  $attributesGroup
+     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]  $attributesGroup
      * @param  string  $groupKey
      */
     public function setAttributesGroup(array $attributesGroup, string $groupKey = '*'): void

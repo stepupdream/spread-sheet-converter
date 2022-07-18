@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
 use Illuminate\Support\Str;
+use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
@@ -59,7 +60,7 @@ abstract class Base
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation  $fileOperation
      * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader  $spreadSheetReader
-     * @param  array  $readSpreadSheet
+     * @param  string[]  $readSpreadSheet
      */
     public function __construct(
         protected FileOperation $fileOperation,
@@ -79,7 +80,7 @@ abstract class Base
      *
      * @param  string|null  $targetFileName
      */
-    public function run(string $targetFileName = null): void
+    public function run(?string $targetFileName): void
     {
         $convertedSheetData = [];
         $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
@@ -96,7 +97,7 @@ abstract class Base
     /**
      * Convert spreadsheet data.
      *
-     * @param  array  $sheet
+     * @param  string[][]  $sheet
      * @param  string  $categoryName
      * @param  string  $sheetName
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]
@@ -121,7 +122,7 @@ abstract class Base
     /**
      * Generate Attribute class based on Sheet data.
      *
-     * @param  array  $sheet
+     * @param  string[][]  $sheet
      * @param  string  $spreadsheetCategoryName
      * @param  int  $rowNumber
      * @param  string  $sheetName
@@ -159,10 +160,10 @@ abstract class Base
     /**
      * Create only one attributes group.
      *
-     * @param  array  $sheet
+     * @param  string[][]  $sheet
      * @param  int  $rowNumber
-     * @param  array  $headerNames
-     * @return array
+     * @param  string[]  $headerNames
+     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]
      */
     protected function createAttributesGroup(array $sheet, int &$rowNumber, array $headerNames): array
     {
@@ -227,16 +228,20 @@ abstract class Base
     public function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
     {
         foreach ($parentAttributes as $parentAttribute) {
+            $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
+
+            if ($mainKeyName === null) {
+                throw new LogicException('mainKeyName was not found');
+            }
+
             // If there is a specification to get only a part, skip other data
-            if ($this->isReadSkip($parentAttribute, $targetFileName)) {
+            if ($this->isReadSkip($mainKeyName, $targetFileName)) {
                 continue;
             }
-            $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
             $targetPath = $this->outputDirectoryPath.
                 DIRECTORY_SEPARATOR.
                 Str::studly($parentAttribute->sheetName()).
-                DIRECTORY_SEPARATOR.
-                $mainKeyName.
+                DIRECTORY_SEPARATOR.$mainKeyName.
                 '.yml';
             $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
             $this->fileOperation->createFile($loadBladeFile, $targetPath, true);
@@ -246,15 +251,17 @@ abstract class Base
     /**
      * Whether to skip reading.
      *
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
+     * @param  string  $mainKeyName
      * @param  string|null  $targetFileName
      * @return bool
      */
-    protected function isReadSkip(ParentAttribute $parentAttribute, ?string $targetFileName): bool
+    protected function isReadSkip(string $mainKeyName, ?string $targetFileName): bool
     {
-        $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
+        if ($targetFileName === null) {
+            return false;
+        }
 
-        return ! empty($targetFileName) && Str::snake($targetFileName) !== Str::snake($mainKeyName);
+        return Str::snake($targetFileName) !== Str::snake($mainKeyName);
     }
 
     /**

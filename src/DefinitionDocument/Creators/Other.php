@@ -11,7 +11,7 @@ class Other extends Base
     /**
      * Generate Attribute class based on Sheet data.
      *
-     * @param  array  $sheet
+     * @param  string[][]  $sheet
      * @param  string  $spreadsheetCategoryName
      * @param  int  $rowNumber
      * @param  string  $sheetName
