@@ -147,7 +147,7 @@ class SpreadSheetReader
      */
     protected function readFromGoogleServiceSheet(string $sheetId): array
     {
-        $credentialsPath = config('spread_sheet.credentials_path');
+        $credentialsPath = config('step_up_dream.spread_sheet_converter.credentials_path');
         
         $client = new Google_Client();
         $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
