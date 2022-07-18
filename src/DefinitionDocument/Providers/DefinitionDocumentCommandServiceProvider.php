@@ -7,9 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Console\DefinitionDocumentCommand;
 
 /**
- * Class DefinitionDocumentCommandServiceProvider
- *
- * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Providers
+ * Class DefinitionDocumentCommandServiceProvider.
  */
 class DefinitionDocumentCommandServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -21,7 +19,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     protected $commands = [
         'CreateDefinitionDocument' => 'command.create.definition.document',
     ];
-    
+
     /**
      * Initial startup of all application services.
      */
@@ -38,7 +36,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
             ]);
         }
     }
-    
+
     /**
      * Register the service provider.
      */
@@ -46,15 +44,15 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     {
         if ($this->app->runningInConsole()) {
             $this->mergeConfigFrom(__DIR__.'/../Config/step_up_dream/spread_sheet_converter.php', 'step_up_dream.spread_sheet_converter');
-            
+
             $this->app->singleton('command.create.definition.document', function ($app) {
                 return new DefinitionDocumentCommand();
             });
-            
+
             $this->commands(array_values($this->commands));
         }
     }
-    
+
     /**
      * Get the services provided by the provider.
      *

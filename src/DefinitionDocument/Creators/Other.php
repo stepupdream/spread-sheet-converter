@@ -6,9 +6,7 @@ use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttrib
 use Str;
 
 /**
- * Class Other
- *
- * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators
+ * Class Other.
  */
 class Other extends Base
 {
@@ -28,17 +26,17 @@ class Other extends Base
         string $sheetName
     ): ParentAttribute {
         $headerNamesParent = $this->spreadSheetReader->getParentAttributeKeyName($sheet, '');
-        
+
         $parentAttribute = new ParentAttribute($spreadsheetCategoryName, $sheetName);
         foreach ($headerNamesParent as $headerNameParent) {
             $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
         }
-        
-        while (!empty($sheet[$rowNumber]) && !$this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
+
+        while (! empty($sheet[$rowNumber]) && ! $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
             $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNamesParent);
             $parentAttribute->setAttributesGroup($attributes);
         }
-        
+
         return $parentAttribute;
     }
 }

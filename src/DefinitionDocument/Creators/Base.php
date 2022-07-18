@@ -9,9 +9,7 @@ use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader
 use Str;
 
 /**
- * Class Base
- *
- * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators
+ * Class Base.
  */
 abstract class Base
 {
@@ -21,56 +19,56 @@ abstract class Base
      * @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation
      */
     protected $fileOperation;
-    
+
     /**
      * The SpreadSheetReader instance.
      *
      * @var \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader
      */
     protected $spreadSheetReader;
-    
+
     /**
      * Category name for classification.
      *
      * @var string
      */
     protected $categoryName;
-    
+
     /**
      * Template blade file to use.
      *
      * @var string
      */
     protected $useBladeFileName;
-    
+
     /**
      * Google Spreadsheet sheetID.
      *
      * @var string
      */
     protected $sheetId;
-    
+
     /**
      * Output destination of yaml file.
      *
      * @var string
      */
     protected $outputDirectoryPath;
-    
+
     /**
      * Delimiter column header name.
      *
      * @var string
      */
     protected $separationKey;
-    
+
     /**
      * Key name of the group.
      *
      * @var string
      */
     protected $attributeGroupColumnName;
-    
+
     /**
      * BaseCreator constructor.
      *
@@ -92,7 +90,7 @@ abstract class Base
         $this->separationKey = $readSpreadSheet['separation_key'];
         $this->attributeGroupColumnName = $readSpreadSheet['attribute_group_column_name'];
     }
-    
+
     /**
      * Execution of processing.
      *
@@ -105,13 +103,13 @@ abstract class Base
         foreach ($spreadSheets as $sheetName => $sheet) {
             $convertedSheetData[] = $this->convertSheetData($sheet, Str::studly($this->categoryName), $sheetName);
         }
-        
+
         // Return to one dimension because it is a multi-dimensional array of sheets
         $parentAttributes = collect($convertedSheetData)->flatten()->all();
         $this->verifySheetData($parentAttributes);
         $this->createDefinitionDocument($parentAttributes, $targetFileName);
     }
-    
+
     /**
      * Generate a definition document.
      *
@@ -136,7 +134,7 @@ abstract class Base
             $this->fileOperation->createFile($loadBladeFile, $targetPath, true);
         }
     }
-    
+
     /**
      * Read the blade file.
      *
@@ -151,7 +149,7 @@ abstract class Base
                 'parentAttribute' => $parentAttribute,
             ])->render();
     }
-    
+
     /**
      * Whether to skip reading.
      *
@@ -162,9 +160,10 @@ abstract class Base
     protected function isReadSkip(ParentAttribute $parentAttribute, ?string $targetFileName): bool
     {
         $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
-        return !empty($targetFileName) && Str::snake($targetFileName) !== Str::snake($mainKeyName);
+
+        return ! empty($targetFileName) && Str::snake($targetFileName) !== Str::snake($mainKeyName);
     }
-    
+
     /**
      * Verification of correct type specification.
      *
@@ -180,7 +179,7 @@ abstract class Base
             }
         }
     }
-    
+
     /**
      * Convert spreadsheet data.
      *
@@ -193,19 +192,19 @@ abstract class Base
     {
         $rowNumber = 0;
         $convertedSheetData = [];
-        
-        while (!empty($sheet[$rowNumber])) {
+
+        while (! empty($sheet[$rowNumber])) {
             if ($this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
                 $rowNumber++;
                 continue;
             }
-            
+
             $convertedSheetData[] = $this->createParentAttribute($sheet, $categoryName, $rowNumber, $sheetName);
         }
-        
+
         return $convertedSheetData;
     }
-    
+
     /**
      * Generate Attribute class based on Sheet data.
      *
@@ -224,26 +223,26 @@ abstract class Base
         $headerNamesParent = $this->spreadSheetReader->getParentAttributeKeyName($sheet, $this->separationKey);
         $headerNames = $this->spreadSheetReader->getAttributeKeyName($sheet, $this->separationKey);
         $mainKeyName = collect($headerNames)->first();
-        
+
         $parentAttribute = new ParentAttribute($spreadsheetCategoryName, $sheetName);
         foreach ($headerNamesParent as $headerNameParent) {
             $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
         }
-        
-        while (!empty($sheet[$rowNumber]) && !$this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
+
+        while (! empty($sheet[$rowNumber]) && ! $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
             $groupKeyName = $sheet[$rowNumber][$mainKeyName];
             $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNames);
-            
+
             if (empty($this->attributeGroupColumnName)) {
                 $parentAttribute->setAttributesGroup($attributes);
             } else {
                 $parentAttribute->setAttributesGroup($attributes, $groupKeyName);
             }
         }
-        
+
         return $parentAttribute;
     }
-    
+
     /**
      * Create only one attributes group.
      *
@@ -257,36 +256,36 @@ abstract class Base
         $attributes = [];
         $mainKeyName = collect($headerNames)->first();
         $beforeMainKeyData = $sheet[$rowNumber][$headerNames[$mainKeyName]];
-        
+
         while (true) {
             $attribute = new Attribute();
             foreach ($headerNames as $headerName) {
                 $attribute->setAttributeDetails($sheet[$rowNumber][$headerName], $headerName);
             }
-            
+
             if ($this instanceof MultiGroup) {
                 $attribute->unsetAttributeDetail($this->attributeGroupColumnName);
                 $message = $this->createRuleMessage($sheet, $rowNumber);
                 $attribute->setRuleMessage($message);
             }
-            
-            if (!$this->spreadSheetReader->isAllEmpty($attribute->attributeDetails())) {
+
+            if (! $this->spreadSheetReader->isAllEmpty($attribute->attributeDetails())) {
                 $attributes[] = $attribute;
             }
             $rowNumber++;
-            
+
             if (empty($sheet[$rowNumber]) || $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
                 break;
             }
-            
+
             // If the key of the group is switched, it is judged that the group is finished
-            if (!empty($this->attributeGroupColumnName) &&
+            if (! empty($this->attributeGroupColumnName) &&
                 $sheet[$rowNumber][$headerNames[$mainKeyName]] !== '' &&
                 $sheet[$rowNumber][$headerNames[$mainKeyName]] !== $beforeMainKeyData) {
                 break;
             }
         }
-        
+
         return $attributes;
     }
 }

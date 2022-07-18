@@ -10,9 +10,7 @@ use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
 /**
- * Class OtherTest
- *
- * @package StepUpDream\SpreadSheetConverter\Test\SpreadSheetReaders
+ * Class OtherTest.
  */
 class OtherTest extends TestCase
 {
@@ -27,31 +25,31 @@ class OtherTest extends TestCase
                 'TableDescription'  => 'CharacterData',
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int'
+                'DataType'          => 'int',
             ],
             [
                 'TableName'         => 'characters2',
                 'TableDescription'  => 'CharacterData2',
                 'ColumnName'        => 'name',
                 'ColumnDescription' => 'name',
-                'DataType'          => 'string'
+                'DataType'          => 'string',
             ],
             [
                 'TableName'         => '',
                 'TableDescription'  => '',
                 'ColumnName'        => '',
                 'ColumnDescription' => '',
-                'DataType'          => ''
+                'DataType'          => '',
             ],
             [
                 'TableName'         => 'equipments',
                 'TableDescription'  => 'EquipmentData',
                 'ColumnName'        => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int'
+                'DataType'          => 'int',
             ],
         ];
-        
+
         // Group1
         $parentAttribute = new ParentAttribute('Other', 'sheetName');
         $parentAttribute->setParentAttributeDetails('characters', 'TableName');
@@ -72,7 +70,7 @@ class OtherTest extends TestCase
         $attribute2->setAttributeDetails('name', 'ColumnDescription');
         $attribute2->setAttributeDetails('string', 'DataType');
         $parentAttribute->setAttributesGroup([$attribute, $attribute2]);
-        
+
         // Group2
         $parentAttribute2 = new ParentAttribute('Other', 'sheetName');
         $parentAttribute2->setParentAttributeDetails('equipments', 'TableName');
@@ -87,7 +85,7 @@ class OtherTest extends TestCase
         $attribute->setAttributeDetails('id', 'ColumnDescription');
         $attribute->setAttributeDetails('int', 'DataType');
         $parentAttribute2->setAttributesGroup([$attribute]);
-        
+
         $argument = [
             'category_name'               => 'Other',
             'use_blade'                   => 'other_data',
@@ -98,11 +96,11 @@ class OtherTest extends TestCase
         ];
         $fileOperation = $this->app->make(FileOperation::class);
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
-        
+
         /* @see Other::convertSheetData() */
         $other = new Other($fileOperation, $spreadSheetReader, $argument);
         $response = $this->executePrivateFunction($other, 'convertSheetData', [$sheetValues, 'Other', 'sheetName']);
-        
+
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }
 }

@@ -8,9 +8,7 @@ use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
 
 /**
- * Class DefinitionDocumentCommand
- *
- * @package StepUpDream\SpreadSheetConverter\DefinitionDocument\Console
+ * Class DefinitionDocumentCommand.
  */
 class DefinitionDocumentCommand extends BaseCreateCommand
 {
@@ -20,14 +18,14 @@ class DefinitionDocumentCommand extends BaseCreateCommand
      * @var string
      */
     protected $signature = 'spread_sheet_converter:create_definition_document {--category=} {--file_name=}';
-    
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'create definition document {any:category} {any:file_name}';
-    
+
     /**
      * Run command.
      *
@@ -38,12 +36,12 @@ class DefinitionDocumentCommand extends BaseCreateCommand
         $targetCategory = $this->option('category');
         $targetFileName = $this->option('file_name');
         $readSpreadSheets = config('step_up_dream.spread_sheet_converter.read_spread_sheets');
-        
+
         foreach ($readSpreadSheets as $readSpreadSheet) {
-            if (!empty($targetCategory) && $targetCategory !== $readSpreadSheet['category_name']) {
+            if (! empty($targetCategory) && $targetCategory !== $readSpreadSheet['category_name']) {
                 continue;
             }
-            
+
             switch ($readSpreadSheet['read_type']) {
                 case 'SingleGroup':
                     $creator = app()->make(SingleGroup::class, ['readSpreadSheet' => $readSpreadSheet]);
@@ -57,7 +55,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
                 default:
                     throw new LogicException(sprintf('Unexpected value: %s', $readSpreadSheet['read_type']));
             }
-            
+
             $creator->run($targetFileName);
             $this->info('Completed: '.$readSpreadSheet['category_name']);
         }

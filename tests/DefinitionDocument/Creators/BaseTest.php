@@ -11,9 +11,7 @@ use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
 /**
- * Class BaseTest
- *
- * @package StepUpDream\SpreadSheetConverter\Test\SpreadSheetReaders
+ * Class BaseTest.
  */
 class BaseTest extends TestCase
 {
@@ -29,14 +27,14 @@ class BaseTest extends TestCase
                     'TableDescription'  => 'CharacterData',
                     'ColumnName'        => 'id',
                     'ColumnDescription' => 'id',
-                    'DataType'          => 'int'
+                    'DataType'          => 'int',
                 ],
                 [
                     'TableName'         => '',
                     'TableDescription'  => '',
                     'ColumnName'        => 'name',
                     'ColumnDescription' => 'name',
-                    'DataType'          => 'string'
+                    'DataType'          => 'string',
                 ],
             ],
             'sheet_title2' => [
@@ -45,18 +43,18 @@ class BaseTest extends TestCase
                     'TableDescription'  => 'CharacterData2',
                     'ColumnName'        => 'id',
                     'ColumnDescription' => 'id',
-                    'DataType'          => 'int'
+                    'DataType'          => 'int',
                 ],
                 [
                     'TableName'         => '',
                     'TableDescription'  => '',
                     'ColumnName'        => 'name2',
                     'ColumnDescription' => 'name2',
-                    'DataType'          => 'string'
+                    'DataType'          => 'string',
                 ],
             ],
         ];
-        
+
         $spreadSheetReaderMock = Mockery::mock(SpreadSheetReader::class)->makePartial();
         $spreadSheetReaderMock->shouldReceive('read')->andReturn($sheetValues);
         $fileOperationMock = $this->app->make(FileOperation::class);
@@ -68,14 +66,14 @@ class BaseTest extends TestCase
             'separation_key'              => 'ColumnName',
             'attribute_group_column_name' => null,
         ];
-        
+
         $baseMock = Mockery::mock(Base::class, [$fileOperationMock, $spreadSheetReaderMock, $argument])->makePartial();
         $baseMock->shouldReceive('createDefinitionDocument')->andReturn();
-        
+
         /** @var Base $baseMock */
         $baseMock->run();
     }
-    
+
     /**
      * @test
      */
@@ -94,15 +92,15 @@ class BaseTest extends TestCase
         ];
         $fileOperation = $this->app->make(FileOperation::class);
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
-        
+
         /* @see SingleGroup::isReadSkip() */
         $singleGroup = new SingleGroup($fileOperation, $spreadSheetReader, $argument);
         $response = $this->executePrivateFunction($singleGroup, 'isReadSkip', [$parentAttribute, 'users']);
         self::assertFalse($response);
-        
+
         $response = $this->executePrivateFunction($singleGroup, 'isReadSkip', [$parentAttribute, 'notUsers']);
         self::assertTrue($response);
-        
+
         $response = $this->executePrivateFunction($singleGroup, 'isReadSkip', [$parentAttribute, null]);
         self::assertFalse($response);
     }

@@ -6,14 +6,12 @@ use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use ReflectionClass;
 
 /**
- * Class TestCase
- *
- * @package StepUpDream\SpreadSheetConverter\Test
+ * Class TestCase.
  */
 abstract class TestCase extends OrchestraTestCase
 {
     /**
-     * Execute private function test
+     * Execute private function test.
      *
      * @param $class
      * @param  string  $methodName
@@ -25,7 +23,7 @@ abstract class TestCase extends OrchestraTestCase
         $reflection = new ReflectionClass($class);
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);
-        
+
         return $method->invokeArgs($class, $arguments);
     }
 }
