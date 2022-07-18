@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
@@ -85,9 +87,8 @@ class SingleGroupTest extends TestCase
         $fileOperation = $this->app->make(FileOperation::class);
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
 
-        /* @see SingleGroup::convertSheetData() */
         $singleGroup = new SingleGroup($fileOperation, $spreadSheetReader, $argument);
-        $response = $this->executePrivateFunction($singleGroup, 'convertSheetData', [$sheetValues, 'MasterData', 'sheetName']);
+        $response = $singleGroup->convertSheetData($sheetValues, 'MasterData', 'sheetName');
 
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }

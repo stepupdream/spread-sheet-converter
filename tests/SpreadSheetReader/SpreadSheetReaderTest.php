@@ -1,62 +1,104 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\Test\SpreadSheetReader;
 
-use Illuminate\Support\Facades\Config;
 use Mockery;
+use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
-/**
- * Class SpreadSheetReaderTest.
- */
 class SpreadSheetReaderTest extends TestCase
 {
+    protected array $sheetValues = [
+        'sheet_title1' => [
+            [
+                'TableName',
+                'TableDescription',
+                'ColumnName',
+                'ColumnDescription',
+            ],
+            [
+                'characters',
+                'CharacterData',
+                'id',
+                'id',
+            ],
+            [
+                '',
+                '',
+                'name',
+                'name',
+            ],
+        ],
+        'sheet_title2' => [
+            [
+                'TableName',
+                'TableDescription',
+                'ColumnName',
+                'ColumnDescription',
+            ],
+            [
+                'characters2',
+                'CharacterData2',
+                'id',
+                'id',
+            ],
+            [
+                '',
+                '',
+                'name2',
+                'name2',
+            ],
+        ],
+    ];
+
     /**
      * @test
      */
     public function read(): void
     {
-        $sheetValues = [
+        $resultValues = [
             'sheet_title1' => [
-                ['TableName' => 'characters', 'TableDescription' => 'CharacterData', 'ColumnName' => 'id', 'ColumnDescription' => 'id'],
-                ['TableName' => '', 'TableDescription' => '', 'ColumnName' => 'name', 'ColumnDescription' => 'name'],
+                [
+                    'TableName'         => 'characters',
+                    'TableDescription'  => 'CharacterData',
+                    'ColumnName'        => 'id',
+                    'ColumnDescription' => 'id',
+                ],
+                [
+                    'TableName'         => '',
+                    'TableDescription'  => '',
+                    'ColumnName'        => 'name',
+                    'ColumnDescription' => 'name',
+                ],
             ],
             'sheet_title2' => [
-                ['TableName' => 'characters2', 'TableDescription' => 'CharacterData2', 'ColumnName' => 'id', 'ColumnDescription' => 'id'],
-                ['TableName' => '', 'TableDescription' => '', 'ColumnName' => 'name2', 'ColumnDescription' => 'name2'],
+                [
+                    'TableName'         => 'characters2',
+                    'TableDescription'  => 'CharacterData2',
+                    'ColumnName'        => 'id',
+                    'ColumnDescription' => 'id',
+                ],
+                [
+                    'TableName'         => '',
+                    'TableDescription'  => '',
+                    'ColumnName'        => 'name2',
+                    'ColumnDescription' => 'name2',
+                ],
             ],
         ];
 
-        Config::set('step_up_dream.spread_sheet_converter.credentials_path', __DIR__.'/credentials.json');
-
-        $spreadSheetReaderMock = Mockery::mock(SpreadSheetReader::class)->shouldAllowMockingProtectedMethods()->makePartial();
-        $spreadSheetReaderMock->shouldReceive('readFromGoogleServiceSheet')->andReturn($sheetValues);
+        $mock = Mockery::mock(GoogleService::class);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($this->sheetValues);
+        $spreadSheetReaderMock = new SpreadSheetReader($mock);
 
         $response = $spreadSheetReaderMock->read('sheet_id');
-        self::assertEquals($response, $sheetValues);
+        self::assertEquals($response, $resultValues);
 
         $response = $spreadSheetReaderMock->read('sheet_id', 'sheet_title1');
-        self::assertEquals($response, $sheetValues['sheet_title1']);
-    }
-
-    /**
-     * @test
-     */
-    public function getTitleArray(): void
-    {
-        $sheetValues = [
-            ['id', 'name'],
-            [1, 'sam'],
-            [2, 'tom'],
-        ];
-        $response = $this->executePrivateFunction(new SpreadSheetReader(), 'getTitleArray', [$sheetValues, 'sheet_title']);
-        $testResult = [
-            ['id' => 1, 'name' => 'sam'],
-            ['id' => 2, 'name' => 'tom'],
-        ];
-
-        self::assertEquals($response, $testResult);
+        self::assertEquals($response, $resultValues['sheet_title1']);
     }
 
     /**
@@ -67,11 +109,13 @@ class SpreadSheetReaderTest extends TestCase
         $values = ['TableName' => '', 'TableDescription' => '', 'ColumnName' => '', 'ColumnDescription' => ''];
         $values2 = ['TableName' => 'hoge', 'TableDescription' => '', 'ColumnName' => '', 'ColumnDescription' => ''];
 
-        $spreadSheetReader = new SpreadSheetReader();
-        $isAllEmpty = $spreadSheetReader->isAllEmpty($values);
+        $mock = Mockery::mock(GoogleService::class);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($this->sheetValues);
+        $spreadSheetReaderMock = new SpreadSheetReader($mock);
+        $isAllEmpty = $spreadSheetReaderMock->isAllEmpty($values);
         self::assertTrue($isAllEmpty);
 
-        $isAllEmpty2 = $spreadSheetReader->isAllEmpty($values2);
+        $isAllEmpty2 = $spreadSheetReaderMock->isAllEmpty($values2);
         self::assertFalse($isAllEmpty2);
     }
 
@@ -81,12 +125,24 @@ class SpreadSheetReaderTest extends TestCase
     public function getAttributeKeyName(): void
     {
         $sheet = [
-            ['TableName' => 'characters', 'TableDescription' => 'CharacterData', 'ColumnName' => 'id', 'ColumnDescription' => 'id'],
-            ['TableName' => '', 'TableDescription' => '', 'ColumnName' => 'name', 'ColumnDescription' => 'name'],
+            [
+                'TableName'         => 'characters',
+                'TableDescription'  => 'CharacterData',
+                'ColumnName'        => 'id',
+                'ColumnDescription' => 'id',
+            ],
+            [
+                'TableName'         => '',
+                'TableDescription'  => '',
+                'ColumnName'        => 'name',
+                'ColumnDescription' => 'name',
+            ],
         ];
 
-        $spreadSheetReader = new SpreadSheetReader();
-        $attributeKeyName = $spreadSheetReader->getAttributeKeyName($sheet, 'ColumnName');
+        $mock = Mockery::mock(GoogleService::class);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($this->sheetValues);
+        $spreadSheetReaderMock = new SpreadSheetReader($mock);
+        $attributeKeyName = $spreadSheetReaderMock->getAttributeKeyName($sheet, 'ColumnName');
         $testResult = ['ColumnName' => 'ColumnName', 'ColumnDescription' => 'ColumnDescription'];
 
         self::assertEquals($attributeKeyName, $testResult);
@@ -98,12 +154,24 @@ class SpreadSheetReaderTest extends TestCase
     public function getParentAttributeKeyName(): void
     {
         $sheet = [
-            ['TableName' => 'characters', 'TableDescription' => 'CharacterData', 'ColumnName' => 'id', 'ColumnDescription' => 'id'],
-            ['TableName' => '', 'TableDescription' => '', 'ColumnName' => 'name', 'ColumnDescription' => 'name'],
+            [
+                'TableName'         => 'characters',
+                'TableDescription'  => 'CharacterData',
+                'ColumnName'        => 'id',
+                'ColumnDescription' => 'id',
+            ],
+            [
+                'TableName'         => '',
+                'TableDescription'  => '',
+                'ColumnName'        => 'name',
+                'ColumnDescription' => 'name',
+            ],
         ];
 
-        $spreadSheetReader = new SpreadSheetReader();
-        $parentAttributeKeyName = $spreadSheetReader->getParentAttributeKeyName($sheet, 'ColumnName');
+        $mock = Mockery::mock(GoogleService::class);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($this->sheetValues);
+        $spreadSheetReaderMock = new SpreadSheetReader($mock);
+        $parentAttributeKeyName = $spreadSheetReaderMock->getParentAttributeKeyName($sheet, 'ColumnName');
         $testResult = ['TableName' => 'TableName', 'TableDescription' => 'TableDescription'];
 
         self::assertEquals($parentAttributeKeyName, $testResult);

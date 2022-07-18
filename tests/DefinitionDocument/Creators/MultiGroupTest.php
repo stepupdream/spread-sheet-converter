@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
 use Illuminate\Support\Facades\Config;
@@ -8,6 +10,7 @@ use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
+use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
@@ -132,13 +135,8 @@ class MultiGroupTest extends TestCase
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
 
         // createRuleMessage includes Google processing, so cut it out as a separate test
-        $multiGroup = Mockery::mock(MultiGroup::class, [$fileOperation, $spreadSheetReader, $argument])
-            ->makePartial()
-            ->shouldAllowMockingProtectedMethods();
-        $multiGroup->shouldReceive('createRuleMessage')->andReturn();
-
-        /* @see MultiGroup::convertSheetData() */
-        $response = $this->executePrivateFunction($multiGroup, 'convertSheetData', [$sheetValues, 'Api', 'sheetName']);
+        $multiGroup = new MultiGroup($fileOperation, $spreadSheetReader, $argument);
+        $response = $multiGroup->convertSheetData($sheetValues, 'Api', 'sheetName');
 
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }
@@ -186,17 +184,24 @@ class MultiGroupTest extends TestCase
                 'ColumnName'        => 'name',
                 'ColumnDescription' => 'name',
                 'DataType'          => 'string',
+                'RequestRule'       => '',
             ],
         ];
 
         $ruleSheetValues = [
-            [
-                'ruleDataType' => 'int',
-                'ruleMessage'  => 'int message',
-            ],
-            [
-                'ruleDataType' => 'required',
-                'ruleMessage'  => 'required message',
+            'RequestRule' => [
+                [
+                    'ruleDataType',
+                    'ruleMessage',
+                ],
+                [
+                    'int',
+                    'int message',
+                ],
+                [
+                    'required',
+                    'required message',
+                ],
             ],
         ];
 
@@ -208,23 +213,18 @@ class MultiGroupTest extends TestCase
             'separation_key'              => 'GroupType',
             'attribute_group_column_name' => 'GroupType',
         ];
-        $spreadSheetReaderMock = Mockery::mock(SpreadSheetReader::class)->makePartial();
-        $spreadSheetReaderMock->shouldReceive('read')->andReturn($ruleSheetValues);
         $fileOperation = $this->app->make(FileOperation::class);
-        $multiGroup = $this->app->make(MultiGroup::class, [
-            'fileOperation'     => $fileOperation,
-            'spreadSheetReader' => $spreadSheetReaderMock,
-            'readSpreadSheet'   => $argument,
-        ]);
+        $mock = Mockery::mock(GoogleService::class);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($ruleSheetValues);
+        $spreadSheetReaderMock = new SpreadSheetReader($mock);
 
-        /* @see MultiGroup::createRuleMessage() */
-        $response = $this->executePrivateFunction($multiGroup, 'createRuleMessage', [$sheetValues, 0]);
-        self::assertEquals("{'required': 'required message'}", $response);
-        $response2 = $this->executePrivateFunction($multiGroup, 'createRuleMessage', [$sheetValues, 1]);
-        self::assertEquals("{'required': 'required message', 'int': 'int message'}", $response2);
-        $response3 = $this->executePrivateFunction($multiGroup, 'createRuleMessage', [$sheetValues, 2]);
-        self::assertEquals('', $response3);
-        $response4 = $this->executePrivateFunction($multiGroup, 'createRuleMessage', [$sheetValues, 3]);
-        self::assertEquals('', $response4);
+        $multiGroup = new MultiGroup($fileOperation, $spreadSheetReaderMock, $argument);
+        $response = $multiGroup->convertSheetData($sheetValues, 'Api', 'sheetName');
+
+        $ruleMessage1 = $response[0]->attributesGroup()['Request'][0]->ruleMessage();
+        $ruleMessage2 = $response[0]->attributesGroup()['Request'][1]->ruleMessage();
+
+        self::assertEquals("{'required': 'required message'}", $ruleMessage1);
+        self::assertEquals("{'required': 'required message', 'int': 'int message'}", $ruleMessage2);
     }
 }

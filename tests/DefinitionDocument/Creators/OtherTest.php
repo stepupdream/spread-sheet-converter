@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
@@ -97,9 +99,8 @@ class OtherTest extends TestCase
         $fileOperation = $this->app->make(FileOperation::class);
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
 
-        /* @see Other::convertSheetData() */
         $other = new Other($fileOperation, $spreadSheetReader, $argument);
-        $response = $this->executePrivateFunction($other, 'convertSheetData', [$sheetValues, 'Other', 'sheetName']);
+        $response = $other->convertSheetData($sheetValues, 'Other', 'sheetName');
 
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }
