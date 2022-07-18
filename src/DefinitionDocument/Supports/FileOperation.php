@@ -28,7 +28,7 @@ class FileOperation
         
         $files = File::allFiles($directory_path);
         foreach ($files as $file) {
-            $file_paths[] = $file->getRealPath();
+            $file_paths[$file->getRealPath()] = $file->getRealPath();
         }
         
         return $file_paths;

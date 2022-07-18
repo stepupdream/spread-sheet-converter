@@ -39,14 +39,14 @@ class YamlFileOperation
     public function parseAllYaml(array $file_paths)
     {
         $yaml_parse_texts = [];
-        
-        foreach ($file_paths as $file_path) {
+    
+        foreach ($file_paths as $file_name => $file_path) {
             if (count($this->parseYaml($file_path)) >= 2) {
                 throw new LogicException('Yaml data must be one data per file file_path: ' . $file_path);
             }
             
             // Rule that there is always one data in Yaml data
-            $yaml_parse_texts[] = collect($this->parseYaml($file_path))->first();
+            $yaml_parse_texts[$file_name] = collect($this->parseYaml($file_path))->first();
         }
         
         return $yaml_parse_texts;
