@@ -17,7 +17,7 @@ class YamlFileReader extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor() : string
+    protected static function getFacadeAccessor(): string
     {
         return BaseReader::class;
     }

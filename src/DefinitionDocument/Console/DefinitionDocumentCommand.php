@@ -32,7 +32,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
      *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
-    public function handle() : void
+    public function handle(): void
     {
         $target_category = $this->option('category');
         $target_file_name = $this->option('file_name');
@@ -40,7 +40,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
         $read_spread_sheets = config('spread_sheet.read_spread_sheets');
         
         foreach ($read_spread_sheets as $read_spread_sheet) {
-
+            
             if (!empty($target_category) && $target_category !== $read_spread_sheet['category_name']) {
                 continue;
             }
@@ -56,8 +56,9 @@ class DefinitionDocumentCommand extends BaseCreateCommand
                     throw new LogicException('Unexpected value');
             }
             
-            $creator->run($read_spread_sheet['category_name'], $read_spread_sheet['use_blade'], $read_spread_sheet['sheet_id'], $read_spread_sheet['output_directory_path'], $target_file_name);
-            $this->info('Completed: ' . $read_spread_sheet['category_name']);
+            $creator->run($read_spread_sheet['category_name'], $read_spread_sheet['use_blade'], $read_spread_sheet['sheet_id'],
+                $read_spread_sheet['output_directory_path'], $target_file_name);
+            $this->info('Completed: '.$read_spread_sheet['category_name']);
         }
     }
 }

@@ -18,7 +18,7 @@ class FileOperation
      * @param string $directory_path directory path
      * @return array file path list
      */
-    public function getAllFilePath(string $directory_path) : array
+    public function getAllFilePath(string $directory_path): array
     {
         $file_paths = [];
         
@@ -42,21 +42,21 @@ class FileOperation
      * @param string $file_path
      * @param bool $is_overwrite
      */
-    public function createFile(string $content, string $file_path, bool $is_overwrite = false) : void
+    public function createFile(string $content, string $file_path, bool $is_overwrite = false): void
     {
         $dir_path = dirname($file_path);
         
         if (!File::isDirectory($dir_path)) {
             $result = File::makeDirectory($dir_path, 0777, true);
             if (!$result) {
-                throw new LogicException($file_path . '');
+                throw new LogicException($file_path.'');
             }
         }
         
         if (!File::exists($file_path)) {
             $result = File::put($file_path, $content);
             if (!$result) {
-                throw new LogicException($file_path . ': Failed to create');
+                throw new LogicException($file_path.': Failed to create');
             }
             return;
         }
@@ -67,7 +67,7 @@ class FileOperation
             File::delete($file_path);
             $result = File::put($file_path, $content);
             if (!$result) {
-                throw new LogicException($file_path . ': Failed to create');
+                throw new LogicException($file_path.': Failed to create');
             }
         }
     }

@@ -8,6 +8,7 @@
     - name: '{{ $sub_attribute->attributes()['ColumnName'] }}'
       description: '{{ $sub_attribute->attributes()['ColumnDescription'] }}'
       data_type: '{{ $sub_attribute->attributes()['DataType'] }}'
+      migration_data_type: '{{ $sub_attribute->attributes()['MigrationDataType'] }}'
       is_real_column: {{ $sub_attribute->attributes()['IsRealColumn'] }}
       is_unsigned: {{ $sub_attribute->attributes()['IsUnsigned'] }}
       is_nullable: {{ $sub_attribute->attributes()['IsNullable'] }}

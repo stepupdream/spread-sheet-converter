@@ -28,14 +28,14 @@ class SheetOperation
      * @param $target_sheet
      * @return array
      */
-    public function getTitleArray($sheet_values, $target_sheet) : array
+    public function getTitleArray($sheet_values, $target_sheet): array
     {
         $result = [];
         $header_row = [];
         $is_header = true;
         
         if (empty($sheet_values)) {
-            throw new LogicException('need sheet header: ' . $target_sheet);
+            throw new LogicException('need sheet header: '.$target_sheet);
         }
         
         foreach ($sheet_values as $row) {
@@ -62,7 +62,7 @@ class SheetOperation
      * @param array $sheet
      * @return string[] Sheet header list
      */
-    public function getMainAttributeKeyName(array $sheet) : array
+    public function getMainAttributeKeyName(array $sheet): array
     {
         $sheet_first_row = collect($sheet)->first();
         $names = [];
@@ -91,7 +91,7 @@ class SheetOperation
      * @param array $sheet
      * @return string[] Sheet header list
      */
-    public function getSubAttributeKeyName(array $sheet) : array
+    public function getSubAttributeKeyName(array $sheet): array
     {
         $sheet_first_row = collect($sheet)->first();
         $should_add_start = false;
@@ -125,7 +125,7 @@ class SheetOperation
      * @param array $values
      * @return bool
      */
-    public function isAllEmpty(array $values) : bool
+    public function isAllEmpty(array $values): bool
     {
         foreach ($values as $value) {
             if ($value !== '') {

@@ -50,7 +50,7 @@ class Attribute
      *
      * @return string
      */
-    public function spreadsheetCategoryName() : string
+    public function spreadsheetCategoryName(): string
     {
         return $this->spreadsheet_category_name;
     }
@@ -60,7 +60,7 @@ class Attribute
      *
      * @return array
      */
-    public function attributes() : array
+    public function attributes(): array
     {
         return $this->attributes;
     }
@@ -72,7 +72,7 @@ class Attribute
      * @param string $header_name
      * @param string $sheet_name
      */
-    public function setAttributes(string $value, string $header_name, string $sheet_name)
+    public function setAttributes(string $value, string $header_name, string $sheet_name): void
     {
         $this->attributes[$header_name] = $value;
         $this->sheet_name = $sheet_name;
@@ -83,7 +83,7 @@ class Attribute
      *
      * @return string
      */
-    public function mainKeyName() : string
+    public function mainKeyName(): string
     {
         return $this->main_key_name;
     }
@@ -93,7 +93,7 @@ class Attribute
      *
      * @return string
      */
-    public function sheetName() : string
+    public function sheetName(): string
     {
         return $this->sheet_name;
     }
@@ -103,7 +103,7 @@ class Attribute
      *
      * @param string $main_key_name
      */
-    public function setMainKeyName(string $main_key_name) : void
+    public function setMainKeyName(string $main_key_name): void
     {
         $this->main_key_name = $main_key_name;
     }
@@ -113,7 +113,7 @@ class Attribute
      *
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definition\SubAttribute[]
      */
-    public function subAttributes() : array
+    public function subAttributes(): array
     {
         return $this->sub_attributes;
     }
@@ -123,7 +123,7 @@ class Attribute
      *
      * @param array $sub_attributes
      */
-    public function setSubAttributes(array $sub_attributes) : void
+    public function setSubAttributes(array $sub_attributes): void
     {
         $this->sub_attributes = $sub_attributes;
     }
