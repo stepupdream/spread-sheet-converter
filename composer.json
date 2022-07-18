@@ -35,5 +35,11 @@
         "StepUpDream\\SpreadSheetConverter\\SpreadSheetReader\\Providers\\SpreadSheetReaderProvider"
       ]
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "format": "./vendor/bin/php-cs-fixer fix -v --diff --dry-run",
+    "phpcs": "./vendor/bin/phpcs --standard=phpcs.xml ./",
+    "phpstan": "./vendor/bin/phpstan analyse"
   }
 }
