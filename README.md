@@ -1,4 +1,5 @@
 # Spreadsheet Converter
+[![Laravel 6|7|8](https://img.shields.io/badge/Laravel-6|7|8-orange.svg)](http://laravel.com)
 
 ## Introduction
 
@@ -75,7 +76,7 @@ return [
     'request_rule_sheet_name'  => 'RequestRule',
     'read_spread_sheets'       => [
         [
-            'sheet_id'                    => '***************************',
+            'sheet_id'                    => env('READ_SHEET_ID_01', '***************************'),
             'category_name'               => 'MasterData',
             'read_type'                   => 'SingleGroup',
             'use_blade'                   => 'single',
@@ -86,6 +87,10 @@ return [
     ],
 ];
 ```
+
+
+## Contributing
+Please see [CONTRIBUTING](https://github.com/stepupdream/spread-sheet-converter/blob/master/.github/CONTRIBUTING.md) for details.
 
 ## Important Point
 
