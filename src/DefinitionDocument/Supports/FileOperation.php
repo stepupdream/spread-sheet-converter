@@ -13,12 +13,14 @@ use LogicException;
 class FileOperation
 {
     /**
+     * The filesystem instance.
+     *
      * @var \Illuminate\Filesystem\Filesystem
      */
     protected $file;
     
     /**
-     * FileOperation constructor
+     * FileOperation constructor.
      */
     public function __construct(
         Filesystem $file
@@ -27,7 +29,7 @@ class FileOperation
     }
     
     /**
-     * Create the same file as the first argument at the position specified by the second argument
+     * Create the same file as the first argument at the position specified by the second argument.
      *
      * @param  string  $content
      * @param  string  $filePath

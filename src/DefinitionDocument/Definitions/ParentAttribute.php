@@ -10,21 +10,29 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 class ParentAttribute
 {
     /**
+     * Category name for classification.
+     *
      * @var string
      */
     protected $spreadsheetCategoryName;
     
     /**
+     * Array of contents by column.
+     *
      * @var array
      */
     protected $parentAttributeDetails = [];
     
     /**
+     * GoogleSpreadSheet sheet name
+     *
      * @var string
      */
     protected $sheetName;
     
     /**
+     * The Attribute instance array.
+     *
      * @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[][]
      */
     protected $attributesGroup = [];
@@ -44,7 +52,7 @@ class ParentAttribute
     }
     
     /**
-     * Get spreadsheet category name (Specified in the config file)
+     * Get spreadsheet category name. (Specified in the config file)
      *
      * @return string
      */
@@ -54,7 +62,7 @@ class ParentAttribute
     }
     
     /**
-     * Get parent attribute detail
+     * Get parent attribute detail.
      *
      * @return array
      */
@@ -64,7 +72,7 @@ class ParentAttribute
     }
     
     /**
-     * Set parent attribute detail
+     * Set parent attribute detail.
      *
      * @param  string  $value
      * @param  string  $headerName
@@ -75,7 +83,7 @@ class ParentAttribute
     }
     
     /**
-     * Get sheet name
+     * Get sheet name.
      *
      * @return string
      */
@@ -85,7 +93,7 @@ class ParentAttribute
     }
     
     /**
-     * Get attributes group
+     * Get attributes group.
      *
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[][]
      */
@@ -95,7 +103,7 @@ class ParentAttribute
     }
     
     /**
-     * Set attributes group
+     * Set attributes group.
      *
      * @param  array  $attributesGroup
      * @param  string  $groupKey
@@ -106,7 +114,7 @@ class ParentAttribute
     }
     
     /**
-     * Get attributes group
+     * Get attributes group.
      *
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]
      */

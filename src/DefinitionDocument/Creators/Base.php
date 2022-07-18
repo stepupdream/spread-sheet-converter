@@ -16,41 +16,57 @@ use Str;
 abstract class Base
 {
     /**
+     * The FileOperation instance.
+     *
      * @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation
      */
     protected $fileOperation;
     
     /**
+     * The SpreadSheetReader instance.
+     *
      * @var \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader
      */
     protected $spreadSheetReader;
     
     /**
+     * Category name for classification.
+     *
      * @var string
      */
     protected $categoryName;
     
     /**
+     * Template blade file to use.
+     *
      * @var string
      */
     protected $useBladeFileName;
     
     /**
+     * Google Spreadsheet sheetID.
+     *
      * @var string
      */
     protected $sheetId;
     
     /**
+     * Output destination of yaml file.
+     *
      * @var string
      */
     protected $outputDirectoryPath;
     
     /**
+     * Delimiter column header name.
+     *
      * @var string
      */
     protected $separationKey;
     
     /**
+     * Key name of the group.
+     *
      * @var string
      */
     protected $attributeGroupColumnName;
@@ -78,7 +94,7 @@ abstract class Base
     }
     
     /**
-     * Execution of processing
+     * Execution of processing.
      *
      * @param  string|null  $targetFileName
      */
@@ -97,7 +113,7 @@ abstract class Base
     }
     
     /**
-     * Generate a definition document
+     * Generate a definition document.
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]  $parentAttributes
      * @param  string|null  $targetFileName
@@ -122,7 +138,7 @@ abstract class Base
     }
     
     /**
-     * Read the blade file
+     * Read the blade file.
      *
      * @param  string  $useBladeFileName
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
@@ -137,7 +153,7 @@ abstract class Base
     }
     
     /**
-     * Whether to skip reading
+     * Whether to skip reading.
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
      * @param  string|null  $targetFileName
@@ -150,7 +166,7 @@ abstract class Base
     }
     
     /**
-     * Verification of correct type specification
+     * Verification of correct type specification.
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]  $parentAttributes
      */
@@ -166,7 +182,7 @@ abstract class Base
     }
     
     /**
-     * Convert spreadsheet data
+     * Convert spreadsheet data.
      *
      * @param  array  $sheet
      * @param  string  $categoryName
@@ -191,7 +207,7 @@ abstract class Base
     }
     
     /**
-     * Generate Attribute class based on Sheet data
+     * Generate Attribute class based on Sheet data.
      *
      * @param  array  $sheet
      * @param  string  $spreadsheetCategoryName
@@ -229,7 +245,7 @@ abstract class Base
     }
     
     /**
-     * Create only one attributes group
+     * Create only one attributes group.
      *
      * @param  array  $sheet
      * @param  int  $rowNumber

@@ -12,12 +12,14 @@ use Str;
 class MultiGroup extends Base
 {
     /**
+     * A cache of the request rule sheet.
+     *
      * @var array
      */
     protected $requestRuleSheet;
     
     /**
-     * Execution of processing
+     * Execution of processing.
      *
      * @param  string|null  $targetFileName
      */
@@ -41,7 +43,7 @@ class MultiGroup extends Base
     }
     
     /**
-     * Generate rule message
+     * Generate rule message.
      *
      * @param  array  $sheet
      * @param  int  $rowNumber
