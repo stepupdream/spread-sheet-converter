@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
-use Str;
+use Illuminate\Support\Str;
 
-/**
- * Class MultiGroup.
- */
 class MultiGroup extends Base
 {
     /**
@@ -14,7 +13,7 @@ class MultiGroup extends Base
      *
      * @var array
      */
-    protected $requestRuleSheet;
+    protected array $requestRuleSheet = [];
 
     /**
      * Execution of processing.
@@ -34,7 +33,7 @@ class MultiGroup extends Base
             $convertedSheetData[] = $this->convertSheetData($sheet, Str::studly($this->categoryName), $sheetName);
         }
 
-        // Return to one dimension because it is a multi-dimensional array of sheets
+        // Return to one dimension because it is a multidimensional array of sheets
         $parentAttributes = collect($convertedSheetData)->flatten()->all();
         $this->verifySheetData($parentAttributes);
         $this->createDefinitionDocument($parentAttributes, $targetFileName);
@@ -56,7 +55,7 @@ class MultiGroup extends Base
             return '';
         }
 
-        if ($this->requestRuleSheet === null) {
+        if ($this->requestRuleSheet === []) {
             $this->requestRuleSheet = $this->spreadSheetReader->read($this->sheetId, $requestRuleSheetName);
         }
 

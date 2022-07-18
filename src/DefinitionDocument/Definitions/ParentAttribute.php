@@ -1,39 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 
-/**
- * Class ParentAttribute.
- */
 class ParentAttribute extends BaseAttribute
 {
-    /**
-     * Category name for classification.
-     *
-     * @var string
-     */
-    protected $spreadsheetCategoryName;
-
     /**
      * Array of contents by column.
      *
      * @var array
      */
-    protected $parentAttributeDetails = [];
-
-    /**
-     * GoogleSpreadSheet sheet name.
-     *
-     * @var string
-     */
-    protected $sheetName;
+    protected array $parentAttributeDetails = [];
 
     /**
      * The Attribute instance array.
      *
      * @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[][]
      */
-    protected $attributesGroup = [];
+    protected array $attributesGroup = [];
 
     /**
      * Attribute constructor.
@@ -42,11 +27,9 @@ class ParentAttribute extends BaseAttribute
      * @param  string  $sheetName
      */
     public function __construct(
-        string $spreadsheetCategoryName,
-        string $sheetName
+        protected string $spreadsheetCategoryName,
+        protected string $sheetName
     ) {
-        $this->spreadsheetCategoryName = $spreadsheetCategoryName;
-        $this->sheetName = $sheetName;
     }
 
     /**
@@ -84,11 +67,11 @@ class ParentAttribute extends BaseAttribute
      * Get parent attribute details by header key.
      *
      * @param  string  $headerKey
-     * @return mixed
+     * @return string|array
      */
-    public function getParentAttributeDetailsByKey(string $headerKey)
+    public function getParentAttributeDetailsByKey(string $headerKey): string|array
     {
-        return $this->getAttributeByKey($this->parentAttributeDetails, $headerKey);
+        return $this->attributeByKey($this->parentAttributeDetails, $headerKey);
     }
 
     /**
@@ -99,7 +82,7 @@ class ParentAttribute extends BaseAttribute
      */
     public function getParentAttributeDetailsArrayByKey(string $headerKey): array
     {
-        return $this->getAttributeArrayByKey($this->parentAttributeDetails, $headerKey);
+        return $this->attributesByKey($this->parentAttributeDetails, $headerKey);
     }
 
     /**

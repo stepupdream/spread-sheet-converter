@@ -1,15 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Console;
 
-use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
 
-/**
- * Class DefinitionDocumentCommand.
- */
 class DefinitionDocumentCommand extends BaseCreateCommand
 {
     /**
@@ -28,8 +26,6 @@ class DefinitionDocumentCommand extends BaseCreateCommand
 
     /**
      * Run command.
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function handle(): void
     {
@@ -42,19 +38,11 @@ class DefinitionDocumentCommand extends BaseCreateCommand
                 continue;
             }
 
-            switch ($readSpreadSheet['read_type']) {
-                case 'SingleGroup':
-                    $creator = app()->make(SingleGroup::class, ['readSpreadSheet' => $readSpreadSheet]);
-                    break;
-                case 'MultiGroup':
-                    $creator = app()->make(MultiGroup::class, ['readSpreadSheet' => $readSpreadSheet]);
-                    break;
-                case 'Other':
-                    $creator = app()->make(Other::class, ['readSpreadSheet' => $readSpreadSheet]);
-                    break;
-                default:
-                    throw new LogicException(sprintf('Unexpected value: %s', $readSpreadSheet['read_type']));
-            }
+            $creator = match ($readSpreadSheet['read_type']) {
+                'SingleGroup' => app()->make(SingleGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
+                'MultiGroup'  => app()->make(MultiGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
+                'Other'       => app()->make(Other::class, ['readSpreadSheet' => $readSpreadSheet]),
+            };
 
             $creator->run($targetFileName);
             $this->info('Completed: '.$readSpreadSheet['category_name']);

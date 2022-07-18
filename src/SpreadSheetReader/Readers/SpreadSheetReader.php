@@ -1,14 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers;
 
-use Google_Client;
-use Google_Service_Sheets;
 use LogicException;
 
-/**
- * Class SpreadSheetReader.
- */
 class SpreadSheetReader
 {
     /**
@@ -16,21 +13,28 @@ class SpreadSheetReader
      *
      * @var array
      */
-    protected $parentAttributeKeyName = [];
+    protected array $parentAttributeKeyName = [];
 
     /**
      * A cache of the first row in an array.
      *
      * @var array
      */
-    protected $attributeKeyName = [];
+    protected array $attributeKeyName = [];
+
+    /**
+     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService  $googleService
+     */
+    public function __construct(protected GoogleService $googleService)
+    {
+    }
 
     /**
      * Read spreadsheet data.
      *
      * @param  string  $sheetId
      * @param  string|null  $targetSheetName
-     * @return array Table information array containing information for each sheet：key is sheet name
+     * @return array Table information array containing information for each sheet：key is sheet name.
      */
     public function read(string $sheetId, string $targetSheetName = null): array
     {
@@ -45,6 +49,56 @@ class SpreadSheetReader
         }
 
         return $spreadsheets;
+    }
+
+    /**
+     * Read spreadsheet data.
+     *
+     * @param  string  $sheetId
+     * @return array Table information array containing information for each sheet：key is sheet name.
+     */
+    protected function readFromGoogleServiceSheet(string $sheetId): array
+    {
+        $spreadsheets = $this->googleService->readFromGoogleServiceSheet($sheetId);
+        foreach ($spreadsheets as $sheetTitle => $sheetValues) {
+            $spreadsheets[$sheetTitle] = $this->getTitleArray($sheetValues, $sheetTitle);
+        }
+
+        return $spreadsheets;
+    }
+
+    /**
+     * Make the first row the key of the associative array.
+     *
+     * @param  array  $sheetValues
+     * @param  string  $targetSheet
+     * @return array
+     */
+    protected function getTitleArray(array $sheetValues, string $targetSheet): array
+    {
+        $result = [];
+        $headerRow = [];
+        $isHeader = true;
+
+        if (empty($sheetValues)) {
+            throw new LogicException('need sheet header: '.$targetSheet);
+        }
+
+        foreach ($sheetValues as $row) {
+            if ($isHeader) {
+                $headerRow = $row;
+                $isHeader = false;
+            } else {
+                $rowWithKey = [];
+                foreach ($headerRow as $key => $value) {
+                    $rowWithKey[$value] = $row[$key] ?? '';
+                }
+
+                $result[] = $rowWithKey;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -105,7 +159,7 @@ class SpreadSheetReader
             return $this->attributeKeyName[$cacheKey];
         }
 
-        // Get what's to the right of the separation key part of the header row in Spreadsheet
+        // Get what's to the right of the separation key part of the header row in Spreadsheet.
         foreach ($sheetFirstRow as $key => $value) {
             if ($key === $separationKey) {
                 $shouldAddStart = true;
@@ -136,65 +190,5 @@ class SpreadSheetReader
         }
 
         return true;
-    }
-
-    /**
-     * Read spreadsheet data.
-     *
-     * @param  string  $sheetId
-     * @return array Table information array containing information for each sheet：key is sheet name
-     */
-    protected function readFromGoogleServiceSheet(string $sheetId): array
-    {
-        $credentialsPath = config('step_up_dream.spread_sheet_converter.credentials_path');
-
-        $client = new Google_Client();
-        $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
-        $client->setAuthConfig($credentialsPath);
-
-        $sheets = new Google_Service_Sheets($client);
-        $spreadsheets = [];
-
-        foreach ($sheets->spreadsheets->get($sheetId)->getSheets() as $sheet) {
-            $targetSheet = $sheet->getProperties()->getTitle();
-            $sheetDataRange = $sheets->spreadsheets_values->get($sheetId, $targetSheet);
-            $spreadsheets[$targetSheet] = $this->getTitleArray($sheetDataRange->getValues(), $targetSheet);
-        }
-
-        return $spreadsheets;
-    }
-
-    /**
-     * Make the first row the key of the associative array.
-     *
-     * @param  array  $sheetValues
-     * @param  string  $targetSheet
-     * @return array
-     */
-    protected function getTitleArray(array $sheetValues, string $targetSheet): array
-    {
-        $result = [];
-        $headerRow = [];
-        $isHeader = true;
-
-        if (empty($sheetValues)) {
-            throw new LogicException('need sheet header: '.$targetSheet);
-        }
-
-        foreach ($sheetValues as $row) {
-            if ($isHeader) {
-                $headerRow = $row;
-                $isHeader = false;
-            } else {
-                $rowWithKey = [];
-                foreach ($headerRow as $key => $value) {
-                    $rowWithKey[$value] = $row[$key] ?? '';
-                }
-
-                $result[] = $rowWithKey;
-            }
-        }
-
-        return $result;
     }
 }

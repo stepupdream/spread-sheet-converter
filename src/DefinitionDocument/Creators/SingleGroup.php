@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
-/**
- * Class SingleGroup.
- */
 class SingleGroup extends Base
 {
 }

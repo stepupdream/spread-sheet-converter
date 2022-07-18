@@ -1,13 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
-use Str;
 
-/**
- * Class Other.
- */
 class Other extends Base
 {
     /**

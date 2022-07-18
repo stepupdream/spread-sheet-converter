@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'credentials_path'         => storage_path('app/json/credentials.json'),
     'request_rule_column_name' => 'RequestRule',

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
 use Mockery;
@@ -10,9 +12,6 @@ use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
-/**
- * Class BaseTest.
- */
 class BaseTest extends TestCase
 {
     /**
@@ -56,7 +55,7 @@ class BaseTest extends TestCase
         ];
 
         $spreadSheetReaderMock = Mockery::mock(SpreadSheetReader::class)->makePartial();
-        $spreadSheetReaderMock->shouldReceive('read')->andReturn($sheetValues);
+        $spreadSheetReaderMock->allows('read')->andReturns($sheetValues);
         $fileOperationMock = $this->app->make(FileOperation::class);
         $argument = [
             'category_name'               => 'MasterData',
@@ -68,7 +67,7 @@ class BaseTest extends TestCase
         ];
 
         $baseMock = Mockery::mock(Base::class, [$fileOperationMock, $spreadSheetReaderMock, $argument])->makePartial();
-        $baseMock->shouldReceive('createDefinitionDocument')->andReturn();
+        $baseMock->allows('createDefinitionDocument')->andReturns();
 
         /** @var Base $baseMock */
         $baseMock->run();

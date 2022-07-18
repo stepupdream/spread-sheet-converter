@@ -18,7 +18,7 @@ abstract class TestCase extends OrchestraTestCase
      * @param  array  $arguments
      * @return mixed
      */
-    protected function executePrivateFunction($class, string $methodName, array $arguments)
+    protected function executePrivateFunction($class, string $methodName, array $arguments): mixed
     {
         $reflection = new ReflectionClass($class);
         $method = $reflection->getMethod($methodName);

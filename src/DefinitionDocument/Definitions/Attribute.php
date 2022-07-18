@@ -1,28 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 
-/**
- * Class Attribute.
- */
 class Attribute extends BaseAttribute
 {
     /**
-     * Array of contents by column.
-     *
      * @var array
      */
-    protected $attributeDetails = [];
+    protected array $attributeDetails = [];
 
     /**
-     * Rule message text.
-     *
      * @var string
      */
-    protected $ruleMessage = '';
+    protected string $ruleMessage = '';
 
     /**
-     * Get attribute detail.
+     * Get attributeDetail.
      *
      * @return array
      */
@@ -35,11 +30,11 @@ class Attribute extends BaseAttribute
      * Get attribute detail by header key.
      *
      * @param  string  $headerKey
-     * @return mixed
+     * @return string|array
      */
-    public function getAttributeDetailByKey(string $headerKey)
+    public function getAttributeDetailByKey(string $headerKey): string|array
     {
-        return $this->getAttributeByKey($this->attributeDetails, $headerKey);
+        return $this->attributeByKey($this->attributeDetails, $headerKey);
     }
 
     /**
@@ -48,9 +43,9 @@ class Attribute extends BaseAttribute
      * @param  string  $headerKey
      * @return array
      */
-    public function getAttributeDetailArrayByKey(string $headerKey): array
+    public function getAttributeDetailsByKey(string $headerKey): array
     {
-        return $this->getAttributeArrayByKey($this->attributeDetails, $headerKey);
+        return $this->attributesByKey($this->attributeDetails, $headerKey);
     }
 
     /**
