@@ -18,7 +18,7 @@ class FileOperation
     protected $file;
     
     /**
-     * FileOperation constructor.
+     * FileOperation constructor
      */
     public function __construct(
         Filesystem $file
