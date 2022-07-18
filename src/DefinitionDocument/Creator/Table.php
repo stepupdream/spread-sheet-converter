@@ -33,7 +33,7 @@ class Table extends BaseCreator
         
         // Return to one dimension because it is a multi-dimensional array of sheets
         $attributes = collect($converted_sheet_data)->flatten()->all();
-        $this->verifyDataType($attributes);
+        $this->verifyDataTypeTable($attributes);
         $this->createDefinitionDocument($attributes, $target_file_name, $category_name, $output_directory_path);
     }
     
