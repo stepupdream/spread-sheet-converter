@@ -1,5 +1,7 @@
 # Spreadsheet Converter
-[![Laravel 6|7|8](https://img.shields.io/badge/Laravel-6|7|8-orange.svg)](http://laravel.com)
+[![Laravel 8](https://img.shields.io/badge/Laravel-8-orange.svg)](http://laravel.com)
+[![testing](https://github.com/stepupdream/spread-sheet-converter/actions/workflows/testing.yml/badge.svg)](https://github.com/stepupdream/spread-sheet-converter/actions/workflows/testing.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=stepupdream_spread-sheet-converter&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=stepupdream_spread-sheet-converter)
 
 ## Introduction
 
@@ -17,8 +19,8 @@ The contents of the exported yaml file can be freely formatted with the Laravel 
   
 ## Requirements 
 The requirements to Spreadsheet converter application is:
-- PHP - Supported Versions: >= 7.3
-- Laravel - Supported Versions: >= 6.0
+- PHP - Supported Versions: >= 8.0
+- Laravel - Supported Versions: >= 8.0
 
 ## Installation 
 Require this package with composer using the following command:
@@ -88,14 +90,22 @@ return [
 ];
 ```
 
+## Sample
+- SingleGroup
+![2021-12-31_22h07_44](https://user-images.githubusercontent.com/95772377/147825699-73056b80-921a-4237-8b40-34822f74db33.png)
+
+- MultiGroup
+![2021-12-31_22h08_37](https://user-images.githubusercontent.com/95772377/147825723-b02ead73-468d-4ad0-8e67-fc52b689b6c7.png)
+
+- Other
+![2021-12-31_22h08_37](https://user-images.githubusercontent.com/95772377/147825734-9bef66e8-9cdc-49c3-9204-822a013240aa.png)
 
 ## Contributing
-Please see [CONTRIBUTING](https://github.com/stepupdream/spread-sheet-converter/blob/master/.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/stepupdream/spread-sheet-converter/blob/main/.github/CONTRIBUTING.md) for details.
 
 ## Important Point
-
 Google Spreadsheet Settings Please do not publish the json file and Google Spreadsheet ID to the world.
-  
+
 ## License
 
 The Spreadsheet converter is open-sourced software licensed under the [MIT license](https://choosealicense.com/licenses/mit/)
