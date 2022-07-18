@@ -6,7 +6,7 @@ return [
     'request_rule_sheet_name'  => 'RequestRule',
     'read_spread_sheets'       => [
         [
-            'sheet_id'                    => '***************************',
+            'sheet_id'                    => env('READ_SHEET_ID_01', '***************************'),
             'category_name'               => 'MasterData',
             'read_type'                   => 'SingleGroup',
             'use_blade'                   => 'single',
@@ -15,7 +15,7 @@ return [
             'attribute_group_column_name' => null,
         ],
         [
-            'sheet_id'                    => '***************************',
+            'sheet_id'                    => env('READ_SHEET_ID_02', '***************************'),
             'category_name'               => 'Api',
             'read_type'                   => 'MultiGroup',
             'use_blade'                   => 'multi',
@@ -24,7 +24,7 @@ return [
             'attribute_group_column_name' => 'ColumnType',
         ],
         [
-            'sheet_id'                    => '***************************',
+            'sheet_id'                    => env('READ_SHEET_ID_03', '***************************'),
             'category_name'               => 'OtherData',
             'read_type'                   => 'Other',
             'use_blade'                   => 'other',
