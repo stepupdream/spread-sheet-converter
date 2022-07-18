@@ -37,7 +37,7 @@ class FileOperation
             return;
         }
 
-        if ($isOverwrite && file_exists($filePath)) {
+        if ($isOverwrite) {
             // Hack:
             // An error occurred when overwriting, so always delete → create
             $result = $this->delete($filePath);
