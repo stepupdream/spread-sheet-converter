@@ -25,3 +25,6 @@ Homestead.json
 
 composer.lock
 .php_cs.cache
+.php-cs-fixer.cache
+.php-cs-fixer.dist.php
+vendor-bin/
