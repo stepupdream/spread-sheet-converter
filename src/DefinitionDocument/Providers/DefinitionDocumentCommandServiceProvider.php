@@ -31,6 +31,10 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
      */
     public function boot() : void
     {
+        $this->publishes([
+            __DIR__ . '/../Config/spread_sheet.php' => config_path('spread_sheet.php'),
+        ]);
+
         $this->loadViewsFrom(__DIR__.'/../../../resources/DefinitionDocument', 'definition_document');
     
         if ($this->app->runningInConsole()) {
