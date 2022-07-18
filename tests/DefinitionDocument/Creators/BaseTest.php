@@ -6,8 +6,6 @@ namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
 use Mockery;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Base;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
@@ -70,37 +68,6 @@ class BaseTest extends TestCase
         $baseMock->allows('createDefinitionDocument')->andReturns();
 
         /** @var Base $baseMock */
-        $baseMock->run();
-    }
-
-    /**
-     * @test
-     */
-    public function isReadSkip(): void
-    {
-        $parentAttribute = new ParentAttribute('spreadsheetCategoryName', 'sheetName');
-        $parentAttribute->setParentAttributeDetails('Users', 'tableName');
-        $parentAttribute->setParentAttributeDetails('user_db', 'connection');
-        $argument = [
-            'category_name'               => 'MasterData',
-            'use_blade'                   => 'master_data',
-            'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => base_path('definition_document/database/master_data'),
-            'separation_key'              => 'ColumnName',
-            'attribute_group_column_name' => null,
-        ];
-        $fileOperation = $this->app->make(FileOperation::class);
-        $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
-
-        /* @see SingleGroup::isReadSkip() */
-        $singleGroup = new SingleGroup($fileOperation, $spreadSheetReader, $argument);
-        $response = $this->executePrivateFunction($singleGroup, 'isReadSkip', [$parentAttribute, 'users']);
-        self::assertFalse($response);
-
-        $response = $this->executePrivateFunction($singleGroup, 'isReadSkip', [$parentAttribute, 'notUsers']);
-        self::assertTrue($response);
-
-        $response = $this->executePrivateFunction($singleGroup, 'isReadSkip', [$parentAttribute, null]);
-        self::assertFalse($response);
+        $baseMock->run(null);
     }
 }
