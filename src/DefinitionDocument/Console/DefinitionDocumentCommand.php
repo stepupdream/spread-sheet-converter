@@ -42,9 +42,9 @@ class DefinitionDocumentCommand extends BaseCreateCommand
             /** @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Base $creator */
             $creator = match ($readSpreadSheet['read_type']) {
                 'SingleGroup' => app()->make(SingleGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
-                'MultiGroup'  => app()->make(MultiGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
-                'Other'       => app()->make(Other::class, ['readSpreadSheet' => $readSpreadSheet]),
-                default       => throw new LogicException('There were no matching conditions'),
+                'MultiGroup' => app()->make(MultiGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
+                'Other' => app()->make(Other::class, ['readSpreadSheet' => $readSpreadSheet]),
+                default => throw new LogicException('There were no matching conditions'),
             };
             $creator->run($targetFileName);
             $this->info('Completed: '.$readSpreadSheet['category_name']);
