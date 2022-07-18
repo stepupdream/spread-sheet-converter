@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Console;
 
+use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
@@ -42,8 +43,8 @@ class DefinitionDocumentCommand extends BaseCreateCommand
                 'SingleGroup' => app()->make(SingleGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
                 'MultiGroup'  => app()->make(MultiGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
                 'Other'       => app()->make(Other::class, ['readSpreadSheet' => $readSpreadSheet]),
+                default       => throw new LogicException('There were no matching conditions'),
             };
-
             $creator->run($targetFileName);
             $this->info('Completed: '.$readSpreadSheet['category_name']);
         }

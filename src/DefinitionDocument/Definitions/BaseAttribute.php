@@ -58,9 +58,9 @@ abstract class BaseAttribute
      *
      * @param  array  $attributes
      * @param  string  $headerKey
-     * @return string|array
+     * @return string
      */
-    protected function attributeByKey(array $attributes, string $headerKey): string|array
+    protected function attributeByKey(array $attributes, string $headerKey): string
     {
         return str_replace(PHP_EOL, '', $attributes[$headerKey]);
     }

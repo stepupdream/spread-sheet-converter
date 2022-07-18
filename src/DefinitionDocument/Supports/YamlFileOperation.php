@@ -46,7 +46,12 @@ class YamlFileOperation
             throw new LogicException('Could not parse because it is not Yaml data filePath: '.$filePath);
         }
 
-        return Yaml::parse(file_get_contents($filePath));
+        $contents = file_get_contents($filePath);
+        if (! $contents) {
+            throw new LogicException('Failed to get the file :'.$filePath);
+        }
+
+        return Yaml::parse($contents);
     }
 
     /**

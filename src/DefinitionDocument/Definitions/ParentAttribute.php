@@ -67,9 +67,9 @@ class ParentAttribute extends BaseAttribute
      * Get parent attribute details by header key.
      *
      * @param  string  $headerKey
-     * @return string|array
+     * @return string
      */
-    public function getParentAttributeDetailsByKey(string $headerKey): string|array
+    public function getParentAttributeDetailsByKey(string $headerKey): string
     {
         return $this->attributeByKey($this->parentAttributeDetails, $headerKey);
     }

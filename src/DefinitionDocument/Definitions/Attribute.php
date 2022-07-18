@@ -30,9 +30,9 @@ class Attribute extends BaseAttribute
      * Get attribute detail by header key.
      *
      * @param  string  $headerKey
-     * @return string|array
+     * @return string
      */
-    public function getAttributeDetailByKey(string $headerKey): string|array
+    public function getAttributeDetailByKey(string $headerKey): string
     {
         return $this->attributeByKey($this->attributeDetails, $headerKey);
     }
