@@ -14,9 +14,6 @@ use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
-/**
- * Class MultiGroupTest.
- */
 class MultiGroupTest extends TestCase
 {
     /**

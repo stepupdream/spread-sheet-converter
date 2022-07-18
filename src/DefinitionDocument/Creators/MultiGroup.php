@@ -85,7 +85,7 @@ class MultiGroup extends Base
     }
 
     /**
-     * request rule sheet name.
+     * Request rule sheet name.
      *
      * @return string
      */
@@ -101,7 +101,7 @@ class MultiGroup extends Base
     }
 
     /**
-     * rule column name.
+     * Rule column name.
      *
      * @return string
      */

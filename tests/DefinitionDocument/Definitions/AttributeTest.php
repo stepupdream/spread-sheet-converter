@@ -7,9 +7,6 @@ namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Definitions;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
-/**
- * Class AttributeTest.
- */
 class AttributeTest extends TestCase
 {
     /**

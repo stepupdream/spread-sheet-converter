@@ -52,7 +52,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
     }
 
     /**
-     * category
+     * Category
      *
      * @return string|null
      */
@@ -71,7 +71,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
     }
 
     /**
-     * file name
+     * File name
      *
      * @return string|null
      */
@@ -90,7 +90,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
     }
 
     /**
-     * read Spread Sheets
+     * Read Spread Sheets
      *
      * @return mixed[][]
      */
@@ -121,7 +121,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
     }
 
     /**
-     * verify the existence of the key.
+     * Verify the existence of the key.
      *
      * @param  mixed[]  $readSpreadSheet
      * @return void

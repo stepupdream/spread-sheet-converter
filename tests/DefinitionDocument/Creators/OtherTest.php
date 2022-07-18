@@ -11,9 +11,6 @@ use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
-/**
- * Class OtherTest.
- */
 class OtherTest extends TestCase
 {
     /**

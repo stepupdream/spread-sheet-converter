@@ -38,7 +38,7 @@ class GoogleService
     }
 
     /**
-     * credentials path.
+     * Credentials path.
      *
      * @return string
      */
