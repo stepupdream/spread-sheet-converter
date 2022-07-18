@@ -22,6 +22,11 @@ class Attribute
     /**
      * @var string
      */
+    protected $sheet_name;
+    
+    /**
+     * @var string
+     */
     protected $main_key_name = '';
     
     /**
@@ -65,10 +70,12 @@ class Attribute
      *
      * @param string $value
      * @param string $header_name
+     * @param string $sheet_name
      */
-    public function setAttributes(string $value, string $header_name)
+    public function setAttributes(string $value, string $header_name, string $sheet_name)
     {
         $this->attributes[$header_name] = $value;
+        $this->sheet_name = $sheet_name;
     }
     
     /**
@@ -79,6 +86,16 @@ class Attribute
     public function mainKeyName()
     {
         return $this->main_key_name;
+    }
+    
+    /**
+     * get sheet_name
+     *
+     * @return string
+     */
+    public function sheetName()
+    {
+        return $this->sheet_name;
     }
     
     /**
