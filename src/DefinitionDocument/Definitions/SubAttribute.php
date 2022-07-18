@@ -10,7 +10,7 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 class SubAttribute
 {
     /**
-     * @var string
+     * @var array
      */
     protected $attributes = [];
     
@@ -27,9 +27,9 @@ class SubAttribute
     /**
      * get attribute
      *
-     * @return string
+     * @return array
      */
-    public function attributes()
+    public function attributes(): array
     {
         return $this->attributes;
     }

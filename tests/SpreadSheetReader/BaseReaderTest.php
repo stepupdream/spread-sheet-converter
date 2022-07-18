@@ -39,5 +39,4 @@ class BaseReaderTest extends TestCase
         $response = $mock->read('sheet_id', 'sheet_title1');
         self::assertEquals($response, $sheetValues['sheet_title1']);
     }
-    
 }
