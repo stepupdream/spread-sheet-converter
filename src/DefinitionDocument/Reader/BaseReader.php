@@ -43,7 +43,7 @@ class BaseReader
      * @param string $target_directory_path
      * @return array|mixed
      */
-    public function read(string $target_directory_path)
+    public function readByDirectoryPath(string $target_directory_path)
     {
         if (!File::isDirectory($target_directory_path)) {
             return [];
@@ -52,5 +52,16 @@ class BaseReader
         $file_paths = $this->file_operation->getAllFilePath($target_directory_path);
         
         return $this->yaml_file_operation->parseAllYaml($file_paths);
+    }
+
+    /**
+     * Reading definition data
+     *
+     * @param string $file_path
+     * @return array|mixed
+     */
+    public function readByFilePath(string $file_path)
+    {
+        return $this->yaml_file_operation->parseYaml($file_path);
     }
 }
