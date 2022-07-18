@@ -128,7 +128,7 @@ class SpreadSheetReader
     public function getParentAttributeKeyName(array $sheet, string $separationKey): array
     {
         $sheetFirstRow = collect($sheet)->first();
-        $cacheKey = collect($sheetFirstRow)->first();
+        $cacheKey = (string) collect($sheetFirstRow)->first();
         $names = [];
 
         if (! empty($this->parentAttributeKeyName[$cacheKey])) {
@@ -164,7 +164,7 @@ class SpreadSheetReader
         $shouldAddStart = false;
         $names = [];
 
-        $cacheKey = collect($sheetFirstRow)->first();
+        $cacheKey = (string) collect($sheetFirstRow)->first();
 
         if (! empty($this->attributeKeyName[$cacheKey])) {
             return $this->attributeKeyName[$cacheKey];

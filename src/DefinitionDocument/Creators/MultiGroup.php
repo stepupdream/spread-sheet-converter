@@ -23,7 +23,6 @@ class MultiGroup extends Base
      */
     public function run(?string $targetFileName): void
     {
-        $convertedSheetData = [];
         $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
         $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
         foreach ($spreadSheets as $sheetName => $sheet) {
@@ -31,13 +30,10 @@ class MultiGroup extends Base
                 continue;
             }
 
-            $convertedSheetData[] = $this->convertSheetData($sheet, Str::studly($this->categoryName), $sheetName);
+            $parentAttributes = $this->convertSheetData($sheet, Str::studly($this->categoryName), $sheetName);
+            $this->verifySheetData($parentAttributes);
+            $this->createDefinitionDocument($parentAttributes, $targetFileName);
         }
-
-        // Return to one dimension because it is a multidimensional array of sheets
-        $parentAttributes = collect($convertedSheetData)->flatten()->all();
-        $this->verifySheetData($parentAttributes);
-        $this->createDefinitionDocument($parentAttributes, $targetFileName);
     }
 
     /**
@@ -85,22 +81,6 @@ class MultiGroup extends Base
     }
 
     /**
-     * Request rule sheet name.
-     *
-     * @return string
-     */
-    protected function requestRuleSheetName(): string
-    {
-        $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
-
-        if (! is_string($requestRuleSheetName) || $requestRuleSheetName === '') {
-            throw new LogicException('The name of the request rule sheet is incorrect.');
-        }
-
-        return $requestRuleSheetName;
-    }
-
-    /**
      * Rule column name.
      *
      * @return string
@@ -114,5 +94,21 @@ class MultiGroup extends Base
         }
 
         return $ruleColumnName;
+    }
+
+    /**
+     * Request rule sheet name.
+     *
+     * @return string
+     */
+    protected function requestRuleSheetName(): string
+    {
+        $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
+
+        if (! is_string($requestRuleSheetName) || $requestRuleSheetName === '') {
+            throw new LogicException('The name of the request rule sheet is incorrect.');
+        }
+
+        return $requestRuleSheetName;
     }
 }

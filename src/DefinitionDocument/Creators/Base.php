@@ -82,16 +82,12 @@ abstract class Base
      */
     public function run(?string $targetFileName): void
     {
-        $convertedSheetData = [];
         $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
         foreach ($spreadSheets as $sheetName => $sheet) {
-            $convertedSheetData[] = $this->convertSheetData($sheet, Str::studly($this->categoryName), $sheetName);
+            $parentAttributes = $this->convertSheetData($sheet, Str::studly($this->categoryName), $sheetName);
+            $this->verifySheetData($parentAttributes);
+            $this->createDefinitionDocument($parentAttributes, $targetFileName);
         }
-
-        // Return to one dimension because it is a multidimensional array of sheets
-        $parentAttributes = collect($convertedSheetData)->flatten()->all();
-        $this->verifySheetData($parentAttributes);
-        $this->createDefinitionDocument($parentAttributes, $targetFileName);
     }
 
     /**
@@ -168,7 +164,7 @@ abstract class Base
     protected function createAttributesGroup(array $sheet, int &$rowNumber, array $headerNames): array
     {
         $attributes = [];
-        $mainKeyName = collect($headerNames)->first();
+        $mainKeyName = (string) collect($headerNames)->first();
         $beforeMainKeyData = $sheet[$rowNumber][$headerNames[$mainKeyName]];
 
         while (true) {
