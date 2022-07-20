@@ -11,6 +11,7 @@ use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService;
+use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleServiceSheet;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
@@ -215,7 +216,8 @@ class MultiGroupTest extends TestCase
         ];
         $fileOperation = $this->app->make(FileOperation::class);
         $mock = Mockery::mock(GoogleService::class);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($ruleSheetValues);
+        $andReturns = new GoogleServiceSheet('Test', $ruleSheetValues);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($andReturns);
         $spreadSheetReaderMock = new SpreadSheetReader($mock);
 
         $multiGroup = new MultiGroup($fileOperation, $spreadSheetReaderMock, $argument);

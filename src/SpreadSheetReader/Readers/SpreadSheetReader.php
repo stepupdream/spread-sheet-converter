@@ -23,6 +23,13 @@ class SpreadSheetReader
     protected array $attributeKeyName = [];
 
     /**
+     * @var GoogleServiceSheet[]
+     *
+     * key : sheet id.
+     */
+    protected array $googleServiceSheets = [];
+
+    /**
      * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService  $googleService
      */
     public function __construct(protected GoogleService $googleService)
@@ -55,23 +62,43 @@ class SpreadSheetReader
      */
     public function read(string $sheetId): array
     {
-        return $this->readFromGoogleServiceSheet($sheetId);
+        return $this->readSpreadSheetValue($sheetId);
+    }
+
+    /**
+     * Read spreadsheet title.
+     *
+     * @param  string  $sheetId
+     * @return string[][][] Table information array containing information for each sheet：key is sheet name.
+     */
+    protected function readSpreadSheetValue(string $sheetId): array
+    {
+        $googleServiceSheet = $this->readFromGoogleServiceSheet($sheetId);
+        $spreadsheets = $googleServiceSheet->spreadSheets();
+        foreach ($spreadsheets as $sheetTitle => $sheet) {
+            $spreadsheets[$sheetTitle] = $this->getTitleArray($sheet, $sheetTitle);
+        }
+
+        return $spreadsheets;
     }
 
     /**
      * Read spreadsheet data.
      *
      * @param  string  $sheetId
-     * @return string[][][] Table information array containing information for each sheet：key is sheet name.
+     * @return GoogleServiceSheet Table information array containing information for each sheet：key is sheet name.
      */
-    protected function readFromGoogleServiceSheet(string $sheetId): array
+    protected function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
     {
-        $spreadsheets = $this->googleService->readFromGoogleServiceSheet($sheetId);
-        foreach ($spreadsheets as $sheetTitle => $sheet) {
-            $spreadsheets[$sheetTitle] = $this->getTitleArray($sheet, $sheetTitle);
+        if (! empty($this->googleServiceSheets[$sheetId])) {
+            return $this->googleServiceSheets[$sheetId];
         }
 
-        return $spreadsheets;
+        $readFromGoogleServiceSheet = $this->googleService->readFromGoogleServiceSheet($sheetId);
+
+        $this->googleServiceSheets[$sheetId] = $readFromGoogleServiceSheet;
+
+        return $this->googleServiceSheets[$sheetId];
     }
 
     /**
@@ -106,6 +133,17 @@ class SpreadSheetReader
         }
 
         return $result;
+    }
+
+    /**
+     * Read spreadsheet data.
+     *
+     * @param  string  $sheetId
+     * @return string
+     */
+    public function spreadSheetTitle(string $sheetId): string
+    {
+        return $this->readFromGoogleServiceSheet($sheetId)->spreadSheetTitle();
     }
 
     /**

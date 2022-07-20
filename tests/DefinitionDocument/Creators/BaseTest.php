@@ -54,6 +54,7 @@ class BaseTest extends TestCase
 
         $spreadSheetReaderMock = Mockery::mock(SpreadSheetReader::class)->makePartial();
         $spreadSheetReaderMock->allows('read')->andReturns($sheetValues);
+        $spreadSheetReaderMock->allows('spreadSheetTitle')->andReturns('title');
         $fileOperationMock = $this->app->make(FileOperation::class);
         $argument = [
             'category_name'               => 'MasterData',

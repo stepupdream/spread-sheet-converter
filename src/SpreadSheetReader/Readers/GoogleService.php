@@ -14,9 +14,9 @@ class GoogleService
      * Read spreadsheet data.
      *
      * @param  string  $sheetId
-     * @return string[][][] Table information array containing information for each sheet：key is sheet name.
+     * @return GoogleServiceSheet Table information array containing information for each sheet：key is sheet name.
      */
-    public function readFromGoogleServiceSheet(string $sheetId): array
+    public function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
     {
         $credentialsPath = $this->credentialsPath();
 
@@ -25,16 +25,17 @@ class GoogleService
         $client->setAuthConfig($credentialsPath);
 
         $googleServiceSheets = new Google_Service_Sheets($client);
-        $spreadsheets = [];
+        $spreadSheetsValues = [];
 
-        $sheets = $googleServiceSheets->spreadsheets->get($sheetId)->getSheets();
+        $spreadSheets = $googleServiceSheets->spreadsheets->get($sheetId);
+        $sheets = $spreadSheets->getSheets();
         foreach ($sheets as $sheet) {
             $targetSheet = $sheet->getProperties()->getTitle();
             $sheetDataRange = $googleServiceSheets->spreadsheets_values->get($sheetId, $targetSheet);
-            $spreadsheets[$targetSheet] = $sheetDataRange->getValues();
+            $spreadSheetsValues[$targetSheet] = $sheetDataRange->getValues();
         }
 
-        return $spreadsheets;
+        return new GoogleServiceSheet($spreadSheets->getProperties()->getTitle(), $spreadSheetsValues);
     }
 
     /**

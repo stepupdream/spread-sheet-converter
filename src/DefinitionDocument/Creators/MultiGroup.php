@@ -25,12 +25,13 @@ class MultiGroup extends Base
     {
         $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
         $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
+        $spreadSheetTitle = $this->spreadSheetReader->spreadSheetTitle($this->sheetId);
         foreach ($spreadSheets as $sheetName => $sheet) {
             if (! empty($requestRuleSheetName) && $sheetName === $requestRuleSheetName) {
                 continue;
             }
 
-            $parentAttributes = $this->convertSheetData($sheet, Str::studly($this->categoryName), $sheetName);
+            $parentAttributes = $this->convertSheetData($sheet, Str::studly($spreadSheetTitle), $sheetName);
             $this->verifySheetData($parentAttributes);
             $this->createDefinitionDocument($parentAttributes, $targetFileName);
         }

@@ -8,8 +8,8 @@ return [
     'request_rule_sheet_name'  => 'RequestRule',
     'read_spread_sheets'       => [
         [
-            'sheet_id'                    => env('READ_SHEET_ID_01', '***************************'),
-            'category_name'               => 'MasterData',
+            'sheet_id'                    => '***************************',
+            'category_name'               => 'Category1',
             'read_type'                   => 'SingleGroup',
             'use_blade'                   => 'single',
             'output_directory_path'       => base_path('definition_document/database/master_data'),
@@ -17,8 +17,8 @@ return [
             'attribute_group_column_name' => null,
         ],
         [
-            'sheet_id'                    => env('READ_SHEET_ID_02', '***************************'),
-            'category_name'               => 'Api',
+            'sheet_id'                    => '***************************',
+            'category_name'               => 'Category2',
             'read_type'                   => 'MultiGroup',
             'use_blade'                   => 'multi',
             'output_directory_path'       => base_path('definition_document/http/api'),
@@ -26,8 +26,8 @@ return [
             'attribute_group_column_name' => 'ColumnType',
         ],
         [
-            'sheet_id'                    => env('READ_SHEET_ID_03', '***************************'),
-            'category_name'               => 'OtherData',
+            'sheet_id'                    => '***************************',
+            'category_name'               => 'Category3',
             'read_type'                   => 'Other',
             'use_blade'                   => 'other',
             'output_directory_path'       => base_path('definition_document/database/other'),

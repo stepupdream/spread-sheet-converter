@@ -6,6 +6,7 @@ namespace StepUpDream\SpreadSheetConverter\Test\SpreadSheetReader;
 
 use Mockery;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService;
+use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleServiceSheet;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
@@ -91,7 +92,9 @@ class SpreadSheetReaderTest extends TestCase
         ];
 
         $mock = Mockery::mock(GoogleService::class);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($this->sheetValues);
+
+        $googleServiceSheet = new GoogleServiceSheet('Test', $this->sheetValues);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($googleServiceSheet);
         $spreadSheetReaderMock = new SpreadSheetReader($mock);
 
         $response = $spreadSheetReaderMock->read('sheet_id');
@@ -110,7 +113,8 @@ class SpreadSheetReaderTest extends TestCase
         $values2 = ['TableName' => 'hoge', 'TableDescription' => '', 'ColumnName' => '', 'ColumnDescription' => ''];
 
         $mock = Mockery::mock(GoogleService::class);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($this->sheetValues);
+        $googleServiceSheet = new GoogleServiceSheet('Test', $this->sheetValues);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($googleServiceSheet);
         $spreadSheetReaderMock = new SpreadSheetReader($mock);
         $isAllEmpty = $spreadSheetReaderMock->isAllEmpty($values);
         self::assertTrue($isAllEmpty);
@@ -140,7 +144,8 @@ class SpreadSheetReaderTest extends TestCase
         ];
 
         $mock = Mockery::mock(GoogleService::class);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($this->sheetValues);
+        $googleServiceSheet = new GoogleServiceSheet('Test', $this->sheetValues);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($googleServiceSheet);
         $spreadSheetReaderMock = new SpreadSheetReader($mock);
         $attributeKeyName = $spreadSheetReaderMock->getAttributeKeyName($sheet, 'ColumnName');
         $testResult = ['ColumnName' => 'ColumnName', 'ColumnDescription' => 'ColumnDescription'];
@@ -169,7 +174,8 @@ class SpreadSheetReaderTest extends TestCase
         ];
 
         $mock = Mockery::mock(GoogleService::class);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($this->sheetValues);
+        $googleServiceSheet = new GoogleServiceSheet('Test', $this->sheetValues);
+        $mock->allows('readFromGoogleServiceSheet')->andReturns($googleServiceSheet);
         $spreadSheetReaderMock = new SpreadSheetReader($mock);
         $parentAttributeKeyName = $spreadSheetReaderMock->getParentAttributeKeyName($sheet, 'ColumnName');
         $testResult = ['TableName' => 'TableName', 'TableDescription' => 'TableDescription'];

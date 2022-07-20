@@ -1,5 +1,5 @@
 - name: '{{ $parentAttribute->getParentAttributeDetailByKey('TableName') }}'
-  database_directory_name: '{{ $parentAttribute->spreadsheetCategoryName() }}'
+  database_directory_name: '{{ $parentAttribute->spreadsheetTitle() }}'
   connection_name: '{{ $parentAttribute->getParentAttributeDetailByKey('ConnectionName') }}'
   domain_group: '{{ $parentAttribute->sheetName() }}'
   description: '{{ $parentAttribute->getParentAttributeDetailByKey('TableDescription') }}'

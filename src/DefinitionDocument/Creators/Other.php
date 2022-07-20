@@ -12,20 +12,20 @@ class Other extends Base
      * Generate Attribute class based on Sheet data.
      *
      * @param  string[][]  $sheet
-     * @param  string  $spreadsheetCategoryName
+     * @param  string  $spreadsheetTitle
      * @param  int  $rowNumber
      * @param  string  $sheetName
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute
      */
     protected function createParentAttribute(
         array $sheet,
-        string $spreadsheetCategoryName,
+        string $spreadsheetTitle,
         int &$rowNumber,
         string $sheetName
     ): ParentAttribute {
         $headerNamesParent = $this->spreadSheetReader->getParentAttributeKeyName($sheet, '');
 
-        $parentAttribute = new ParentAttribute($spreadsheetCategoryName, $sheetName);
+        $parentAttribute = new ParentAttribute($spreadsheetTitle, $sheetName);
         foreach ($headerNamesParent as $headerNameParent) {
             $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
         }

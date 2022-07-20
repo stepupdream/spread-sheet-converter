@@ -23,23 +23,23 @@ class ParentAttribute extends BaseAttribute
     /**
      * Attribute constructor.
      *
-     * @param  string  $spreadsheetCategoryName
+     * @param  string  $spreadsheetTitle
      * @param  string  $sheetName
      */
     public function __construct(
-        protected string $spreadsheetCategoryName,
+        protected string $spreadsheetTitle,
         protected string $sheetName
     ) {
     }
 
     /**
-     * Get spreadsheet category name. (Specified in the config file).
+     * Get spreadsheet title name. (Specified in the config file).
      *
      * @return string
      */
-    public function spreadsheetCategoryName(): string
+    public function spreadsheetTitle(): string
     {
-        return $this->spreadsheetCategoryName;
+        return $this->spreadsheetTitle;
     }
 
     /**

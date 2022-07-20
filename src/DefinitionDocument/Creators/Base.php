@@ -14,13 +14,6 @@ use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader
 abstract class Base
 {
     /**
-     * Category name for classification.
-     *
-     * @var string
-     */
-    protected string $categoryName;
-
-    /**
      * Template blade file to use.
      *
      * @var string
@@ -67,7 +60,6 @@ abstract class Base
         protected SpreadSheetReader $spreadSheetReader,
         array $readSpreadSheet
     ) {
-        $this->categoryName = $readSpreadSheet['category_name'];
         $this->useBladeFileName = $readSpreadSheet['use_blade'];
         $this->sheetId = $readSpreadSheet['sheet_id'];
         $this->outputDirectoryPath = $readSpreadSheet['output_directory_path'];
@@ -83,8 +75,9 @@ abstract class Base
     public function run(?string $targetFileName): void
     {
         $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
+        $spreadSheetTitle = $this->spreadSheetReader->spreadSheetTitle($this->sheetId);
         foreach ($spreadSheets as $sheetName => $sheet) {
-            $parentAttributes = $this->convertSheetData($sheet, Str::studly($this->categoryName), $sheetName);
+            $parentAttributes = $this->convertSheetData($sheet, Str::studly($spreadSheetTitle), $sheetName);
             $this->verifySheetData($parentAttributes);
             $this->createDefinitionDocument($parentAttributes, $targetFileName);
         }
@@ -94,11 +87,11 @@ abstract class Base
      * Convert spreadsheet data.
      *
      * @param  string[][]  $sheet
-     * @param  string  $categoryName
+     * @param  string  $spreadSheetTitle
      * @param  string  $sheetName
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]
      */
-    public function convertSheetData(array $sheet, string $categoryName, string $sheetName): array
+    public function convertSheetData(array $sheet, string $spreadSheetTitle, string $sheetName): array
     {
         $rowNumber = 0;
         $convertedSheetData = [];
@@ -109,7 +102,7 @@ abstract class Base
                 continue;
             }
 
-            $convertedSheetData[] = $this->createParentAttribute($sheet, $categoryName, $rowNumber, $sheetName);
+            $convertedSheetData[] = $this->createParentAttribute($sheet, $spreadSheetTitle, $rowNumber, $sheetName);
         }
 
         return $convertedSheetData;
@@ -119,14 +112,14 @@ abstract class Base
      * Generate Attribute class based on Sheet data.
      *
      * @param  string[][]  $sheet
-     * @param  string  $spreadsheetCategoryName
+     * @param  string  $spreadsheetTitle
      * @param  int  $rowNumber
      * @param  string  $sheetName
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute
      */
     protected function createParentAttribute(
         array $sheet,
-        string $spreadsheetCategoryName,
+        string $spreadsheetTitle,
         int &$rowNumber,
         string $sheetName
     ): ParentAttribute {
@@ -134,7 +127,7 @@ abstract class Base
         $headerNames = $this->spreadSheetReader->getAttributeKeyName($sheet, $this->separationKey);
         $mainKeyName = collect($headerNames)->first();
 
-        $parentAttribute = new ParentAttribute($spreadsheetCategoryName, $sheetName);
+        $parentAttribute = new ParentAttribute($spreadsheetTitle, $sheetName);
         foreach ($headerNamesParent as $headerNameParent) {
             $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
         }
