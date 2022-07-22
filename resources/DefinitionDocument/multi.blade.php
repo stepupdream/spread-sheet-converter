@@ -1,5 +1,5 @@
 - controller_name: '{{ Str::studly($parentAttribute->sheetName()) }}'
-  route_prefix: '{{ Str::snake($parentAttribute->spreadsheetCategoryName()) }}'
+  route_prefix: '{{ Str::snake($parentAttribute->spreadsheetTitle()) }}'
   http_method: '{{ Str::studly($parentAttribute->getParentAttributeDetailByKey('HttpMethod')) }}'
   name: '{{ Str::studly($parentAttribute->getParentAttributeDetailByKey('ApiName')) }}'
   description: '{{ $parentAttribute->getParentAttributeDetailByKey('HttpDescription') }}'
