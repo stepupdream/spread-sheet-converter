@@ -9,7 +9,7 @@ return [
     'read_spread_sheets'       => [
         [
             'sheet_id'                    => '***************************',
-            'category_name'               => 'Category1',
+            'category_tag'                 => 'Category1',
             'read_type'                   => 'SingleGroup',
             'use_blade'                   => 'single',
             'output_directory_path'       => base_path('definition_document/database/master_data'),
@@ -18,7 +18,7 @@ return [
         ],
         [
             'sheet_id'                    => '***************************',
-            'category_name'               => 'Category2',
+            'category_tag'                => 'Category2',
             'read_type'                   => 'MultiGroup',
             'use_blade'                   => 'multi',
             'output_directory_path'       => base_path('definition_document/http/api'),
@@ -27,7 +27,7 @@ return [
         ],
         [
             'sheet_id'                    => '***************************',
-            'category_name'               => 'Category3',
+            'category_tag'                => 'Category3',
             'read_type'                   => 'Other',
             'use_blade'                   => 'other',
             'output_directory_path'       => base_path('definition_document/database/other'),

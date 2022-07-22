@@ -125,7 +125,7 @@ class MultiGroupTest extends TestCase
         $parentAttribute2->setAttributesGroup([$attribute4, $attribute5], 'Response');
 
         $argument = [
-            'category_name'               => 'MasterData',
+            'category_tag'                => 'MasterData',
             'use_blade'                   => 'master_data',
             'sheet_id'                    => 'sheet_id',
             'output_directory_path'       => base_path('definition_document/database/master_data'),
@@ -207,7 +207,7 @@ class MultiGroupTest extends TestCase
         ];
 
         $argument = [
-            'category_name'               => 'MasterData',
+            'category_tag'                => 'MasterData',
             'use_blade'                   => 'master_data',
             'sheet_id'                    => 'sheet_id',
             'output_directory_path'       => base_path('definition_document/database/master_data'),

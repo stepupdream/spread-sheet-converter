@@ -86,7 +86,7 @@ class OtherTest extends TestCase
         $parentAttribute2->setAttributesGroup([$attribute]);
 
         $argument = [
-            'category_name'               => 'Other',
+            'category_tag'                => 'Other',
             'use_blade'                   => 'other_data',
             'sheet_id'                    => 'sheet_id',
             'output_directory_path'       => base_path('definition_document/database/master_data'),

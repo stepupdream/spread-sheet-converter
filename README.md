@@ -67,7 +67,7 @@ php artisan spread-sheet-converter:create-definition-document
 - credentials_path : Specify the location of the json file obtained in the preparation stage
 - request_rule_column_name : Enter the name of the column that manages Laravel's validation rules
 - request_rule_sheet_name : Enter the name of the sheet that manages Laravel's validation rules
-- category_name : Please enter the classification name of the corresponding Spreadsheet. Duplicate names are prohibited
+- category_tag : Please enter the classification name of the corresponding Spreadsheet. Duplicate names are prohibited
 - read_type : "SingleGroup" or "MultiGroup" or "Other"
 - use_blade : Please enter the name of the template file to use
 - output_directory_path : Enter the output destination of the Yaml file
@@ -82,7 +82,7 @@ return [
     'read_spread_sheets'       => [
         [
             'sheet_id'                    => env('READ_SHEET_ID_01', '***************************'),
-            'category_name'               => 'MasterData',
+            'category_tag'                => 'MasterData',
             'read_type'                   => 'SingleGroup',
             'use_blade'                   => 'single',
             'output_directory_path'       => base_path('definition_document/database/master_data'),

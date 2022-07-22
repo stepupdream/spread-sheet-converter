@@ -35,7 +35,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
         $readSpreadSheets = $this->readSpreadSheets();
 
         foreach ($readSpreadSheets as $readSpreadSheet) {
-            if (! empty($targetCategory) && $targetCategory !== $readSpreadSheet['category_name']) {
+            if (! empty($targetCategory) && $targetCategory !== $readSpreadSheet['category_tag']) {
                 continue;
             }
 
@@ -47,7 +47,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
                 default => throw new LogicException('There were no matching conditions'),
             };
             $creator->run($targetFileName);
-            $this->info('Completed: '.$readSpreadSheet['category_name']);
+            $this->info('Completed: '.$readSpreadSheet['category_tag']);
         }
     }
 
@@ -130,7 +130,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
     {
         $keys = [
             'sheet_id',
-            'category_name',
+            'category_tag',
             'read_type',
             'use_blade',
             'output_directory_path',

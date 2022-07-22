@@ -74,7 +74,7 @@ class SingleGroupTest extends TestCase
         $parentAttribute2->setAttributesGroup([$attribute]);
 
         $argument = [
-            'category_name'               => 'MasterData',
+            'category_tag'                => 'MasterData',
             'use_blade'                   => 'master_data',
             'sheet_id'                    => 'sheet_id',
             'output_directory_path'       => base_path('definition_document/database/master_data'),
