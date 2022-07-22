@@ -1,10 +1,5 @@
 # Spreadsheet Converter
-[![Latest Stable Version](http://poser.pugx.org/stepupdream/spread-sheet-converter/v)](https://packagist.org/packages/stepupdream/spread-sheet-converter)
-[![PHP Version Require](http://poser.pugx.org/stepupdream/spread-sheet-converter/require/php)](https://packagist.org/packages/stepupdream/spread-sheet-converter)
-[![Laravel 8](https://img.shields.io/badge/Laravel-8-orange.svg)](http://laravel.com)
-[![testing](https://github.com/stepupdream/spread-sheet-converter/actions/workflows/testing.yml/badge.svg)](https://github.com/stepupdream/spread-sheet-converter/actions/workflows/testing.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=stepupdream_spread-sheet-converter&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=stepupdream_spread-sheet-converter)
-[![License](http://poser.pugx.org/stepupdream/spread-sheet-converter/license)](https://packagist.org/packages/stepupdream/spread-sheet-converter)
+[![Laravel 9](https://img.shields.io/badge/Laravel-9-orange.svg)](http://laravel.com)
 
 ## Introduction
 
@@ -22,8 +17,8 @@ The contents of the exported yaml file can be freely formatted with the Laravel 
   
 ## Requirements 
 The requirements to Spreadsheet converter application is:
-- PHP - Supported Versions: >= 8.0
-- Laravel - Supported Versions: >= 8.0
+- PHP - Supported Versions: >= 8.1
+- Laravel - Supported Versions: >= 9.0
 
 ## Installation 
 Require this package with composer using the following command:
