@@ -9,7 +9,6 @@
       description: '{{ $attribute->getAttributeDetailByKey('ColumnDescription') }}'
       data_type: '{{ $attribute->getAttributeDetailByKey('DataType') }}'
       migration_data_type: '{{ $attribute->getAttributeDetailByKey('MigrationDataType') }}'
-      is_real_column: {{ $attribute->getAttributeDetailByKey('IsRealColumn') }}
       is_unsigned: {{ $attribute->getAttributeDetailByKey('IsUnsigned') }}
       is_nullable: {{ $attribute->getAttributeDetailByKey('IsNullable') }}
 @endforeach
