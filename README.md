@@ -17,7 +17,7 @@ The contents of the exported yaml file can be freely formatted with the Laravel 
   
 ## Requirements 
 The requirements to Spreadsheet converter application is:
-- PHP - Supported Versions: >= 8.1
+- PHP - Supported Versions: >= 8.0
 - Laravel - Supported Versions: >= 9.0
 
 ## Installation 
