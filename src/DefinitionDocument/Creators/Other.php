@@ -25,11 +25,9 @@ class Other extends Base
     ): ParentAttribute {
         $headerNamesParent = $this->spreadSheetReader->getParentAttributeKeyName($sheet, '');
 
+        // In the Other setting, it is read data that has no parent-child relationship.
+        // However, it is assumed that there is a parent in the class for commonality with others.
         $parentAttribute = new ParentAttribute($spreadsheetTitle, $sheetName);
-        foreach ($headerNamesParent as $headerNameParent) {
-            $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
-        }
-
         while (! empty($sheet[$rowNumber]) && ! $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
             $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNamesParent);
             $parentAttribute->setAttributesGroup($attributes);
