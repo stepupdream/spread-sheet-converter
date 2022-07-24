@@ -49,8 +49,16 @@ class OtherTest extends TestCase
             ],
         ];
 
+        $headerNamesChild = [
+            'TableName'         => 'TableName',
+            'TableDescription'  => 'TableDescription',
+            'ColumnName'        => 'ColumnName',
+            'ColumnDescription' => 'ColumnDescription',
+            'DataType'          => 'DataType',
+        ];
+
         // Group1
-        $parentAttribute = new ParentAttribute('Other', 'sheetName');
+        $parentAttribute = new ParentAttribute('Other', 'sheetName', $headerNamesChild);
         $attribute = new Attribute();
         $attribute->setAttributeDetails('characters', 'TableName');
         $attribute->setAttributeDetails('CharacterData', 'TableDescription');
@@ -66,7 +74,7 @@ class OtherTest extends TestCase
         $parentAttribute->setAttributesGroup([$attribute, $attribute2]);
 
         // Group2
-        $parentAttribute2 = new ParentAttribute('Other', 'sheetName');
+        $parentAttribute2 = new ParentAttribute('Other', 'sheetName', $headerNamesChild);
         $attribute = new Attribute();
         $attribute->setAttributeDetails('equipments', 'TableName');
         $attribute->setAttributeDetails('EquipmentData', 'TableDescription');
