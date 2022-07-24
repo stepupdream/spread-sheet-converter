@@ -25,10 +25,12 @@ class ParentAttribute extends BaseAttribute
      *
      * @param  string  $spreadsheetTitle
      * @param  string  $sheetName
+     * @param  string[]  $headerNamesChild
      */
     public function __construct(
         protected string $spreadsheetTitle,
-        protected string $sheetName
+        protected string $sheetName,
+        protected array $headerNamesChild
     ) {
     }
 
@@ -40,6 +42,16 @@ class ParentAttribute extends BaseAttribute
     public function spreadsheetTitle(): string
     {
         return $this->spreadsheetTitle;
+    }
+
+    /**
+     * Get spreadsheet header names.
+     *
+     * @return string[]
+     */
+    public function headerNamesChild(): array
+    {
+        return $this->headerNamesChild;
     }
 
     /**

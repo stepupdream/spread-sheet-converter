@@ -124,17 +124,17 @@ abstract class Base
         string $sheetName
     ): ParentAttribute {
         $headerNamesParent = $this->spreadSheetReader->getParentAttributeKeyName($sheet, $this->separationKey);
-        $headerNames = $this->spreadSheetReader->getAttributeKeyName($sheet, $this->separationKey);
-        $mainKeyName = collect($headerNames)->first();
+        $headerNamesChild = $this->spreadSheetReader->getAttributeKeyName($sheet, $this->separationKey);
+        $mainKeyNameChild = collect($headerNamesChild)->first();
 
-        $parentAttribute = new ParentAttribute($spreadsheetTitle, $sheetName);
+        $parentAttribute = new ParentAttribute($spreadsheetTitle, $sheetName, $headerNamesChild);
         foreach ($headerNamesParent as $headerNameParent) {
             $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
         }
 
         while (! empty($sheet[$rowNumber]) && ! $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
-            $groupKeyName = $sheet[$rowNumber][$mainKeyName];
-            $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNames);
+            $groupKeyName = $sheet[$rowNumber][$mainKeyNameChild];
+            $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNamesChild);
 
             if (empty($this->attributeGroupColumnName)) {
                 $parentAttribute->setAttributesGroup($attributes);

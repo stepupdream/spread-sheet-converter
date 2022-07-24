@@ -9,7 +9,7 @@ return [
     'read_spread_sheets'       => [
         [
             'sheet_id'                    => '***************************',
-            'category_tag'                 => 'Category1',
+            'category_tag'                => 'Category1',
             'read_type'                   => 'SingleGroup',
             'use_blade'                   => 'single',
             'output_directory_path'       => base_path('definition_document/database/master_data'),

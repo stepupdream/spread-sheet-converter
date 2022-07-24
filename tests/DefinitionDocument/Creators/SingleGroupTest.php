@@ -49,8 +49,14 @@ class SingleGroupTest extends TestCase
             ],
         ];
 
+        $headerNamesChild = [
+            'ColumnName'        => 'ColumnName',
+            'ColumnDescription' => 'ColumnDescription',
+            'DataType'          => 'DataType',
+        ];
+
         // Group1
-        $parentAttribute = new ParentAttribute('MasterData', 'sheetName');
+        $parentAttribute = new ParentAttribute('MasterData', 'sheetName', $headerNamesChild);
         $parentAttribute->setParentAttributeDetails('characters', 'TableName');
         $parentAttribute->setParentAttributeDetails('CharacterData', 'TableDescription');
         $attribute = new Attribute();
@@ -64,7 +70,7 @@ class SingleGroupTest extends TestCase
         $parentAttribute->setAttributesGroup([$attribute, $attribute2]);
 
         // Group2
-        $parentAttribute2 = new ParentAttribute('MasterData', 'sheetName');
+        $parentAttribute2 = new ParentAttribute('MasterData', 'sheetName', $headerNamesChild);
         $parentAttribute2->setParentAttributeDetails('equipments', 'TableName');
         $parentAttribute2->setParentAttributeDetails('EquipmentData', 'TableDescription');
         $attribute = new Attribute();

@@ -90,8 +90,15 @@ class MultiGroupTest extends TestCase
             ],
         ];
 
+        $headerNamesChild = [
+            'GroupType'         => 'GroupType',
+            'ColumnName'        => 'ColumnName',
+            'ColumnDescription' => 'ColumnDescription',
+            'DataType'          => 'DataType',
+        ];
+
         // Group1
-        $parentAttribute = new ParentAttribute('Api', 'sheetName');
+        $parentAttribute = new ParentAttribute('Api', 'sheetName', $headerNamesChild);
         $parentAttribute->setParentAttributeDetails('Get', 'ApiName');
         $parentAttribute->setParentAttributeDetails('get', 'ApiDescription');
         $attribute = new Attribute();
@@ -110,7 +117,7 @@ class MultiGroupTest extends TestCase
         $parentAttribute->setAttributesGroup([$attribute3], 'Response');
 
         // Group2
-        $parentAttribute2 = new ParentAttribute('Api', 'sheetName');
+        $parentAttribute2 = new ParentAttribute('Api', 'sheetName', $headerNamesChild);
         $parentAttribute2->setParentAttributeDetails('Get2', 'ApiName');
         $parentAttribute2->setParentAttributeDetails('get2', 'ApiDescription');
         $parentAttribute2->setAttributesGroup([], 'Request');
@@ -138,7 +145,6 @@ class MultiGroupTest extends TestCase
         // createRuleMessage includes Google processing, so cut it out as a separate test
         $multiGroup = new MultiGroup($fileOperation, $spreadSheetReader, $argument);
         $response = $multiGroup->convertSheetData($sheetValues, 'Api', 'sheetName');
-
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }
 
