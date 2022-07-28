@@ -49,6 +49,11 @@ abstract class Base
     protected string $attributeGroupColumnName;
 
     /**
+     * @var string
+     */
+    protected string $definitionDirectoryPath;
+
+    /**
      * BaseCreator constructor.
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation  $fileOperation
@@ -63,6 +68,7 @@ abstract class Base
         $this->useBladeFileName = $readSpreadSheet['use_blade'];
         $this->sheetId = $readSpreadSheet['sheet_id'];
         $this->outputDirectoryPath = $readSpreadSheet['output_directory_path'];
+        $this->definitionDirectoryPath = $readSpreadSheet['definition_directory_path'];
         $this->separationKey = $readSpreadSheet['separation_key'];
         $this->attributeGroupColumnName = $readSpreadSheet['attribute_group_column_name'] ?? '';
     }
@@ -208,6 +214,7 @@ abstract class Base
         }
     }
 
+
     /**
      * Generate a definition document.
      *
@@ -216,6 +223,7 @@ abstract class Base
      */
     public function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
     {
+        $this->fileOperation->createGitKeep($this->definitionDirectoryPath);
         foreach ($parentAttributes as $parentAttribute) {
             $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
 
@@ -227,12 +235,16 @@ abstract class Base
             if ($this->isReadSkip($mainKeyName, $targetFileName)) {
                 continue;
             }
+            $fileName = $mainKeyName.'.yaml';
             $targetPath = $this->outputDirectoryPath.
                 DIRECTORY_SEPARATOR.
                 Str::studly($parentAttribute->sheetName()).
-                DIRECTORY_SEPARATOR.$mainKeyName.
-                '.yml';
+                DIRECTORY_SEPARATOR.$fileName;
             $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
+            if (! $this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
+                continue;
+            }
+
             $this->fileOperation->createFile($loadBladeFile, $targetPath, true);
         }
     }

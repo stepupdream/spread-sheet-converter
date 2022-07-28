@@ -135,7 +135,8 @@ class MultiGroupTest extends TestCase
             'category_tag'                => 'MasterData',
             'use_blade'                   => 'master_data',
             'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => base_path('definition_document/database/master_data'),
+            'output_directory_path'       => base_path('definition_document/tmp/database/master_data'),
+            'definition_directory_path'   => base_path('definition_document/database/master_data'),
             'separation_key'              => 'GroupType',
             'attribute_group_column_name' => 'GroupType',
         ];
@@ -216,7 +217,8 @@ class MultiGroupTest extends TestCase
             'category_tag'                => 'MasterData',
             'use_blade'                   => 'master_data',
             'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => base_path('definition_document/database/master_data'),
+            'output_directory_path'       => base_path('definition_document/tmp/database/master_data'),
+            'definition_directory_path'   => base_path('definition_document/database/master_data'),
             'separation_key'              => 'GroupType',
             'attribute_group_column_name' => 'GroupType',
         ];

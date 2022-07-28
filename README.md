@@ -67,6 +67,7 @@ php artisan spread-sheet-converter:create-definition-document
 - read_type : "SingleGroup" or "MultiGroup" or "Other"
 - use_blade : Please enter the name of the template file to use
 - output_directory_path : Enter the output destination of the Yaml file
+- definition_directory_path : Specify the path of the directory where only the Yaml files you actually use are stored
 - separation_key : Enter the column name that separates the parent group and the child group
 - attribute_group_column_name : Enter the column name that separates the parent group and the child group
 
@@ -77,11 +78,12 @@ return [
     'request_rule_sheet_name'  => 'RequestRule',
     'read_spread_sheets'       => [
         [
-            'sheet_id'                    => env('READ_SHEET_ID_01', '***************************'),
+            'sheet_id'                    => '***************************',
             'category_tag'                => 'MasterData',
             'read_type'                   => 'SingleGroup',
             'use_blade'                   => 'single',
-            'output_directory_path'       => base_path('definition_document/database/master_data'),
+            'output_directory_path'       => base_path('definition_document/tmp/database/master_data'),
+            'definition_directory_path'   => base_path('definition_document/database/master_data'),
             'separation_key'              => 'ColumnName',
             'attribute_group_column_name' => null,
         ],
