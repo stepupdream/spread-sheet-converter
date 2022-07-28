@@ -7,6 +7,7 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports;
 use ErrorException;
 use Illuminate\Filesystem\Filesystem;
 use LogicException;
+use Symfony\Component\Finder\Finder;
 
 class FileOperation
 {
@@ -50,6 +51,57 @@ class FileOperation
                 throw new LogicException($filePath.': Failed to create by overwrite');
             }
         }
+    }
+
+    /**
+     * Create git keep file.
+     */
+    public function createGitKeep(string $directoryPath): void
+    {
+        $allFiles = $this->allFiles($directoryPath);
+        if (empty($allFiles)) {
+            $this->createFile('gitkeep', $directoryPath.'/.gitkeep');
+        }
+    }
+
+    /**
+     * Check if it is the same as the file that already exists.
+     *
+     * @param  string  $content
+     * @param  string  $targetDirectoryPath
+     * @param  string  $fileName
+     * @return bool
+     */
+    public function shouldCreate(string $content, string $targetDirectoryPath, string $fileName): bool
+    {
+        if (! is_dir($targetDirectoryPath)) {
+            return true;
+        }
+
+        $allFiles = $this->allFiles($targetDirectoryPath, true);
+        foreach ($allFiles as $allFile) {
+            if ($allFile->getFilename() === $fileName) {
+                return file_get_contents($allFile->getRealPath()) !== $content;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Get all the files from the given directory (recursive).
+     *
+     * @param  string  $directory
+     * @param  bool  $hidden
+     * @return \Symfony\Component\Finder\SplFileInfo[]
+     * @see \Illuminate\Filesystem\Filesystem::allFiles
+     */
+    public function allFiles(string $directory, bool $hidden = false): array
+    {
+        return iterator_to_array(
+            Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory)->sortByName(),
+            false
+        );
     }
 
     /**

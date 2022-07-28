@@ -134,6 +134,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
             'read_type',
             'use_blade',
             'output_directory_path',
+            'definition_directory_path',
             'separation_key',
             'attribute_group_column_name',
         ];
