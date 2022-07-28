@@ -214,7 +214,6 @@ abstract class Base
         }
     }
 
-
     /**
      * Generate a definition document.
      *
