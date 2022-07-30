@@ -16,11 +16,6 @@ abstract class LineMessage
     protected OutputStyle $output;
 
     /**
-     * @var int Top margin.
-     */
-    protected int $topMargin = 1;
-
-    /**
      * @var bool whether it is the first time to write.
      */
     protected bool $isFirstTime = true;
