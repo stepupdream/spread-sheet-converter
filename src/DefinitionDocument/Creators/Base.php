@@ -9,9 +9,10 @@ use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\LineMessage;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 
-abstract class Base
+abstract class Base extends LineMessage
 {
     /**
      * Template blade file to use.
@@ -249,10 +250,12 @@ abstract class Base
                 DIRECTORY_SEPARATOR.$fileName;
             $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
             if (! $this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
+                $this->write($targetPath, 'SKIP', 'green');
                 continue;
             }
 
             $this->fileOperation->createFile($loadBladeFile, $targetPath, true);
+            $this->write($targetPath, 'CREATE');
         }
     }
 
