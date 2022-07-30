@@ -54,6 +54,13 @@ abstract class Base
     protected string $definitionDirectoryPath;
 
     /**
+     * Identifier to identify the loaded sheet.
+     *
+     * @var string
+     */
+    protected string $categoryTag;
+
+    /**
      * BaseCreator constructor.
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation  $fileOperation
@@ -71,6 +78,7 @@ abstract class Base
         $this->definitionDirectoryPath = $readSpreadSheet['definition_directory_path'];
         $this->separationKey = $readSpreadSheet['separation_key'];
         $this->attributeGroupColumnName = $readSpreadSheet['attribute_group_column_name'] ?? '';
+        $this->categoryTag = $readSpreadSheet['category_tag'];
     }
 
     /**
