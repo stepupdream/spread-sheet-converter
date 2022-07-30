@@ -23,33 +23,19 @@ class FileOperation
         $dirPath = dirname($filePath);
 
         if (! is_dir($dirPath)) {
-            $result = $this->makeDirectory($dirPath, 0777, true);
-            if (! $result) {
-                throw new LogicException($filePath.': Failed to make directory');
-            }
+            $this->makeDirectory($dirPath, 0777, true);
         }
 
         if (! file_exists($filePath)) {
-            $result = $this->put($filePath, $content);
-            if (! $result) {
-                throw new LogicException($filePath.': Failed to create');
-            }
-
+            $this->put($filePath, $content);
             return;
         }
 
         if ($isOverwrite) {
             // Hack:
             // An error occurred when overwriting, so always delete → create
-            $result = $this->delete($filePath);
-            if (! $result) {
-                throw new LogicException($filePath.': Failed to delete');
-            }
-
-            $result = $this->put($filePath, $content);
-            if (! $result) {
-                throw new LogicException($filePath.': Failed to create by overwrite');
-            }
+            $this->delete($filePath);
+            $this->put($filePath, $content);
         }
     }
 
@@ -58,8 +44,7 @@ class FileOperation
      */
     public function createGitKeep(string $directoryPath): void
     {
-        $allFiles = $this->allFiles($directoryPath);
-        if (empty($allFiles)) {
+        if (! is_dir($directoryPath)) {
             $this->createFile('gitkeep', $directoryPath.'/.gitkeep');
         }
     }
@@ -110,12 +95,16 @@ class FileOperation
      * @param  string  $path
      * @param  int  $mode
      * @param  bool  $recursive
-     * @return bool
+     * @return void
      * @see \Illuminate\Filesystem\Filesystem::makeDirectory
      */
-    private function makeDirectory(string $path, int $mode = 0755, bool $recursive = false): bool
+    private function makeDirectory(string $path, int $mode = 0755, bool $recursive = false): void
     {
-        return mkdir($path, $mode, $recursive);
+        $result = mkdir($path, $mode, $recursive);
+
+        if (! $result) {
+            throw new LogicException($path.': Failed to make directory');
+        }
     }
 
     /**
@@ -123,22 +112,23 @@ class FileOperation
      *
      * @param  string  $path
      * @param  string  $contents
-     * @return int|bool
      * @see \Illuminate\Filesystem\Filesystem::put
      */
-    private function put(string $path, string $contents): bool|int
+    private function put(string $path, string $contents): void
     {
-        return file_put_contents($path, $contents);
+        $result = file_put_contents($path, $contents);
+        if (! $result) {
+            throw new LogicException($path.': Failed to create');
+        }
     }
 
     /**
      * Delete the file at a given path.
      *
      * @param  string|string[]  $paths
-     * @return bool
      * @see \Illuminate\Filesystem\Filesystem::delete
      */
-    private function delete(mixed $paths): bool
+    private function delete(mixed $paths): void
     {
         $paths = is_array($paths) ? $paths : func_get_args();
 
@@ -152,8 +142,10 @@ class FileOperation
             } catch (ErrorException) {
                 $success = false;
             }
-        }
 
-        return $success;
+            if (! $success) {
+                throw new LogicException($path.': Failed to delete');
+            }
+        }
     }
 }
