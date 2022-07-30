@@ -46,8 +46,7 @@ class DefinitionDocumentCommand extends BaseCreateCommand
                 'Other' => app()->make(Other::class, ['readSpreadSheet' => $readSpreadSheet]),
                 default => throw new LogicException('There were no matching conditions'),
             };
-            $creator->run($targetFileName);
-            $this->info('Completed: '.$readSpreadSheet['category_tag']);
+            $creator->setOutput($this->output)->run($targetFileName);
         }
     }
 

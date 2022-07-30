@@ -57,9 +57,11 @@ class Other extends Base
                 $fileName;
             $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
             if (! $this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
+                $this->write($targetPath, 'SKIP', 'green');
                 continue;
             }
             $this->fileOperation->createFile($loadBladeFile, $targetPath, true);
+            $this->write($targetPath, 'CREATE');
         }
     }
 }
