@@ -28,6 +28,7 @@ class FileOperation
 
         if (! file_exists($filePath)) {
             $this->put($filePath, $content);
+
             return;
         }
 
