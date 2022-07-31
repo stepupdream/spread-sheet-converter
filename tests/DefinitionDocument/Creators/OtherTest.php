@@ -49,13 +49,16 @@ class OtherTest extends TestCase
             ],
         ];
 
+        $headerNamesChild = [
+            'TableName'         => 'TableName',
+            'TableDescription'  => 'TableDescription',
+            'ColumnName'        => 'ColumnName',
+            'ColumnDescription' => 'ColumnDescription',
+            'DataType'          => 'DataType',
+        ];
+
         // Group1
-        $parentAttribute = new ParentAttribute('Other', 'sheetName');
-        $parentAttribute->setParentAttributeDetails('characters', 'TableName');
-        $parentAttribute->setParentAttributeDetails('CharacterData', 'TableDescription');
-        $parentAttribute->setParentAttributeDetails('id', 'ColumnName');
-        $parentAttribute->setParentAttributeDetails('id', 'ColumnDescription');
-        $parentAttribute->setParentAttributeDetails('int', 'DataType');
+        $parentAttribute = new ParentAttribute('Other', 'sheetName', $headerNamesChild);
         $attribute = new Attribute();
         $attribute->setAttributeDetails('characters', 'TableName');
         $attribute->setAttributeDetails('CharacterData', 'TableDescription');
@@ -71,12 +74,7 @@ class OtherTest extends TestCase
         $parentAttribute->setAttributesGroup([$attribute, $attribute2]);
 
         // Group2
-        $parentAttribute2 = new ParentAttribute('Other', 'sheetName');
-        $parentAttribute2->setParentAttributeDetails('equipments', 'TableName');
-        $parentAttribute2->setParentAttributeDetails('EquipmentData', 'TableDescription');
-        $parentAttribute2->setParentAttributeDetails('id', 'ColumnName');
-        $parentAttribute2->setParentAttributeDetails('id', 'ColumnDescription');
-        $parentAttribute2->setParentAttributeDetails('int', 'DataType');
+        $parentAttribute2 = new ParentAttribute('Other', 'sheetName', $headerNamesChild);
         $attribute = new Attribute();
         $attribute->setAttributeDetails('equipments', 'TableName');
         $attribute->setAttributeDetails('EquipmentData', 'TableDescription');
@@ -89,7 +87,8 @@ class OtherTest extends TestCase
             'category_tag'                => 'Other',
             'use_blade'                   => 'other_data',
             'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => base_path('definition_document/database/master_data'),
+            'output_directory_path'       => base_path('definition_document/tmp/database/master_data'),
+            'definition_directory_path'   => base_path('definition_document/database/master_data'),
             'separation_key'              => 'ColumnName',
             'attribute_group_column_name' => null,
         ];

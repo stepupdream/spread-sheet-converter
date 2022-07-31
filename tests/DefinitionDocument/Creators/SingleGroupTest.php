@@ -49,8 +49,14 @@ class SingleGroupTest extends TestCase
             ],
         ];
 
+        $headerNamesChild = [
+            'ColumnName'        => 'ColumnName',
+            'ColumnDescription' => 'ColumnDescription',
+            'DataType'          => 'DataType',
+        ];
+
         // Group1
-        $parentAttribute = new ParentAttribute('MasterData', 'sheetName');
+        $parentAttribute = new ParentAttribute('MasterData', 'sheetName', $headerNamesChild);
         $parentAttribute->setParentAttributeDetails('characters', 'TableName');
         $parentAttribute->setParentAttributeDetails('CharacterData', 'TableDescription');
         $attribute = new Attribute();
@@ -64,7 +70,7 @@ class SingleGroupTest extends TestCase
         $parentAttribute->setAttributesGroup([$attribute, $attribute2]);
 
         // Group2
-        $parentAttribute2 = new ParentAttribute('MasterData', 'sheetName');
+        $parentAttribute2 = new ParentAttribute('MasterData', 'sheetName', $headerNamesChild);
         $parentAttribute2->setParentAttributeDetails('equipments', 'TableName');
         $parentAttribute2->setParentAttributeDetails('EquipmentData', 'TableDescription');
         $attribute = new Attribute();
@@ -77,7 +83,8 @@ class SingleGroupTest extends TestCase
             'category_tag'                => 'MasterData',
             'use_blade'                   => 'master_data',
             'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => base_path('definition_document/database/master_data'),
+            'output_directory_path'       => base_path('definition_document/tmp/database/master_data'),
+            'definition_directory_path'   => base_path('definition_document/database/master_data'),
             'separation_key'              => 'ColumnName',
             'attribute_group_column_name' => null,
         ];

@@ -7,6 +7,7 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports;
 use ErrorException;
 use Illuminate\Filesystem\Filesystem;
 use LogicException;
+use Symfony\Component\Finder\Finder;
 
 class FileOperation
 {
@@ -22,17 +23,11 @@ class FileOperation
         $dirPath = dirname($filePath);
 
         if (! is_dir($dirPath)) {
-            $result = $this->makeDirectory($dirPath, 0777, true);
-            if (! $result) {
-                throw new LogicException($filePath.': Failed to make directory');
-            }
+            $this->makeDirectory($dirPath, 0777, true);
         }
 
         if (! file_exists($filePath)) {
-            $result = $this->put($filePath, $content);
-            if (! $result) {
-                throw new LogicException($filePath.': Failed to create');
-            }
+            $this->put($filePath, $content);
 
             return;
         }
@@ -40,16 +35,59 @@ class FileOperation
         if ($isOverwrite) {
             // Hack:
             // An error occurred when overwriting, so always delete → create
-            $result = $this->delete($filePath);
-            if (! $result) {
-                throw new LogicException($filePath.': Failed to delete');
-            }
+            $this->delete($filePath);
+            $this->put($filePath, $content);
+        }
+    }
 
-            $result = $this->put($filePath, $content);
-            if (! $result) {
-                throw new LogicException($filePath.': Failed to create by overwrite');
+    /**
+     * Create git keep file.
+     */
+    public function createGitKeep(string $directoryPath): void
+    {
+        if (! is_dir($directoryPath)) {
+            $this->createFile('gitkeep', $directoryPath.'/.gitkeep');
+        }
+    }
+
+    /**
+     * Check if it is the same as the file that already exists.
+     *
+     * @param  string  $content
+     * @param  string  $targetDirectoryPath
+     * @param  string  $fileName
+     * @return bool
+     */
+    public function shouldCreate(string $content, string $targetDirectoryPath, string $fileName): bool
+    {
+        if (! is_dir($targetDirectoryPath)) {
+            return true;
+        }
+
+        $allFiles = $this->allFiles($targetDirectoryPath, true);
+        foreach ($allFiles as $allFile) {
+            if ($allFile->getFilename() === $fileName) {
+                return file_get_contents($allFile->getRealPath()) !== $content;
             }
         }
+
+        return true;
+    }
+
+    /**
+     * Get all the files from the given directory (recursive).
+     *
+     * @param  string  $directory
+     * @param  bool  $hidden
+     * @return \Symfony\Component\Finder\SplFileInfo[]
+     * @see \Illuminate\Filesystem\Filesystem::allFiles
+     */
+    public function allFiles(string $directory, bool $hidden = false): array
+    {
+        return iterator_to_array(
+            Finder::create()->files()->ignoreDotFiles(! $hidden)->in($directory)->sortByName(),
+            false
+        );
     }
 
     /**
@@ -58,12 +96,16 @@ class FileOperation
      * @param  string  $path
      * @param  int  $mode
      * @param  bool  $recursive
-     * @return bool
+     * @return void
      * @see \Illuminate\Filesystem\Filesystem::makeDirectory
      */
-    private function makeDirectory(string $path, int $mode = 0755, bool $recursive = false): bool
+    private function makeDirectory(string $path, int $mode = 0755, bool $recursive = false): void
     {
-        return mkdir($path, $mode, $recursive);
+        $result = mkdir($path, $mode, $recursive);
+
+        if (! $result) {
+            throw new LogicException($path.': Failed to make directory');
+        }
     }
 
     /**
@@ -71,22 +113,23 @@ class FileOperation
      *
      * @param  string  $path
      * @param  string  $contents
-     * @return int|bool
      * @see \Illuminate\Filesystem\Filesystem::put
      */
-    private function put(string $path, string $contents): bool|int
+    private function put(string $path, string $contents): void
     {
-        return file_put_contents($path, $contents);
+        $result = file_put_contents($path, $contents);
+        if (! $result) {
+            throw new LogicException($path.': Failed to create');
+        }
     }
 
     /**
      * Delete the file at a given path.
      *
      * @param  string|string[]  $paths
-     * @return bool
      * @see \Illuminate\Filesystem\Filesystem::delete
      */
-    private function delete(mixed $paths): bool
+    private function delete(mixed $paths): void
     {
         $paths = is_array($paths) ? $paths : func_get_args();
 
@@ -100,8 +143,10 @@ class FileOperation
             } catch (ErrorException) {
                 $success = false;
             }
-        }
 
-        return $success;
+            if (! $success) {
+                throw new LogicException($path.': Failed to delete');
+            }
+        }
     }
 }

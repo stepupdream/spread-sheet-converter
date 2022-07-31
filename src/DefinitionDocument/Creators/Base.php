@@ -9,9 +9,10 @@ use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\LineMessage;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 
-abstract class Base
+abstract class Base extends LineMessage
 {
     /**
      * Template blade file to use.
@@ -49,6 +50,18 @@ abstract class Base
     protected string $attributeGroupColumnName;
 
     /**
+     * @var string
+     */
+    protected string $definitionDirectoryPath;
+
+    /**
+     * Identifier to identify the loaded sheet.
+     *
+     * @var string
+     */
+    protected string $categoryTag;
+
+    /**
      * BaseCreator constructor.
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation  $fileOperation
@@ -63,8 +76,10 @@ abstract class Base
         $this->useBladeFileName = $readSpreadSheet['use_blade'];
         $this->sheetId = $readSpreadSheet['sheet_id'];
         $this->outputDirectoryPath = $readSpreadSheet['output_directory_path'];
+        $this->definitionDirectoryPath = $readSpreadSheet['definition_directory_path'];
         $this->separationKey = $readSpreadSheet['separation_key'];
         $this->attributeGroupColumnName = $readSpreadSheet['attribute_group_column_name'] ?? '';
+        $this->categoryTag = $readSpreadSheet['category_tag'];
     }
 
     /**
@@ -124,17 +139,17 @@ abstract class Base
         string $sheetName
     ): ParentAttribute {
         $headerNamesParent = $this->spreadSheetReader->getParentAttributeKeyName($sheet, $this->separationKey);
-        $headerNames = $this->spreadSheetReader->getAttributeKeyName($sheet, $this->separationKey);
-        $mainKeyName = collect($headerNames)->first();
+        $headerNamesChild = $this->spreadSheetReader->getAttributeKeyName($sheet, $this->separationKey);
+        $mainKeyNameChild = collect($headerNamesChild)->first();
 
-        $parentAttribute = new ParentAttribute($spreadsheetTitle, $sheetName);
+        $parentAttribute = new ParentAttribute($spreadsheetTitle, $sheetName, $headerNamesChild);
         foreach ($headerNamesParent as $headerNameParent) {
             $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
         }
 
         while (! empty($sheet[$rowNumber]) && ! $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
-            $groupKeyName = $sheet[$rowNumber][$mainKeyName];
-            $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNames);
+            $groupKeyName = $sheet[$rowNumber][$mainKeyNameChild];
+            $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNamesChild);
 
             if (empty($this->attributeGroupColumnName)) {
                 $parentAttribute->setAttributesGroup($attributes);
@@ -216,6 +231,7 @@ abstract class Base
      */
     public function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
     {
+        $this->fileOperation->createGitKeep($this->definitionDirectoryPath);
         foreach ($parentAttributes as $parentAttribute) {
             $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
 
@@ -227,13 +243,19 @@ abstract class Base
             if ($this->isReadSkip($mainKeyName, $targetFileName)) {
                 continue;
             }
+            $fileName = $mainKeyName.'.yml';
             $targetPath = $this->outputDirectoryPath.
                 DIRECTORY_SEPARATOR.
                 Str::studly($parentAttribute->sheetName()).
-                DIRECTORY_SEPARATOR.$mainKeyName.
-                '.yml';
+                DIRECTORY_SEPARATOR.$fileName;
             $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
+            if (! $this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
+                $this->write($targetPath, 'SKIP', 'green');
+                continue;
+            }
+
             $this->fileOperation->createFile($loadBladeFile, $targetPath, true);
+            $this->write($targetPath, 'CREATE');
         }
     }
 
