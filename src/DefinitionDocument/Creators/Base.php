@@ -243,7 +243,7 @@ abstract class Base extends LineMessage
             if ($this->isReadSkip($mainKeyName, $targetFileName)) {
                 continue;
             }
-            $fileName = $mainKeyName.'.yaml';
+            $fileName = $mainKeyName.'.yml';
             $targetPath = $this->outputDirectoryPath.
                 DIRECTORY_SEPARATOR.
                 Str::studly($parentAttribute->sheetName()).
