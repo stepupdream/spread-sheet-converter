@@ -261,6 +261,7 @@ abstract class Base extends LineMessage
 
         if ($this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
             $this->fileOperation->createFile($loadBladeFile, $outputPath, true);
+
             return 'DONE';
         }
 
@@ -270,10 +271,10 @@ abstract class Base extends LineMessage
     /**
      * File output destination.
      *
-     * @param $parentAttribute
+     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
      * @return string
      */
-    public function outputPath($parentAttribute): string
+    public function outputPath(ParentAttribute $parentAttribute): string
     {
         $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
 
@@ -287,7 +288,6 @@ abstract class Base extends LineMessage
             DIRECTORY_SEPARATOR.
             Str::studly($parentAttribute->sheetName()).
             DIRECTORY_SEPARATOR.$fileName;
-
     }
 
     /**

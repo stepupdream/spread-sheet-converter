@@ -4,49 +4,56 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports;
 
+use Illuminate\Console\View\Components\Component;
 use Illuminate\Console\View\Components\Mutators\EnsureDynamicContentIsHighlighted;
 use Illuminate\Console\View\Components\Mutators\EnsureNoPunctuation;
 use Illuminate\Console\View\Components\Mutators\EnsureRelativePaths;
-use Illuminate\Console\View\Components\Task as BaseTask;
 use Symfony\Component\Console\Output\OutputInterface;
 use function Termwind\terminal;
 
-class Task extends BaseTask
+class Task extends Component
 {
     /**
      * Renders the component using the given arguments.
      *
+     * I wanted to display SKIP, so I prepared it myself.
+     *
      * @param  string  $description
-     * @param  (callable(): bool)|null  $task
+     * @param  callable  $task
      * @param  int  $verbosity
      * @return void
-     * @noinspection CallableParameterUseCaseInTypeContextInspection
+     *
+     * @see \Illuminate\Console\View\Components\Task::render
      */
-    public function render($description, $task = null, $verbosity = OutputInterface::VERBOSITY_NORMAL): void
-    {
-        $description = $this->mutate($description, [
+    public function render(
+        string $description,
+        callable $task,
+        int $verbosity = OutputInterface::VERBOSITY_NORMAL
+    ): void {
+        // Hack:
+        // If you use this->mutate() at this class,
+        // a type error will occur in static analysis, so I prepared it myself.
+        $mutators = [
             EnsureDynamicContentIsHighlighted::class,
             EnsureNoPunctuation::class,
             EnsureRelativePaths::class,
-        ]);
+        ];
+        foreach ($mutators as $mutator) {
+            $description = app($mutator)->__invoke($description);
+        }
 
         $descriptionWidth = mb_strlen($description);
-
         $this->output->write("  $description ", false, $verbosity);
-
         $startTime = microtime(true);
-
-        $result = false;
+        $result = '';
 
         try {
-            $result = ($task ?: fn () => true)();
+            $result = $task();
         } finally {
-            $runTime = $task ? (' '.number_format((microtime(true) - $startTime) * 1000).'ms') : '';
-
+            $runTime = (' '.number_format((microtime(true) - $startTime) * 1000).'ms');
             $runTimeWidth = mb_strlen($runTime);
             $width = min(terminal()->width(), 150);
             $dots = max($width - $descriptionWidth - $runTimeWidth - 10, 0);
-
             $this->output->write(str_repeat('<fg=gray>.</>', $dots), false, $verbosity);
             $this->output->write("<fg=gray>$runTime</>", false, $verbosity);
 
@@ -56,6 +63,9 @@ class Task extends BaseTask
                     break;
                 case 'DONE':
                     $this->output->writeln(' <fg=green;options=bold>DONE</>', $verbosity);
+                    break;
+                case 'FAIL':
+                    $this->output->writeln(' <fg=green;options=bold>FAIL</>', $verbosity);
                     break;
                 default:
                     $this->output->writeln(' <fg=red;options=bold>ERROR</>', $verbosity);
