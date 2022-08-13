@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
-use Illuminate\Support\Str;
 use LogicException;
 
 class MultiGroup extends Base
@@ -15,27 +14,6 @@ class MultiGroup extends Base
      * @var string[][]
      */
     protected array $requestRuleSheet = [];
-
-    /**
-     * Execution of processing.
-     *
-     * @param  string|null  $targetFileName
-     */
-    public function run(?string $targetFileName): void
-    {
-        $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
-        $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
-        $spreadSheetTitle = $this->spreadSheetReader->spreadSheetTitle($this->sheetId);
-        foreach ($spreadSheets as $sheetName => $sheet) {
-            if (! empty($requestRuleSheetName) && $sheetName === $requestRuleSheetName) {
-                continue;
-            }
-
-            $parentAttributes = $this->convertSheetData($sheet, Str::studly($spreadSheetTitle), $sheetName);
-            $this->verifySheetData($parentAttributes);
-            $this->createDefinitionDocument($parentAttributes, $targetFileName);
-        }
-    }
 
     /**
      * Generate rule message.
