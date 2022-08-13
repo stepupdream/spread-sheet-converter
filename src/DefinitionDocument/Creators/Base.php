@@ -303,7 +303,7 @@ abstract class Base extends LineMessage
             return false;
         }
 
-        return Str::snake($targetFileName) !== Str::snake($mainKeyName);
+        return Str::snake(pathinfo($targetFileName, PATHINFO_FILENAME)) === Str::snake($mainKeyName);
     }
 
     /**
