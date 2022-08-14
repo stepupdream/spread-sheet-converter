@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
-use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 
 class Other extends Base
@@ -38,30 +37,15 @@ class Other extends Base
     }
 
     /**
-     * Generate a definition document.
+     * File output destination.
      *
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]  $parentAttributes
-     * @param  string|null  $targetFileName
+     * @param  ParentAttribute  $parentAttribute
+     * @return string
      */
-    public function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
+    public function outputPath(ParentAttribute $parentAttribute): string
     {
-        if (count($parentAttributes) > 1) {
-            throw new LogicException('Other does not support multiple parent settings. : '.$this->categoryTag);
-        }
+        $fileName = $parentAttribute->sheetName().'.yml';
 
-        $this->fileOperation->createGitKeep($this->definitionDirectoryPath);
-        foreach ($parentAttributes as $parentAttribute) {
-            $fileName = $parentAttribute->sheetName().'.yml';
-            $targetPath = $this->outputDirectoryPath.
-                DIRECTORY_SEPARATOR.
-                $fileName;
-            $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
-            if (! $this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
-                $this->write($targetPath, 'SKIP', 'green');
-                continue;
-            }
-            $this->fileOperation->createFile($loadBladeFile, $targetPath, true);
-            $this->write($targetPath, 'CREATE');
-        }
+        return $this->outputDirectoryPath.DIRECTORY_SEPARATOR.$fileName;
     }
 }

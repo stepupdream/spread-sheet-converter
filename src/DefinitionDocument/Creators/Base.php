@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
+use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Str;
 use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\LineMessage;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 
 abstract class Base extends LineMessage
@@ -89,13 +91,28 @@ abstract class Base extends LineMessage
      */
     public function run(?string $targetFileName): void
     {
+        $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
         $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
         $spreadSheetTitle = $this->spreadSheetReader->spreadSheetTitle($this->sheetId);
+        (new Info($this->output))->render(sprintf('%s file load', $spreadSheetTitle));
+
         foreach ($spreadSheets as $sheetName => $sheet) {
+            if (! empty($requestRuleSheetName) && $sheetName === $requestRuleSheetName) {
+                continue;
+            }
+
             $parentAttributes = $this->convertSheetData($sheet, Str::studly($spreadSheetTitle), $sheetName);
             $this->verifySheetData($parentAttributes);
-            $this->createDefinitionDocument($parentAttributes, $targetFileName);
+            $this->fileOperation->createGitKeep($this->definitionDirectoryPath);
+            foreach ($parentAttributes as $parentAttribute) {
+                (new Task($this->output))->render(
+                    $this->outputPath($parentAttribute),
+                    fn () => $this->createDefinitionDocument($parentAttribute, $targetFileName)
+                );
+            }
         }
+
+        $this->output->newLine();
     }
 
     /**
@@ -226,53 +243,67 @@ abstract class Base extends LineMessage
     /**
      * Generate a definition document.
      *
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]  $parentAttributes
+     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
      * @param  string|null  $targetFileName
+     * @return string
      */
-    public function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
+    public function createDefinitionDocument(ParentAttribute $parentAttribute, ?string $targetFileName): string
     {
-        $this->fileOperation->createGitKeep($this->definitionDirectoryPath);
-        foreach ($parentAttributes as $parentAttribute) {
-            $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
+        $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
+        $outputPath = $this->outputPath($parentAttribute);
+        $fileName = basename($outputPath);
 
-            if ($mainKeyName === null) {
-                throw new LogicException('mainKeyName was not found');
-            }
-
-            // If there is a specification to get only a part, skip other data
-            if ($this->isReadSkip($mainKeyName, $targetFileName)) {
-                continue;
-            }
-            $fileName = $mainKeyName.'.yml';
-            $targetPath = $this->outputDirectoryPath.
-                DIRECTORY_SEPARATOR.
-                Str::studly($parentAttribute->sheetName()).
-                DIRECTORY_SEPARATOR.$fileName;
-            $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
-            if (! $this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
-                $this->write($targetPath, 'SKIP', 'green');
-                continue;
-            }
-
-            $this->fileOperation->createFile($loadBladeFile, $targetPath, true);
-            $this->write($targetPath, 'CREATE');
+        // If there is a specification to get only a part, skip other data
+        if ($this->isReadSkip($mainKeyName, $targetFileName)) {
+            return 'SKIP';
         }
+        $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
+
+        if ($this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
+            $this->fileOperation->createFile($loadBladeFile, $outputPath, true);
+
+            return 'DONE';
+        }
+
+        return 'SKIP';
+    }
+
+    /**
+     * File output destination.
+     *
+     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
+     * @return string
+     */
+    public function outputPath(ParentAttribute $parentAttribute): string
+    {
+        $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
+
+        if ($mainKeyName === null) {
+            throw new LogicException('mainKeyName was not found');
+        }
+
+        $fileName = $mainKeyName.'.yml';
+
+        return $this->outputDirectoryPath.
+            DIRECTORY_SEPARATOR.
+            Str::studly($parentAttribute->sheetName()).
+            DIRECTORY_SEPARATOR.$fileName;
     }
 
     /**
      * Whether to skip reading.
      *
-     * @param  string  $mainKeyName
+     * @param  string|null  $mainKeyName
      * @param  string|null  $targetFileName
      * @return bool
      */
-    protected function isReadSkip(string $mainKeyName, ?string $targetFileName): bool
+    protected function isReadSkip(?string $mainKeyName, ?string $targetFileName): bool
     {
-        if ($targetFileName === null) {
+        if ($targetFileName === null || $mainKeyName === null) {
             return false;
         }
 
-        return Str::snake($targetFileName) !== Str::snake($mainKeyName);
+        return Str::snake(pathinfo($targetFileName, PATHINFO_FILENAME)) !== Str::snake($mainKeyName);
     }
 
     /**
