@@ -17,8 +17,9 @@ class FileOperation
      * @param  string  $content
      * @param  string  $filePath
      * @param  bool  $isOverwrite
+     * @return bool
      */
-    public function createFile(string $content, string $filePath, bool $isOverwrite = false): void
+    public function createFile(string $content, string $filePath, bool $isOverwrite = false): bool
     {
         $dirPath = dirname($filePath);
 
@@ -29,7 +30,7 @@ class FileOperation
         if (! file_exists($filePath)) {
             $this->put($filePath, $content);
 
-            return;
+            return true;
         }
 
         if ($isOverwrite) {
@@ -37,7 +38,11 @@ class FileOperation
             // An error occurred when overwriting, so always delete → create
             $this->delete($filePath);
             $this->put($filePath, $content);
+
+            return true;
         }
+
+        return false;
     }
 
     /**
