@@ -86,8 +86,8 @@ class BaseTest extends TestCase
 
         // Skip test.
         $baseMock->setOutput($style)->run('characters');
-        self::assertFileDoesNotExist($outputData1);
-        self::assertFileExists($outputData2);
+        self::assertFileExists($outputData1);
+        self::assertFileDoesNotExist($outputData2);
         self::assertFileExists(__DIR__.'/../Sample/Definition/.gitkeep');
 
         // First time.
