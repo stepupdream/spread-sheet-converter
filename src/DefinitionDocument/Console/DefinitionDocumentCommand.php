@@ -48,6 +48,8 @@ class DefinitionDocumentCommand extends BaseCreateCommand
             };
             $creator->setOutput($this->output)->run($targetFileName);
         }
+
+        $this->commandDetailLog();
     }
 
     /**
