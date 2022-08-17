@@ -19,7 +19,7 @@ class Task extends Component
      * I wanted to display SKIP, so I prepared it myself.
      *
      * @param  string  $description
-     * @param  callable  $task
+     * @param  callable|null  $task
      * @param  int  $verbosity
      * @return void
      *
@@ -27,7 +27,7 @@ class Task extends Component
      */
     public function render(
         string $description,
-        callable $task,
+        callable $task = null,
         int $verbosity = OutputInterface::VERBOSITY_NORMAL
     ): void {
         // Hack:
@@ -48,9 +48,9 @@ class Task extends Component
         $result = '';
 
         try {
-            $result = $task();
+            $result = ($task ?: fn () => 'DONE')();
         } finally {
-            $runTime = (' '.number_format((microtime(true) - $startTime) * 1000).'ms');
+            $runTime = $task ? (' '.number_format((microtime(true) - $startTime) * 1000).'ms') : '';
             $runTimeWidth = mb_strlen($runTime);
             $width = min(terminal()->width(), 150);
             $dots = max($width - $descriptionWidth - $runTimeWidth - 10, 0);
@@ -59,13 +59,13 @@ class Task extends Component
 
             switch ($result) {
                 case 'SKIP':
-                    $this->output->writeln(' <fg=yellow;options=bold>SKIP</>', $verbosity);
+                    $this->output->writeln(' <fg=cyan;options=bold>SKIP</>', $verbosity);
                     break;
                 case 'DONE':
                     $this->output->writeln(' <fg=green;options=bold>DONE</>', $verbosity);
                     break;
                 case 'FAIL':
-                    $this->output->writeln(' <fg=green;options=bold>FAIL</>', $verbosity);
+                    $this->output->writeln(' <fg=yellow;options=bold>FAIL</>', $verbosity);
                     break;
                 default:
                     $this->output->writeln(' <fg=red;options=bold>ERROR</>', $verbosity);
