@@ -22,11 +22,12 @@ abstract class BaseCreateCommand extends Command
     /**
      * Command execution log.
      *
+     * @param  string  $description
      * @return void
      */
-    public function commandDetailLog(): void
+    public function commandDetailLog(string $description = 'Command run detail'): void
     {
-        (new Info($this->output))->render('Command run detail');
+        (new Info($this->output))->render($description);
         $runTime = number_format((microtime(true) - LARAVEL_START) * 1000).'ms';
         $usedMemory = sprintf('%sMB', memory_get_peak_usage(true) / 1024 / 1024);
         $this->line(sprintf("  run_time : %s\n  used_memory : %s\n", $runTime, $usedMemory));
