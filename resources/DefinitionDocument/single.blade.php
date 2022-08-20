@@ -11,4 +11,5 @@
       migration_data_type: '{{ $attribute->getAttributeDetailByKey('MigrationDataType') }}'
       is_unsigned: {{ $attribute->getAttributeDetailByKey('IsUnsigned') }}
       is_nullable: {{ $attribute->getAttributeDetailByKey('IsNullable') }}
+      version: {{ $attribute->getAttributeDetailByKey('Version') }}
 @endforeach

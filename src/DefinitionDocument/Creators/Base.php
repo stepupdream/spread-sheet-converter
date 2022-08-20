@@ -104,12 +104,7 @@ abstract class Base extends LineMessage
             $parentAttributes = $this->convertSheetData($sheet, Str::studly($spreadSheetTitle), $sheetName);
             $this->verifySheetData($parentAttributes);
             $this->fileOperation->createGitKeep($this->definitionDirectoryPath);
-            foreach ($parentAttributes as $parentAttribute) {
-                (new Task($this->output))->render(
-                    $this->outputPath($parentAttribute),
-                    fn () => $this->createDefinitionDocument($parentAttribute, $targetFileName)
-                );
-            }
+            $this->createDefinitionDocument($parentAttributes, $targetFileName);
         }
 
         $this->output->newLine();
@@ -243,29 +238,34 @@ abstract class Base extends LineMessage
     /**
      * Generate a definition document.
      *
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
+     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]  $parentAttributes
      * @param  string|null  $targetFileName
-     * @return string
+     * @return void
      */
-    public function createDefinitionDocument(ParentAttribute $parentAttribute, ?string $targetFileName): string
+    public function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
     {
-        $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
-        $outputPath = $this->outputPath($parentAttribute);
-        $fileName = basename($outputPath);
+        foreach ($parentAttributes as $parentAttribute) {
+            $description = $this->outputPath($parentAttribute);
+            (new Task($this->output))->render($description, function () use ($parentAttribute, $targetFileName) {
+                $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
+                $outputPath = $this->outputPath($parentAttribute);
+                $fileName = basename($outputPath);
 
-        // If there is a specification to get only a part, skip other data
-        if ($this->isReadSkip($mainKeyName, $targetFileName)) {
-            return 'SKIP';
+                // If there is a specification to get only a part, skip other data
+                if ($this->isReadSkip($mainKeyName, $targetFileName)) {
+                    return 'SKIP';
+                }
+                $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
+
+                if ($this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
+                    $this->fileOperation->createFile($loadBladeFile, $outputPath, true);
+
+                    return 'DONE';
+                }
+
+                return 'SKIP';
+            });
         }
-        $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
-
-        if ($this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
-            $this->fileOperation->createFile($loadBladeFile, $outputPath, true);
-
-            return 'DONE';
-        }
-
-        return 'SKIP';
     }
 
     /**
