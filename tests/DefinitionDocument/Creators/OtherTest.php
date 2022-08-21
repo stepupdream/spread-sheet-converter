@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
-use StepUpDream\DreamAbilitySupport\Supports\FileOperation;
+use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;

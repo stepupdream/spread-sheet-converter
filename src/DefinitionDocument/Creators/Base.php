@@ -8,8 +8,8 @@ use Illuminate\Console\OutputStyle;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Str;
 use LogicException;
-use StepUpDream\DreamAbilitySupport\Supports\FileOperation;
-use StepUpDream\DreamAbilitySupport\Supports\Task;
+use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
+use StepUpDream\DreamAbilitySupport\Supports\File\Task;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
@@ -73,7 +73,7 @@ abstract class Base
     /**
      * BaseCreator constructor.
      *
-     * @param  \StepUpDream\DreamAbilitySupport\Supports\FileOperation  $fileOperation
+     * @param  \StepUpDream\DreamAbilitySupport\Supports\File\FileOperation  $fileOperation
      * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader  $spreadSheetReader
      * @param  string[]  $readSpreadSheet
      */

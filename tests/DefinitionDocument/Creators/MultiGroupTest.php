@@ -6,7 +6,7 @@ namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
 use Illuminate\Support\Facades\Config;
 use Mockery;
-use StepUpDream\DreamAbilitySupport\Supports\FileOperation;
+use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;

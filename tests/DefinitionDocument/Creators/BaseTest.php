@@ -7,7 +7,7 @@ namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
-use StepUpDream\DreamAbilitySupport\Supports\FileOperation;
+use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Base;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
