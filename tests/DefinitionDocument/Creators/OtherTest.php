@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
+use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
@@ -96,7 +96,7 @@ class OtherTest extends TestCase
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
 
         $other = new Other($fileOperation, $spreadSheetReader, $argument);
-        $response = $other->convertSheetData($sheetValues, 'Other', 'sheetName');
+        $response = $this->executePrivateFunction($other, 'convertSheetData', [$sheetValues, 'Other', 'sheetName']);
 
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 
+use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
@@ -92,7 +92,11 @@ class SingleGroupTest extends TestCase
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
 
         $singleGroup = new SingleGroup($fileOperation, $spreadSheetReader, $argument);
-        $response = $singleGroup->convertSheetData($sheetValues, 'MasterData', 'sheetName');
+        $response = $this->executePrivateFunction(
+            $singleGroup,
+            'convertSheetData',
+            [$sheetValues, 'MasterData', 'sheetName']
+        );
 
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }

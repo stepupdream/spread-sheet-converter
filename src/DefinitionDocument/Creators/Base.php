@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
+use Illuminate\Console\OutputStyle;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Str;
 use LogicException;
+use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
+use StepUpDream\DreamAbilitySupport\Supports\File\Task;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\LineMessage;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\Task;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 
-abstract class Base extends LineMessage
+abstract class Base
 {
+    /**
+     * The output style implementation.
+     *
+     * @var \Illuminate\Console\OutputStyle
+     */
+    protected OutputStyle $output;
+
     /**
      * Template blade file to use.
      *
@@ -66,7 +73,7 @@ abstract class Base extends LineMessage
     /**
      * BaseCreator constructor.
      *
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation  $fileOperation
+     * @param  \StepUpDream\DreamAbilitySupport\Supports\File\FileOperation  $fileOperation
      * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader  $spreadSheetReader
      * @param  string[]  $readSpreadSheet
      */
@@ -118,7 +125,7 @@ abstract class Base extends LineMessage
      * @param  string  $sheetName
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]
      */
-    public function convertSheetData(array $sheet, string $spreadSheetTitle, string $sheetName): array
+    protected function convertSheetData(array $sheet, string $spreadSheetTitle, string $sheetName): array
     {
         $rowNumber = 0;
         $convertedSheetData = [];
@@ -242,7 +249,7 @@ abstract class Base extends LineMessage
      * @param  string|null  $targetFileName
      * @return void
      */
-    public function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
+    protected function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
     {
         foreach ($parentAttributes as $parentAttribute) {
             $description = $this->outputPath($parentAttribute);
@@ -274,7 +281,7 @@ abstract class Base extends LineMessage
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
      * @return string
      */
-    public function outputPath(ParentAttribute $parentAttribute): string
+    protected function outputPath(ParentAttribute $parentAttribute): string
     {
         $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
 
@@ -318,5 +325,18 @@ abstract class Base extends LineMessage
         return view('spread-sheet-converter::'.Str::snake($useBladeFileName), [
             'parentAttribute' => $parentAttribute,
         ])->render();
+    }
+
+    /**
+     * Set the output implementation that should be used by the console.
+     *
+     * @param  \Illuminate\Console\OutputStyle  $output
+     * @return $this
+     */
+    public function setOutput(OutputStyle $output): static
+    {
+        $this->output = $output;
+
+        return $this;
     }
 }
