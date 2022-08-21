@@ -7,8 +7,8 @@ namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
+use StepUpDream\DreamAbilitySupport\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Base;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Supports\FileOperation;
 use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -76,7 +76,6 @@ class BaseTest extends TestCase
         $methodName = 'loadBladeFile';
         $baseMock->shouldAllowMockingProtectedMethods()->allows($methodName)->andReturns("sample\n");
 
-        /** @var Base $baseMock */
         $bufferedOutput = new BufferedOutput();
         $style = new OutputStyle(new ArrayInput([]), $bufferedOutput);
 

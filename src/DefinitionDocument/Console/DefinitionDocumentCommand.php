@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Console;
 
 use LogicException;
+use StepUpDream\DreamAbilitySupport\Console\BaseCommand;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
 
-class DefinitionDocumentCommand extends BaseCreateCommand
+class DefinitionDocumentCommand extends BaseCommand
 {
     /**
      * The name and signature of the console command.
@@ -30,8 +31,8 @@ class DefinitionDocumentCommand extends BaseCreateCommand
      */
     public function handle(): void
     {
-        $targetCategory = $this->categoryOption();
-        $targetFileName = $this->fileNameOption();
+        $targetCategory = $this->optionText('category');
+        $targetFileName = $this->optionText('file_name');
         $readSpreadSheets = $this->readSpreadSheets();
 
         foreach ($readSpreadSheets as $readSpreadSheet) {
@@ -53,44 +54,6 @@ class DefinitionDocumentCommand extends BaseCreateCommand
     }
 
     /**
-     * Category
-     *
-     * @return string|null
-     */
-    private function categoryOption(): string|null
-    {
-        $category = $this->option('category');
-        if ($category === null) {
-            return null;
-        }
-
-        if (is_string($category)) {
-            return $category;
-        }
-
-        throw new LogicException('The option specification is incorrect: category');
-    }
-
-    /**
-     * File name
-     *
-     * @return string|null
-     */
-    private function fileNameOption(): string|null
-    {
-        $category = $this->option('file_name');
-        if ($category === null) {
-            return null;
-        }
-
-        if (is_string($category)) {
-            return $category;
-        }
-
-        throw new LogicException('The option specification is incorrect: file_name');
-    }
-
-    /**
      * Read Spread Sheets
      *
      * @return mixed[][]
@@ -108,17 +71,6 @@ class DefinitionDocumentCommand extends BaseCreateCommand
         }
 
         return $readSpreadSheets;
-    }
-
-    /**
-     * Whether it is a multidimensional array.
-     *
-     * @param  mixed[]  $array
-     * @return bool
-     */
-    public function isMultidimensional(array $array): bool
-    {
-        return count($array) !== count($array, 1);
     }
 
     /**
