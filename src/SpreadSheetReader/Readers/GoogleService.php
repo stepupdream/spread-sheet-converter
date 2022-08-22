@@ -109,13 +109,12 @@ class GoogleService
      */
     protected function googleSpreadsheetService(): Sheets
     {
+        $credentialsPath = config('stepupdream.spread-sheet-converter.credentials_path');
+
         $client = new Google_Client();
         $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
-        $client->setAuthConfig(__DIR__.'/credentials.json');
+        $client->setAuthConfig($credentialsPath);
 
         return new Google_Service_Sheets($client);
-
-        //        $credentialsPath = config('stepupdream.spread-sheet-converter.credentials_path');
-//        return __DIR__.'/credentials.json';
     }
 }
