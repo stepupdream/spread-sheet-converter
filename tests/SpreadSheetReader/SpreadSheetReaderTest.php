@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace StepUpDream\SpreadSheetConverter\Test\SpreadSheetReader;
 
 use Mockery;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleServiceSheet;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleServiceSheet;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
 class SpreadSheetReaderTest extends TestCase

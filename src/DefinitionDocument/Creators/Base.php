@@ -12,7 +12,7 @@ use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\DreamAbilitySupport\Supports\File\Task;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 
 abstract class Base
 {
@@ -74,7 +74,7 @@ abstract class Base
      * BaseCreator constructor.
      *
      * @param  \StepUpDream\DreamAbilitySupport\Supports\File\FileOperation  $fileOperation
-     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader  $spreadSheetReader
+     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader  $spreadSheetReader
      * @param  string[]  $readSpreadSheet
      */
     public function __construct(

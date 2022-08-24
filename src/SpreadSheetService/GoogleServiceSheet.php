@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers;
+namespace StepUpDream\SpreadSheetConverter\SpreadSheetService;
 
 class GoogleServiceSheet
 {

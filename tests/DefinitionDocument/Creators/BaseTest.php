@@ -9,7 +9,7 @@ use Illuminate\Filesystem\Filesystem;
 use Mockery;
 use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Base;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;

@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers;
+namespace StepUpDream\SpreadSheetConverter\SpreadSheetService\Writers;
 
 use Illuminate\Console\OutputStyle;
 use StepUpDream\DreamAbilitySupport\Supports\File\Task;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\BufferedOutput;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class SpreadSheetWriter
 {
     /**
-     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService  $googleService
+     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService  $googleService
      */
     public function __construct(
         protected GoogleService $googleService,
@@ -23,7 +24,7 @@ class SpreadSheetWriter
      * Read spreadsheet data.
      *
      * @param  string  $sheetId
-     * @param  array  $values
+     * @param  mixed[][]  $values
      * @param  string  $sheetName
      * @param  string  $range
      * @param  string  $option
@@ -35,8 +36,7 @@ class SpreadSheetWriter
         string $range = 'A1',
         string $option = 'USER_ENTERED'
     ): void {
-        $bufferedOutput = new BufferedOutput();
-        $style = new OutputStyle(new ArrayInput([]), $bufferedOutput);
+        $style = new OutputStyle(new ArgvInput(), new ConsoleOutput());
 
         (new Task($style))->render(
             'write: '.$sheetName,
@@ -48,7 +48,7 @@ class SpreadSheetWriter
      * Update spreadsheet data.
      *
      * @param  string  $sheetId
-     * @param  array  $values
+     * @param  mixed[]  $values
      * @param  string  $sheetName
      * @param  string  $range
      * @param  string  $option
@@ -60,8 +60,7 @@ class SpreadSheetWriter
         string $range = 'A1',
         string $option = 'USER_ENTERED'
     ): void {
-        $bufferedOutput = new BufferedOutput();
-        $style = new OutputStyle(new ArrayInput([]), $bufferedOutput);
+        $style = new OutputStyle(new ArgvInput(), new ConsoleOutput());
 
         (new Task($style))->render(
             'write: '.$sheetName,

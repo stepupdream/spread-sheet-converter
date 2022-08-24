@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers;
+namespace StepUpDream\SpreadSheetConverter\SpreadSheetService;
 
+use Exception;
 use Google\Service\Sheets;
-use Google\Service\Sheets\AppendValuesResponse;
-use Google\Service\Sheets\BatchUpdateValuesResponse;
 use Google_Client;
 use Google_Service_Sheets;
 use Google_Service_Sheets_BatchUpdateValuesRequest;
@@ -40,11 +39,11 @@ class GoogleService
      * Update spreadsheet data.
      *
      * @param  string  $sheetId
-     * @param  array  $values
+     * @param  mixed[][]  $values
      * @param  string  $sheetName
      * @param  string  $range
      * @param  string  $option
-     * @return \Google\Service\Sheets\BatchUpdateValuesResponse
+     * @return string
      * @throws \Google\Exception
      */
     public function updateGoogleServiceSheet(
@@ -53,22 +52,26 @@ class GoogleService
         string $sheetName,
         string $range,
         string $option
-    ): BatchUpdateValuesResponse {
+    ): string {
         $spreadsheetService = $this->googleSpreadsheetService();
         $range = sprintf('%s!%s', $sheetName, $range);
 
         $valueRange = [];
         $valueRange[] = new Google_Service_Sheets_ValueRange([
-            'range'  => $range,
-            'values' => $values,
+            'range' => $range, 'values' => $values,
         ]);
 
         $body = new  Google_Service_Sheets_BatchUpdateValuesRequest([
-            'valueInputOption' => $option,
-            'data'             => $valueRange,
+            'valueInputOption' => $option, 'data' => $valueRange,
         ]);
 
-        return $spreadsheetService->spreadsheets_values->batchUpdate($sheetId, $body);
+        try {
+            $spreadsheetService->spreadsheets_values->batchUpdate($sheetId, $body);
+
+            return 'DONE';
+        } catch (Exception $e) {
+            throw new \Google\Exception($e->getMessage());
+        }
     }
 
     /**
@@ -79,7 +82,8 @@ class GoogleService
      * @param  string  $sheetName
      * @param  string  $range
      * @param  string  $option
-     * @return \Google\Service\Sheets\AppendValuesResponse
+     * @return string
+     * @throws \Google\Exception
      */
     public function appendGoogleServiceSheet(
         string $sheetId,
@@ -87,7 +91,7 @@ class GoogleService
         string $sheetName,
         string $range,
         string $option
-    ): AppendValuesResponse {
+    ): string {
         $spreadsheetService = $this->googleSpreadsheetService();
         $body = new Google_Service_Sheets_ValueRange([
             'values' => $values,
@@ -98,7 +102,13 @@ class GoogleService
         $params = ['valueInputOption' => $option];
         $range = sprintf('%s!%s', $sheetName, $range);
 
-        return $spreadsheetService->spreadsheets_values->append($sheetId, $range, $body, $params);
+        try {
+            $spreadsheetService->spreadsheets_values->append($sheetId, $range, $body, $params);
+
+            return 'DONE';
+        } catch (Exception $e) {
+            throw new \Google\Exception($e->getMessage());
+        }
     }
 
     /**
