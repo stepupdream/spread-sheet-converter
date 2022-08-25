@@ -34,7 +34,7 @@
     "laravel": {
       "providers": [
         "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\DefinitionDocumentCommandServiceProvider",
-        "StepUpDream\\SpreadSheetConverter\\SpreadSheetReader\\Providers\\SpreadSheetReaderProvider"
+        "StepUpDream\\SpreadSheetConverter\\SpreadSheetService\\Providers\\SpreadSheetProvider"
       ]
     }
   },
