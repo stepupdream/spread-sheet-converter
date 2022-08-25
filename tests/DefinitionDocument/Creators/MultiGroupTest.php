@@ -10,9 +10,9 @@ use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleServiceSheet;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleServiceSheet;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
 class MultiGroupTest extends TestCase

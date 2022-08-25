@@ -8,7 +8,7 @@ use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
 class SingleGroupTest extends TestCase
