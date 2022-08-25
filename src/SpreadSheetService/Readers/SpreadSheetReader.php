@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers;
+namespace StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers;
 
 use LogicException;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleServiceSheet;
 
 class SpreadSheetReader
 {
@@ -30,7 +32,7 @@ class SpreadSheetReader
     protected array $googleServiceSheets = [];
 
     /**
-     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService  $googleService
+     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService  $googleService
      */
     public function __construct(protected GoogleService $googleService)
     {

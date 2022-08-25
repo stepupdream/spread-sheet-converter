@@ -42,7 +42,7 @@ class Other extends Base
      * @param  ParentAttribute  $parentAttribute
      * @return string
      */
-    public function outputPath(ParentAttribute $parentAttribute): string
+    protected function outputPath(ParentAttribute $parentAttribute): string
     {
         $fileName = $parentAttribute->sheetName().'.yml';
 

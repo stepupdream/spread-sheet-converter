@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\SpreadSheetConverter\SpreadSheetReader\Providers;
+namespace StepUpDream\SpreadSheetConverter\SpreadSheetService\Providers;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\GoogleService;
-use StepUpDream\SpreadSheetConverter\SpreadSheetReader\Readers\SpreadSheetReader;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
+use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 
-class SpreadSheetReaderProvider extends ServiceProvider implements DeferrableProvider
+class SpreadSheetProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register the service provider.

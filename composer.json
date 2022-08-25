@@ -10,9 +10,11 @@
   "require": {
     "php": ">=8.0.0",
     "google/apiclient": "^2.12.1",
-    "laravel/framework": "^9"
+    "laravel/framework": "^9",
+    "stepupdream/dream-ability-support": "dev-develop"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-latest",
     "orchestra/testbench": "^7",
     "phpunit/phpunit": "^9.5",
     "bamarni/composer-bin-plugin": "^1.4",
@@ -32,11 +34,17 @@
     "laravel": {
       "providers": [
         "StepUpDream\\SpreadSheetConverter\\DefinitionDocument\\Providers\\DefinitionDocumentCommandServiceProvider",
-        "StepUpDream\\SpreadSheetConverter\\SpreadSheetReader\\Providers\\SpreadSheetReaderProvider"
+        "StepUpDream\\SpreadSheetConverter\\SpreadSheetService\\Providers\\SpreadSheetProvider"
       ]
     }
   },
   "scripts": {
+    "test-all": [
+      "vendor/bin/phpunit",
+      "vendor/bin/php-cs-fixer fix -v --diff --dry-run",
+      "vendor/bin/phpcs --standard=phpcs.xml .",
+      "vendor/bin/phpstan analyse"
+    ],
     "test": "vendor/bin/phpunit",
     "format": "vendor/bin/php-cs-fixer fix -v --diff --dry-run",
     "phpcs": "vendor/bin/phpcs --standard=phpcs.xml ./",
