@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace StepUpDream\SpreadSheetConverter\SpreadSheetService\Writers;
 
 use Illuminate\Console\OutputStyle;
-use StepUpDream\DreamAbilitySupport\Supports\File\Task;
+use StepUpDream\DreamAbilitySupport\Console\View\Components\Task;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
