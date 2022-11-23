@@ -67,11 +67,13 @@ abstract class Base implements CreatorInterface
      *
      * @param  \StepUpDream\DreamAbilitySupport\Supports\File\FileOperation  $fileOperation
      * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader  $spreadSheetReader
+     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\BladeLoader  $bladeLoader
      * @param  string[]  $readSpreadSheet
      */
     public function __construct(
         protected FileOperation $fileOperation,
         protected SpreadSheetReader $spreadSheetReader,
+        protected BladeLoader $bladeLoader,
         array $readSpreadSheet
     ) {
         $this->useBladeFileName = $readSpreadSheet['use_blade'];
@@ -143,7 +145,7 @@ abstract class Base implements CreatorInterface
                 if ($this->isReadSkip($mainKeyName, $targetFileName)) {
                     return 'SKIP';
                 }
-                $loadBladeFile = $this->loadBladeFile($this->useBladeFileName, $parentAttribute);
+                $loadBladeFile = $this->bladeLoader->loadBladeFile($this->useBladeFileName, $parentAttribute);
 
                 if ($this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
                     $this->fileOperation->createFile($loadBladeFile, $outputPath, true);
@@ -170,20 +172,6 @@ abstract class Base implements CreatorInterface
         }
 
         return Str::snake(pathinfo($targetFileName, PATHINFO_FILENAME)) !== Str::snake($mainKeyName);
-    }
-
-    /**
-     * Read the blade file.
-     *
-     * @param  string  $useBladeFileName
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
-     * @return string
-     */
-    protected function loadBladeFile(string $useBladeFileName, ParentAttribute $parentAttribute): string
-    {
-        return view('spread-sheet-converter::'.Str::snake($useBladeFileName), [
-            'parentAttribute' => $parentAttribute,
-        ])->render();
     }
 
     /**

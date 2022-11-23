@@ -40,17 +40,19 @@ class TwoAreaCreator extends Base
      *
      * @param  \StepUpDream\DreamAbilitySupport\Supports\File\FileOperation  $fileOperation
      * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader  $spreadSheetReader
+     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\BladeLoader  $bladeLoader
      * @param  string[]  $readSpreadSheet
      */
     public function __construct(
         protected FileOperation $fileOperation,
         protected SpreadSheetReader $spreadSheetReader,
+        protected BladeLoader $bladeLoader,
         array $readSpreadSheet
     ) {
         $this->separationKey = $readSpreadSheet['separation_key'];
         $this->attributeGroupColumnName = $readSpreadSheet['attribute_group_column_name'] ?? '';
 
-        parent::__construct($fileOperation, $spreadSheetReader, $readSpreadSheet);
+        parent::__construct($fileOperation, $spreadSheetReader, $bladeLoader, $readSpreadSheet);
     }
 
     /**
