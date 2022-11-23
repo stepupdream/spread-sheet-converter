@@ -16,6 +16,7 @@ return [
             'definition_directory_path'   => base_path('definition_document/database/master_data'),
             'separation_key'              => 'ColumnName',
             'attribute_group_column_name' => null,
+            'file_extension'              => 'csv',
         ],
         [
             'sheet_id'                    => '***************************',
@@ -26,6 +27,7 @@ return [
             'definition_directory_path'   => base_path('definition_document/database/master_data'),
             'separation_key'              => 'ColumnType',
             'attribute_group_column_name' => 'ColumnType',
+            'file_extension'              => 'csv',
         ],
         [
             'sheet_id'                    => '***************************',
@@ -36,6 +38,7 @@ return [
             'definition_directory_path'   => base_path('definition_document/database/master_data'),
             'separation_key'              => '',
             'attribute_group_column_name' => null,
+            'file_extension'              => 'csv',
         ],
     ],
 ];

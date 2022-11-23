@@ -251,7 +251,7 @@ class TwoAreaCreator extends Base
             throw new LogicException('mainKeyName was not found');
         }
 
-        $fileName = $mainKeyName.'.yml';
+        $fileName = sprintf('%s.%s', $mainKeyName, $this->fileExtension);
 
         return $this->outputDirectoryPath.
             DIRECTORY_SEPARATOR.

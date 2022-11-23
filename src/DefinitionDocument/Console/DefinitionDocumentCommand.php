@@ -88,6 +88,7 @@ class DefinitionDocumentCommand extends BaseCommand
             'definition_directory_path',
             'separation_key',
             'attribute_group_column_name',
+            'file_extension',
         ];
 
         foreach ($keys as $key) {

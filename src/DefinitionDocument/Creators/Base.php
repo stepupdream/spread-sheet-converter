@@ -56,6 +56,13 @@ abstract class Base implements CreatorInterface
     protected string $categoryTag;
 
     /**
+     * File_extension.
+     *
+     * @var string
+     */
+    protected string $fileExtension;
+
+    /**
      * BaseCreator constructor.
      *
      * @param  \StepUpDream\DreamAbilitySupport\Supports\File\FileOperation  $fileOperation
@@ -72,6 +79,7 @@ abstract class Base implements CreatorInterface
         $this->outputDirectoryPath = $readSpreadSheet['output_directory_path'];
         $this->definitionDirectoryPath = $readSpreadSheet['definition_directory_path'];
         $this->categoryTag = $readSpreadSheet['category_tag'];
+        $this->fileExtension = $readSpreadSheet['file_extension'];
     }
 
     /**

@@ -95,7 +95,7 @@ class OneAreaCreator extends Base
      */
     protected function outputPath(ParentAttribute $parentAttribute): string
     {
-        $fileName = $parentAttribute->sheetName().'.yml';
+        $fileName = sprintf('%s.%s', $parentAttribute->sheetName(), $this->fileExtension);
 
         return $this->outputDirectoryPath.DIRECTORY_SEPARATOR.$fileName;
     }
