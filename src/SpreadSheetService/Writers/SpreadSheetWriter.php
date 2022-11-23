@@ -21,7 +21,7 @@ class SpreadSheetWriter
     }
 
     /**
-     * Read spreadsheet data.
+     * Write spreadsheet data.
      *
      * @param  string  $sheetId
      * @param  mixed[][]  $values

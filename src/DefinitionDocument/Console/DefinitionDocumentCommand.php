@@ -6,9 +6,8 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Console;
 
 use LogicException;
 use StepUpDream\DreamAbilitySupport\Console\BaseCommand;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\OneAreaCreator;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\TwoAreaCreator;
 
 class DefinitionDocumentCommand extends BaseCommand
 {
@@ -42,9 +41,8 @@ class DefinitionDocumentCommand extends BaseCommand
 
             /** @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Base $creator */
             $creator = match ($readSpreadSheet['read_type']) {
-                'SingleGroup' => app()->make(SingleGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
-                'MultiGroup' => app()->make(MultiGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
-                'Other' => app()->make(Other::class, ['readSpreadSheet' => $readSpreadSheet]),
+                'OneArea' => app()->make(OneAreaCreator::class, ['readSpreadSheet' => $readSpreadSheet]),
+                'TwoArea' => app()->make(TwoAreaCreator::class, ['readSpreadSheet' => $readSpreadSheet]),
                 default => throw new LogicException('There were no matching conditions'),
             };
             $creator->setOutput($this->output)->run($targetFileName);

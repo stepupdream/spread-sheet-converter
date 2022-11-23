@@ -10,7 +10,7 @@ return [
         [
             'sheet_id'                    => '***************************',
             'category_tag'                => 'Category1',
-            'read_type'                   => 'SingleGroup',
+            'read_type'                   => 'TwoAreaCreator',
             'use_blade'                   => 'single',
             'output_directory_path'       => base_path('definition_document/tmp/database/master_data'),
             'definition_directory_path'   => base_path('definition_document/database/master_data'),
@@ -20,7 +20,7 @@ return [
         [
             'sheet_id'                    => '***************************',
             'category_tag'                => 'Category2',
-            'read_type'                   => 'MultiGroup',
+            'read_type'                   => 'TwoAreaCreator',
             'use_blade'                   => 'multi',
             'output_directory_path'       => base_path('definition_document/tmp/database/master_data'),
             'definition_directory_path'   => base_path('definition_document/database/master_data'),
@@ -30,7 +30,7 @@ return [
         [
             'sheet_id'                    => '***************************',
             'category_tag'                => 'Category3',
-            'read_type'                   => 'Other',
+            'read_type'                   => 'OneAreaCreator',
             'use_blade'                   => 'other',
             'output_directory_path'       => base_path('definition_document/tmp/database/master_data'),
             'definition_directory_path'   => base_path('definition_document/database/master_data'),

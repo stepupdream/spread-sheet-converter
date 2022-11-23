@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
 use Illuminate\Console\OutputStyle;
-use Illuminate\Console\View\Components\Info;
 use Illuminate\Support\Str;
-use LogicException;
 use StepUpDream\DreamAbilitySupport\Console\View\Components\Task;
 use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 
-abstract class Base
+abstract class Base implements CreatorInterface
 {
     /**
      * The output style implementation.
@@ -45,20 +42,8 @@ abstract class Base
     protected string $outputDirectoryPath;
 
     /**
-     * Delimiter column header name.
+     * Path of the directory where the definition is stored.
      *
-     * @var string
-     */
-    protected string $separationKey;
-
-    /**
-     * Key name of the group.
-     *
-     * @var string
-     */
-    protected string $attributeGroupColumnName;
-
-    /**
      * @var string
      */
     protected string $definitionDirectoryPath;
@@ -86,35 +71,7 @@ abstract class Base
         $this->sheetId = $readSpreadSheet['sheet_id'];
         $this->outputDirectoryPath = $readSpreadSheet['output_directory_path'];
         $this->definitionDirectoryPath = $readSpreadSheet['definition_directory_path'];
-        $this->separationKey = $readSpreadSheet['separation_key'];
-        $this->attributeGroupColumnName = $readSpreadSheet['attribute_group_column_name'] ?? '';
         $this->categoryTag = $readSpreadSheet['category_tag'];
-    }
-
-    /**
-     * Execution of processing.
-     *
-     * @param  string|null  $targetFileName
-     */
-    public function run(?string $targetFileName): void
-    {
-        $requestRuleSheetName = config('stepupdream.spread-sheet-converter.request_rule_sheet_name');
-        $spreadSheets = $this->spreadSheetReader->read($this->sheetId);
-        $spreadSheetTitle = $this->spreadSheetReader->spreadSheetTitle($this->sheetId);
-        (new Info($this->output))->render(sprintf('%s file load', $spreadSheetTitle));
-
-        foreach ($spreadSheets as $sheetName => $sheet) {
-            if (! empty($requestRuleSheetName) && $sheetName === $requestRuleSheetName) {
-                continue;
-            }
-
-            $parentAttributes = $this->convertSheetData($sheet, Str::studly($spreadSheetTitle), $sheetName);
-            $this->verifySheetData($parentAttributes);
-            $this->fileOperation->createGitKeep($this->definitionDirectoryPath);
-            $this->createDefinitionDocument($parentAttributes, $targetFileName);
-        }
-
-        $this->output->newLine();
     }
 
     /**
@@ -140,90 +97,6 @@ abstract class Base
         }
 
         return $convertedSheetData;
-    }
-
-    /**
-     * Generate Attribute class based on Sheet data.
-     *
-     * @param  string[][]  $sheet
-     * @param  string  $spreadsheetTitle
-     * @param  int  $rowNumber
-     * @param  string  $sheetName
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute
-     */
-    protected function createParentAttribute(
-        array $sheet,
-        string $spreadsheetTitle,
-        int &$rowNumber,
-        string $sheetName
-    ): ParentAttribute {
-        $headerNamesParent = $this->spreadSheetReader->getParentAttributeKeyName($sheet, $this->separationKey);
-        $headerNamesChild = $this->spreadSheetReader->getAttributeKeyName($sheet, $this->separationKey);
-        $mainKeyNameChild = collect($headerNamesChild)->first();
-
-        $parentAttribute = new ParentAttribute($spreadsheetTitle, $sheetName, $headerNamesChild);
-        foreach ($headerNamesParent as $headerNameParent) {
-            $parentAttribute->setParentAttributeDetails($sheet[$rowNumber][$headerNameParent], $headerNameParent);
-        }
-
-        while (! empty($sheet[$rowNumber]) && ! $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
-            $groupKeyName = $sheet[$rowNumber][$mainKeyNameChild];
-            $attributes = $this->createAttributesGroup($sheet, $rowNumber, $headerNamesChild);
-
-            if (empty($this->attributeGroupColumnName)) {
-                $parentAttribute->setAttributesGroup($attributes);
-            } else {
-                $parentAttribute->setAttributesGroup($attributes, $groupKeyName);
-            }
-        }
-
-        return $parentAttribute;
-    }
-
-    /**
-     * Create only one attributes group.
-     *
-     * @param  string[][]  $sheet
-     * @param  int  $rowNumber
-     * @param  string[]  $headerNames
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]
-     */
-    protected function createAttributesGroup(array $sheet, int &$rowNumber, array $headerNames): array
-    {
-        $attributes = [];
-        $mainKeyName = (string) collect($headerNames)->first();
-        $beforeMainKeyData = $sheet[$rowNumber][$headerNames[$mainKeyName]];
-
-        while (true) {
-            $attribute = new Attribute();
-            foreach ($headerNames as $headerName) {
-                $attribute->setAttributeDetails($sheet[$rowNumber][$headerName], $headerName);
-            }
-
-            if ($this instanceof MultiGroup) {
-                $attribute->unsetAttributeDetail($this->attributeGroupColumnName);
-                $message = $this->createRuleMessage($sheet, $rowNumber);
-                $attribute->setRuleMessage($message);
-            }
-
-            if (! $this->spreadSheetReader->isAllEmpty($attribute->attributeDetails())) {
-                $attributes[] = $attribute;
-            }
-            $rowNumber++;
-
-            if (empty($sheet[$rowNumber]) || $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
-                break;
-            }
-
-            // If the key of the group is switched, it is judged that the group is finished
-            if (! empty($this->attributeGroupColumnName) &&
-                $sheet[$rowNumber][$headerNames[$mainKeyName]] !== '' &&
-                $sheet[$rowNumber][$headerNames[$mainKeyName]] !== $beforeMainKeyData) {
-                break;
-            }
-        }
-
-        return $attributes;
     }
 
     /**
@@ -276,28 +149,6 @@ abstract class Base
     }
 
     /**
-     * File output destination.
-     *
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
-     * @return string
-     */
-    protected function outputPath(ParentAttribute $parentAttribute): string
-    {
-        $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
-
-        if ($mainKeyName === null) {
-            throw new LogicException('mainKeyName was not found');
-        }
-
-        $fileName = $mainKeyName.'.yml';
-
-        return $this->outputDirectoryPath.
-            DIRECTORY_SEPARATOR.
-            Str::studly($parentAttribute->sheetName()).
-            DIRECTORY_SEPARATOR.$fileName;
-    }
-
-    /**
      * Whether to skip reading.
      *
      * @param  string|null  $mainKeyName
@@ -339,4 +190,28 @@ abstract class Base
 
         return $this;
     }
+
+    /**
+     * Generate Attribute class based on Sheet data.
+     *
+     * @param  string[][]  $sheet
+     * @param  string  $spreadsheetTitle
+     * @param  int  $rowNumber
+     * @param  string  $sheetName
+     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute
+     */
+    abstract protected function createParentAttribute(
+        array $sheet,
+        string $spreadsheetTitle,
+        int &$rowNumber,
+        string $sheetName
+    ): ParentAttribute;
+
+    /**
+     * File output destination.
+     *
+     * @param  ParentAttribute  $parentAttribute
+     * @return string
+     */
+    abstract protected function outputPath(ParentAttribute $parentAttribute): string;
 }

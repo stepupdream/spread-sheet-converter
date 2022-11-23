@@ -7,11 +7,15 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 class Attribute extends BaseAttribute
 {
     /**
+     * One line of information in the child element part.
+     *
      * @var string[]
      */
     protected array $attributeDetails = [];
 
     /**
+     * Rule message.
+     *
      * @var string
      */
     protected string $ruleMessage = '';
@@ -73,6 +77,7 @@ class Attribute extends BaseAttribute
      * Get rule message.
      *
      * @return string
+     * @noinspection PhpUnused
      */
     public function ruleMessage(): string
     {

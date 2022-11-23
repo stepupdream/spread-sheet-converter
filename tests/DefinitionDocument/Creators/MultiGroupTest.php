@@ -7,7 +7,7 @@ namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Creators;
 use Illuminate\Support\Facades\Config;
 use Mockery;
 use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\TwoAreaCreator;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
@@ -144,7 +144,7 @@ class MultiGroupTest extends TestCase
         $spreadSheetReader = $this->app->make(SpreadSheetReader::class);
 
         // createRuleMessage includes Google processing, so cut it out as a separate test
-        $multiGroup = new MultiGroup($fileOperation, $spreadSheetReader, $argument);
+        $multiGroup = new TwoAreaCreator($fileOperation, $spreadSheetReader, $argument);
         $response = $this->executePrivateFunction($multiGroup, 'convertSheetData', [$sheetValues, 'Api', 'sheetName']);
         self::assertEquals($response, [$parentAttribute, $parentAttribute2]);
     }
@@ -228,7 +228,7 @@ class MultiGroupTest extends TestCase
         $mock->allows('readFromGoogleServiceSheet')->andReturns($andReturns);
         $spreadSheetReaderMock = new SpreadSheetReader($mock);
 
-        $multiGroup = new MultiGroup($fileOperation, $spreadSheetReaderMock, $argument);
+        $multiGroup = new TwoAreaCreator($fileOperation, $spreadSheetReaderMock, $argument);
         $response = $this->executePrivateFunction($multiGroup, 'convertSheetData', [$sheetValues, 'Api', 'sheetName']);
 
         $ruleMessage1 = $response[0]->attributesGroup()['Request'][0]->ruleMessage();

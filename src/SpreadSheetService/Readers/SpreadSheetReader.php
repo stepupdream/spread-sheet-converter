@@ -77,8 +77,8 @@ class SpreadSheetReader
     {
         $googleServiceSheet = $this->readFromGoogleServiceSheet($sheetId);
         $spreadsheets = $googleServiceSheet->spreadSheets();
-        foreach ($spreadsheets as $sheetTitle => $sheet) {
-            $spreadsheets[$sheetTitle] = $this->getTitleArray($sheet, $sheetTitle);
+        foreach ($spreadsheets as $sheetName => $sheet) {
+            $spreadsheets[$sheetName] = $this->getTitleArray($sheet, $sheetName);
         }
 
         return $spreadsheets;
@@ -107,17 +107,17 @@ class SpreadSheetReader
      * Make the first row the key of the associative array.
      *
      * @param  string[][]  $sheet
-     * @param  string  $sheetTitle
+     * @param  string  $sheetName
      * @return string[][]
      */
-    protected function getTitleArray(array $sheet, string $sheetTitle): array
+    protected function getTitleArray(array $sheet, string $sheetName): array
     {
         $result = [];
         $headerRow = [];
         $isHeader = true;
 
         if (empty($sheet)) {
-            throw new LogicException('need sheet header: '.$sheetTitle);
+            throw new LogicException('need sheet header: '.$sheetName);
         }
 
         foreach ($sheet as $row) {
@@ -152,6 +152,7 @@ class SpreadSheetReader
      * Verification of correct type specification.
      *
      * @param  string[]  $attribute
+     * @noinspection PhpUnused
      */
     public function verifySheetDataDetail(array $attribute): void
     {

@@ -37,7 +37,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
             $originPathDocument = __DIR__.'/../../../resources/DefinitionDocument';
             $targetPathDocument = 'views/vendor/spread-sheet-converter';
             $this->publishes([
-                $originPathDocument => $this->app->resourcePath($targetPathDocument),
+                $originPathDocument     => $this->app->resourcePath($targetPathDocument),
                 $this->originPathConfig => config_path('stepupdream/spread-sheet-converter.php'),
             ], 'spread-sheet-converter');
         }
