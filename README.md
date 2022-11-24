@@ -8,11 +8,10 @@
 
 ## Introduction
 
-Information from Google Sheets can be read and converted to another file format.
-It's hard to handwrite Yaml files and other files, so it's perfect for people who want to manage with Google
-Spreadsheet.
-You can freely change the character string and count of the header line of the Google Spreadsheet to be read.
-The contents of the exported file can be freely formatted with the Laravel blade file.
+Information from Google Sheets can be read and converted to another file format.  
+It's hard to handwrite Yaml files and other files, so it's perfect for people who want to manage with Google Spreadsheet.  
+You can freely change the character string and count of the header line of the Google Spreadsheet to be read.  
+The contents of the exported file can be freely formatted with the Laravel blade file.  
 
 ## Features
 
@@ -112,13 +111,13 @@ return [
 
 ## Sample
 
-- [SingleGroup](https://docs.google.com/spreadsheets/d/118OSLkrru3fekGNy3Cq44UuqLU4gEzDpy_WTYfhgukU/edit#gid=0)
+- [SingleGroup](https://docs.google.com/spreadsheets/d/118OSLkrru3fekGNy3Cq44UuqLU4gEzDpy_WTYfhgukU/edit#gid=0)  
   ![2021-12-31_22h07_44](https://user-images.githubusercontent.com/95772377/147825699-73056b80-921a-4237-8b40-34822f74db33.png)
 
-- [MultiGroup](https://docs.google.com/spreadsheets/d/1W1B5kFA698jV56hW-Mw0VzI8hJqkbDeBEsSXYAaaIi4/edit#gid=0)
+- [MultiGroup](https://docs.google.com/spreadsheets/d/1W1B5kFA698jV56hW-Mw0VzI8hJqkbDeBEsSXYAaaIi4/edit#gid=0)  
   ![2021-12-31_22h08_37](https://user-images.githubusercontent.com/95772377/147825723-b02ead73-468d-4ad0-8e67-fc52b689b6c7.png)
 
-- [Other](https://docs.google.com/spreadsheets/d/1Qi7jiilObhcigjfrHtRWgfRkgQ58xjXxHNTsfCoOUy4/edit#gid=0)
+- [Other](https://docs.google.com/spreadsheets/d/1Qi7jiilObhcigjfrHtRWgfRkgQ58xjXxHNTsfCoOUy4/edit#gid=0)  
   ![2021-12-31_22h08_02](https://user-images.githubusercontent.com/95772377/147826406-cdec3adf-aa32-4e2f-837f-c06ace0bdd86.png)
 
 ## Contributing
