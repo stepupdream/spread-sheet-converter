@@ -38,6 +38,7 @@ class ParentAttribute extends BaseAttribute
      * Get spreadsheet title name. (Specified in the config file).
      *
      * @return string
+     * @noinspection PhpUnused
      */
     public function spreadsheetTitle(): string
     {
@@ -48,6 +49,7 @@ class ParentAttribute extends BaseAttribute
      * Get spreadsheet header names.
      *
      * @return string[]
+     * @noinspection PhpUnused
      */
     public function headerNamesChild(): array
     {
@@ -80,6 +82,7 @@ class ParentAttribute extends BaseAttribute
      *
      * @param  string  $headerKey
      * @return string
+     * @noinspection PhpUnused
      */
     public function getParentAttributeDetailByKey(string $headerKey): string
     {
@@ -91,6 +94,7 @@ class ParentAttribute extends BaseAttribute
      *
      * @param  string  $headerKey
      * @return mixed[]
+     * @noinspection PhpUnused
      */
     public function getParentAttributeDetailJsonByKey(string $headerKey): array
     {
@@ -132,6 +136,7 @@ class ParentAttribute extends BaseAttribute
      * Get attributes group.
      *
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]
+     * @noinspection PhpUnused
      */
     public function getAttributesGroupByKeyName(string $groupKey): array
     {

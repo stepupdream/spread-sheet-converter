@@ -57,9 +57,7 @@ class GoogleService
         $range = sprintf('%s!%s', $sheetName, $range);
 
         $valueRange = [];
-        $valueRange[] = new Google_Service_Sheets_ValueRange([
-            'range' => $range, 'values' => $values,
-        ]);
+        $valueRange[] = new Google_Service_Sheets_ValueRange(compact('range', 'values'));
 
         $body = new  Google_Service_Sheets_BatchUpdateValuesRequest([
             'valueInputOption' => $option, 'data' => $valueRange,
