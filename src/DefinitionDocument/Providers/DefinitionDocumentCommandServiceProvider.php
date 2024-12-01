@@ -57,6 +57,8 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
 
             $this->commands(array_values($this->commands));
         }
+
+        parent::register();
     }
 
     /**
@@ -66,6 +68,6 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
      */
     public function provides(): array
     {
-        return array_values($this->commands);
+        return array_values(array_merge(parent::provides(), $this->commands));
     }
 }

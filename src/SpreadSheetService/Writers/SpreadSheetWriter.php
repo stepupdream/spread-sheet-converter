@@ -40,7 +40,7 @@ class SpreadSheetWriter
 
         (new Task($style))->render(
             'write: '.$sheetName,
-            fn () => $this->googleService->appendGoogleServiceSheet($sheetId, $values, $sheetName, $range, $option)
+            fn() => $this->googleService->appendGoogleServiceSheet($sheetId, $values, $sheetName, $range, $option)
         );
     }
 
@@ -64,7 +64,7 @@ class SpreadSheetWriter
 
         (new Task($style))->render(
             'write: '.$sheetName,
-            fn () => $this->googleService->updateGoogleServiceSheet($sheetId, $values, $sheetName, $range, $option)
+            fn() => $this->googleService->updateGoogleServiceSheet($sheetId, $values, $sheetName, $range, $option)
         );
     }
 }
