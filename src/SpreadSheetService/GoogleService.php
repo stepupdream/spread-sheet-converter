@@ -44,7 +44,6 @@ class GoogleService
      * @param  string  $range
      * @param  string  $option
      * @return string
-     * @throws \Google\Exception
      */
     public function updateGoogleServiceSheet(
         string $sheetId,
@@ -81,7 +80,6 @@ class GoogleService
      * @param  string  $range
      * @param  string  $option
      * @return string
-     * @throws \Google\Exception
      */
     public function appendGoogleServiceSheet(
         string $sheetId,
@@ -95,7 +93,7 @@ class GoogleService
             'values' => $values,
         ]);
 
-        // USER_ENTERED or RAW
+        // USER ENTERED or RAW
         // In case of RAW, values are displayed as they are.
         $params = ['valueInputOption' => $option];
         $range = sprintf('%s!%s', $sheetName, $range);
@@ -113,7 +111,6 @@ class GoogleService
      * Object class for manipulating Spreadsheet.
      *
      * @return \Google\Service\Sheets
-     * @throws \Google\Exception
      */
     protected function googleSpreadsheetService(): Sheets
     {

@@ -50,7 +50,7 @@ class SpreadSheetReader
         $spreadsheets = $this->read($sheetId);
 
         if (empty($spreadsheets[$targetSheetName])) {
-            throw new LogicException('can not read sheet data: '.$targetSheetName);
+            throw new LogicException("can't read sheet data: ".$targetSheetName);
         }
 
         return $spreadsheets[$targetSheetName];
@@ -177,7 +177,7 @@ class SpreadSheetReader
         }
 
         if ($sheetFirstRow === null) {
-            throw new LogicException('The value of sheet first row is not an array');
+            throw new LogicException('The value of sheet-first row is not an array');
         }
 
         foreach ($sheetFirstRow as $key => $value) {
@@ -212,10 +212,10 @@ class SpreadSheetReader
         }
 
         if ($sheetFirstRow === null) {
-            throw new LogicException('The value of sheet first row is not an array');
+            throw new LogicException('The value of sheet-first row is not an array');
         }
 
-        // Get what's to the right of the separation key part of the header row in Spreadsheet.
+        // Get what’s to the right of the separation key part of the header row in the Spreadsheet.
         foreach ($sheetFirstRow as $key => $value) {
             if ($key === $separationKey) {
                 $shouldAddStart = true;
