@@ -16,7 +16,6 @@ class GoogleService
     /**
      * Read spreadsheet data.
      *
-     * @param  string  $sheetId
      * @return GoogleServiceSheet Table information array containing information for each sheet：key is sheet name.
      */
     public function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
@@ -38,12 +37,7 @@ class GoogleService
     /**
      * Update spreadsheet data.
      *
-     * @param  string  $sheetId
      * @param  mixed[][]  $values
-     * @param  string  $sheetName
-     * @param  string  $range
-     * @param  string  $option
-     * @return string
      */
     public function updateGoogleServiceSheet(
         string $sheetId,
@@ -58,7 +52,7 @@ class GoogleService
         $valueRange = [];
         $valueRange[] = new Google_Service_Sheets_ValueRange(compact('range', 'values'));
 
-        $body = new  Google_Service_Sheets_BatchUpdateValuesRequest([
+        $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
             'valueInputOption' => $option, 'data' => $valueRange,
         ]);
 
@@ -74,12 +68,7 @@ class GoogleService
     /**
      * Append spreadsheet data.
      *
-     * @param  string  $sheetId
      * @param  mixed[][]  $values
-     * @param  string  $sheetName
-     * @param  string  $range
-     * @param  string  $option
-     * @return string
      */
     public function appendGoogleServiceSheet(
         string $sheetId,
@@ -109,14 +98,12 @@ class GoogleService
 
     /**
      * Object class for manipulating Spreadsheet.
-     *
-     * @return \Google\Service\Sheets
      */
     protected function googleSpreadsheetService(): Sheets
     {
         $credentialsPath = config('stepupdream.spread-sheet-converter.credentials_path');
 
-        $client = new Google_Client();
+        $client = new Google_Client;
         $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
         $client->setAuthConfig($credentialsPath);
 

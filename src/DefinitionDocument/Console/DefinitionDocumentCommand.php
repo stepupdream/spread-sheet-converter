@@ -75,7 +75,6 @@ class DefinitionDocumentCommand extends BaseCommand
      * Verify the existence of the key.
      *
      * @param  mixed[]  $readSpreadSheet
-     * @return void
      */
     private function verifyKey(array $readSpreadSheet): void
     {

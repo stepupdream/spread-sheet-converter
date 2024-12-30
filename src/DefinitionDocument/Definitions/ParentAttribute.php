@@ -23,21 +23,19 @@ class ParentAttribute extends BaseAttribute
     /**
      * Attribute constructor.
      *
-     * @param  string  $spreadsheetTitle
-     * @param  string  $sheetName
      * @param  string[]  $headerNamesChild
      */
     public function __construct(
         protected string $spreadsheetTitle,
         protected string $sheetName,
-        protected array $headerNamesChild
+        protected array $headerNamesChild,
     ) {
+        //
     }
 
     /**
      * Get spreadsheet title name. (Specified in the config file).
      *
-     * @return string
      * @noinspection PhpUnused
      */
     public function spreadsheetTitle(): string
@@ -68,9 +66,6 @@ class ParentAttribute extends BaseAttribute
 
     /**
      * Set parent attribute detail.
-     *
-     * @param  string  $value
-     * @param  string  $headerName
      */
     public function setParentAttributeDetails(string $value, string $headerName): void
     {
@@ -80,8 +75,6 @@ class ParentAttribute extends BaseAttribute
     /**
      * Get parent attribute detail by header key.
      *
-     * @param  string  $headerKey
-     * @return string
      * @noinspection PhpUnused
      */
     public function getParentAttributeDetailByKey(string $headerKey): string
@@ -92,7 +85,6 @@ class ParentAttribute extends BaseAttribute
     /**
      * Get parent attribute detail by header key.
      *
-     * @param  string  $headerKey
      * @return mixed[]
      * @noinspection PhpUnused
      */
@@ -103,8 +95,6 @@ class ParentAttribute extends BaseAttribute
 
     /**
      * Get sheet name.
-     *
-     * @return string
      */
     public function sheetName(): string
     {
@@ -125,7 +115,6 @@ class ParentAttribute extends BaseAttribute
      * Set attributes group.
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]  $attributesGroup
-     * @param  string  $groupKey
      */
     public function setAttributesGroup(array $attributesGroup, string $groupKey = '*'): void
     {

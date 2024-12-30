@@ -13,8 +13,6 @@ class OneAreaCreator extends Base
 {
     /**
      * Execution of processing.
-     *
-     * @param  string|null  $targetFileName
      */
     public function run(?string $targetFileName): void
     {
@@ -36,10 +34,6 @@ class OneAreaCreator extends Base
      * Generate Attribute class based on Sheet data.
      *
      * @param  string[][]  $sheet
-     * @param  string  $spreadsheetTitle
-     * @param  int  $rowNumber
-     * @param  string  $sheetName
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute
      */
     protected function createParentAttribute(
         array $sheet,
@@ -64,7 +58,6 @@ class OneAreaCreator extends Base
      * Create only one attributes group.
      *
      * @param  string[][]  $sheet
-     * @param  int  $rowNumber
      * @param  string[]  $headerNames
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]
      */
@@ -73,7 +66,7 @@ class OneAreaCreator extends Base
         $attributes = [];
 
         while (! empty($sheet[$rowNumber]) && ! $this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
-            $attribute = new Attribute();
+            $attribute = new Attribute;
             foreach ($headerNames as $headerName) {
                 $attribute->setAttributeDetails($sheet[$rowNumber][$headerName], $headerName);
             }
@@ -89,9 +82,6 @@ class OneAreaCreator extends Base
 
     /**
      * File output destination.
-     *
-     * @param  ParentAttribute  $parentAttribute
-     * @return string
      */
     protected function outputPath(ParentAttribute $parentAttribute): string
     {

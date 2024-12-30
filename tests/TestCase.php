@@ -21,11 +21,6 @@ abstract class TestCase extends OrchestraTestCase
 
     /**
      * Execute private function test.
-     *
-     * @param  object  $class
-     * @param  string  $methodName
-     * @param  array  $arguments
-     * @return mixed
      */
     protected function executePrivateFunction(object $class, string $methodName, array $arguments): mixed
     {

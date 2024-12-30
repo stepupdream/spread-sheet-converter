@@ -7,19 +7,19 @@ namespace StepUpDream\SpreadSheetConverter\SpreadSheetService;
 class GoogleServiceSheet
 {
     /**
-     * @param  string  $spreadSheetTitle
+     * Constructor method for initializing the spreadsheet title and sheets.
+     *
      * @param  string[][][]  $spreadSheets
      */
     public function __construct(
         protected string $spreadSheetTitle,
-        protected array $spreadSheets
+        protected array $spreadSheets,
     ) {
+        //
     }
 
     /**
      * Get spreadSheetTitle.
-     *
-     * @return string
      */
     public function spreadSheetTitle(): string
     {

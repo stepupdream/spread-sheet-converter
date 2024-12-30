@@ -24,7 +24,7 @@ class OneAreaCreatorTest extends TestCase
     /**
      * @test
      */
-    public function oneAreaCreator(): void
+    public function one_area_creator(): void
     {
         $googleServiceSheet = new GoogleServiceSheet('spreadSheetTitle', [
             'sheetName1' => [
@@ -55,29 +55,29 @@ class OneAreaCreatorTest extends TestCase
         $sheetValues = [
             'sheetName1' => [
                 [
-                    'TableName'         => 'characters1',
-                    'TableDescription'  => 'CharacterData1',
-                    'ColumnName'        => 'name1',
+                    'TableName' => 'characters1',
+                    'TableDescription' => 'CharacterData1',
+                    'ColumnName' => 'name1',
                     'ColumnDescription' => 'name1',
-                    'DataType'          => 'string1',
+                    'DataType' => 'string1',
                 ],
                 [
-                    'TableName'         => 'characters2',
-                    'TableDescription'  => 'CharacterData2',
-                    'ColumnName'        => 'name2',
+                    'TableName' => 'characters2',
+                    'TableDescription' => 'CharacterData2',
+                    'ColumnName' => 'name2',
                     'ColumnDescription' => 'name2',
-                    'DataType'          => 'string2',
+                    'DataType' => 'string2',
                 ],
             ],
         ];
 
         $readSpreadSheet = [
-            'category_tag'              => 'OneArea',
-            'use_blade'                 => 'other_data',
-            'sheet_id'                  => 'sheet_id',
-            'output_directory_path'     => __DIR__.'/TestCode/output',
+            'category_tag' => 'OneArea',
+            'use_blade' => 'other_data',
+            'sheet_id' => 'sheet_id',
+            'output_directory_path' => __DIR__.'/TestCode/output',
             'definition_directory_path' => __DIR__.'/TestCode/definition',
-            'file_extension'            => 'yml',
+            'file_extension' => 'yml',
         ];
         $fileOperation = $this->app->make(FileOperation::class);
         $googleService = Mockery::mock(GoogleService::class);
@@ -91,7 +91,7 @@ class OneAreaCreatorTest extends TestCase
         $filesystem = $this->app->make(Filesystem::class);
         $filesystem->deleteDirectory(__DIR__.'/TestCode');
 
-        $bufferedOutput = new BufferedOutput();
+        $bufferedOutput = new BufferedOutput;
         $style = new OutputStyle(new ArrayInput([]), $bufferedOutput);
         $oneAreaCreator = new OneAreaCreator($fileOperation, $spreadSheetReader, $bladeLoader, $readSpreadSheet);
         $oneAreaCreator->setOutput($style)->run(null);
@@ -107,42 +107,42 @@ class OneAreaCreatorTest extends TestCase
     /**
      * @test
      */
-    public function convertSheetData(): void
+    public function convert_sheet_data(): void
     {
         $sheetValues = [
             [
-                'TableName'         => 'characters1',
-                'TableDescription'  => 'CharacterData1',
-                'ColumnName'        => 'name1',
+                'TableName' => 'characters1',
+                'TableDescription' => 'CharacterData1',
+                'ColumnName' => 'name1',
                 'ColumnDescription' => 'name1',
-                'DataType'          => 'string1',
+                'DataType' => 'string1',
             ],
             [
-                'TableName'         => 'characters2',
-                'TableDescription'  => 'CharacterData2',
-                'ColumnName'        => 'name2',
+                'TableName' => 'characters2',
+                'TableDescription' => 'CharacterData2',
+                'ColumnName' => 'name2',
                 'ColumnDescription' => 'name2',
-                'DataType'          => 'string2',
+                'DataType' => 'string2',
             ],
         ];
 
         $headerNamesChild = [
-            'TableName'         => 'TableName',
-            'TableDescription'  => 'TableDescription',
-            'ColumnName'        => 'ColumnName',
+            'TableName' => 'TableName',
+            'TableDescription' => 'TableDescription',
+            'ColumnName' => 'ColumnName',
             'ColumnDescription' => 'ColumnDescription',
-            'DataType'          => 'DataType',
+            'DataType' => 'DataType',
         ];
 
         // Group1
         $parentAttribute = new ParentAttribute('spreadSheetTitle', 'sheetName', $headerNamesChild);
-        $attribute = new Attribute();
+        $attribute = new Attribute;
         $attribute->setAttributeDetails('characters1', 'TableName');
         $attribute->setAttributeDetails('CharacterData1', 'TableDescription');
         $attribute->setAttributeDetails('name1', 'ColumnName');
         $attribute->setAttributeDetails('name1', 'ColumnDescription');
         $attribute->setAttributeDetails('string1', 'DataType');
-        $attribute2 = new Attribute();
+        $attribute2 = new Attribute;
         $attribute2->setAttributeDetails('characters2', 'TableName');
         $attribute2->setAttributeDetails('CharacterData2', 'TableDescription');
         $attribute2->setAttributeDetails('name2', 'ColumnName');
@@ -151,12 +151,12 @@ class OneAreaCreatorTest extends TestCase
         $parentAttribute->setAttributesGroup([$attribute, $attribute2]);
 
         $readSpreadSheet = [
-            'category_tag'              => 'OneArea',
-            'use_blade'                 => 'other_data',
-            'sheet_id'                  => 'sheet_id',
-            'output_directory_path'     => __DIR__.'/TestCode/output',
+            'category_tag' => 'OneArea',
+            'use_blade' => 'other_data',
+            'sheet_id' => 'sheet_id',
+            'output_directory_path' => __DIR__.'/TestCode/output',
             'definition_directory_path' => __DIR__.'/TestCode/definition',
-            'file_extension'            => 'yml',
+            'file_extension' => 'yml',
         ];
         $fileOperation = $this->app->make(FileOperation::class);
         $googleService = Mockery::mock(GoogleService::class);

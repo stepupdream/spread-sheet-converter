@@ -12,8 +12,6 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
 {
     /**
      * Config path to output.
-     *
-     * @var string
      */
     protected string $originPathConfig = __DIR__.'/../Config/stepupdream/spread-sheet-converter.php';
 
@@ -37,7 +35,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
             $originPathDocument = __DIR__.'/../../../resources/DefinitionDocument';
             $targetPathDocument = 'views/vendor/spread-sheet-converter';
             $this->publishes([
-                $originPathDocument     => $this->app->resourcePath($targetPathDocument),
+                $originPathDocument => $this->app->resourcePath($targetPathDocument),
                 $this->originPathConfig => config_path('stepupdream/spread-sheet-converter.php'),
             ], 'spread-sheet-converter');
         }
@@ -52,7 +50,7 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
             $this->mergeConfigFrom($this->originPathConfig, 'stepupdream.spread-sheet-converter');
 
             $this->app->singleton('command.create.definition.document', function () {
-                return new DefinitionDocumentCommand();
+                return new DefinitionDocumentCommand;
             });
 
             $this->commands(array_values($this->commands));

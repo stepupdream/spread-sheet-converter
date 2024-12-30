@@ -15,59 +15,42 @@ abstract class Base implements CreatorInterface
 {
     /**
      * The output style implementation.
-     *
-     * @var \Illuminate\Console\OutputStyle
      */
     protected OutputStyle $output;
 
     /**
      * Template blade file to use.
-     *
-     * @var string
      */
     protected string $useBladeFileName;
 
     /**
      * Google Spreadsheet sheetID.
-     *
-     * @var string
      */
     protected string $sheetId;
 
     /**
      * Output destination of yaml file.
-     *
-     * @var string
      */
     protected string $outputDirectoryPath;
 
     /**
      * Path of the directory where the definition is stored.
-     *
-     * @var string
      */
     protected string $definitionDirectoryPath;
 
     /**
      * Identifier to identify the loaded sheet.
-     *
-     * @var string
      */
     protected string $categoryTag;
 
     /**
      * File_extension.
-     *
-     * @var string
      */
     protected string $fileExtension;
 
     /**
      * BaseCreator constructor.
      *
-     * @param  \StepUpDream\DreamAbilitySupport\Supports\File\FileOperation  $fileOperation
-     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader  $spreadSheetReader
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\BladeLoader  $bladeLoader
      * @param  string[]  $readSpreadSheet
      */
     public function __construct(
@@ -88,8 +71,6 @@ abstract class Base implements CreatorInterface
      * Convert spreadsheet data.
      *
      * @param  string[][]  $sheet
-     * @param  string  $spreadSheetTitle
-     * @param  string  $sheetName
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]
      */
     protected function convertSheetData(array $sheet, string $spreadSheetTitle, string $sheetName): array
@@ -100,6 +81,7 @@ abstract class Base implements CreatorInterface
         while (! empty($sheet[$rowNumber])) {
             if ($this->spreadSheetReader->isAllEmpty($sheet[$rowNumber])) {
                 $rowNumber++;
+
                 continue;
             }
 
@@ -129,8 +111,6 @@ abstract class Base implements CreatorInterface
      * Generate a definition document.
      *
      * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute[]  $parentAttributes
-     * @param  string|null  $targetFileName
-     * @return void
      */
     protected function createDefinitionDocument(array $parentAttributes, ?string $targetFileName): void
     {
@@ -160,10 +140,6 @@ abstract class Base implements CreatorInterface
 
     /**
      * Whether to skip reading.
-     *
-     * @param  string|null  $mainKeyName
-     * @param  string|null  $targetFileName
-     * @return bool
      */
     protected function isReadSkip(?string $mainKeyName, ?string $targetFileName): bool
     {
@@ -177,7 +153,6 @@ abstract class Base implements CreatorInterface
     /**
      * Set the output implementation that should be used by the console.
      *
-     * @param  \Illuminate\Console\OutputStyle  $output
      * @return $this
      */
     public function setOutput(OutputStyle $output): static
@@ -191,10 +166,6 @@ abstract class Base implements CreatorInterface
      * Generate Attribute class based on Sheet data.
      *
      * @param  string[][]  $sheet
-     * @param  string  $spreadsheetTitle
-     * @param  int  $rowNumber
-     * @param  string  $sheetName
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute
      */
     abstract protected function createParentAttribute(
         array $sheet,
@@ -205,9 +176,6 @@ abstract class Base implements CreatorInterface
 
     /**
      * File output destination.
-     *
-     * @param  ParentAttribute  $parentAttribute
-     * @return string
      */
     abstract protected function outputPath(ParentAttribute $parentAttribute): string;
 }

@@ -63,29 +63,29 @@ class SpreadSheetReaderTest extends TestCase
         $resultValues = [
             'sheet_title1' => [
                 [
-                    'TableName'         => 'characters',
-                    'TableDescription'  => 'CharacterData',
-                    'ColumnName'        => 'id',
+                    'TableName' => 'characters',
+                    'TableDescription' => 'CharacterData',
+                    'ColumnName' => 'id',
                     'ColumnDescription' => 'id',
                 ],
                 [
-                    'TableName'         => '',
-                    'TableDescription'  => '',
-                    'ColumnName'        => 'name',
+                    'TableName' => '',
+                    'TableDescription' => '',
+                    'ColumnName' => 'name',
                     'ColumnDescription' => 'name',
                 ],
             ],
             'sheet_title2' => [
                 [
-                    'TableName'         => 'characters2',
-                    'TableDescription'  => 'CharacterData2',
-                    'ColumnName'        => 'id',
+                    'TableName' => 'characters2',
+                    'TableDescription' => 'CharacterData2',
+                    'ColumnName' => 'id',
                     'ColumnDescription' => 'id',
                 ],
                 [
-                    'TableName'         => '',
-                    'TableDescription'  => '',
-                    'ColumnName'        => 'name2',
+                    'TableName' => '',
+                    'TableDescription' => '',
+                    'ColumnName' => 'name2',
                     'ColumnDescription' => 'name2',
                 ],
             ],
@@ -107,7 +107,7 @@ class SpreadSheetReaderTest extends TestCase
     /**
      * @test
      */
-    public function isAllEmpty(): void
+    public function is_all_empty(): void
     {
         $values = ['TableName' => '', 'TableDescription' => '', 'ColumnName' => '', 'ColumnDescription' => ''];
         $values2 = ['TableName' => 'hoge', 'TableDescription' => '', 'ColumnName' => '', 'ColumnDescription' => ''];
@@ -126,19 +126,19 @@ class SpreadSheetReaderTest extends TestCase
     /**
      * @test
      */
-    public function getAttributeKeyName(): void
+    public function get_attribute_key_name(): void
     {
         $sheet = [
             [
-                'TableName'         => 'characters',
-                'TableDescription'  => 'CharacterData',
-                'ColumnName'        => 'id',
+                'TableName' => 'characters',
+                'TableDescription' => 'CharacterData',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
             ],
             [
-                'TableName'         => '',
-                'TableDescription'  => '',
-                'ColumnName'        => 'name',
+                'TableName' => '',
+                'TableDescription' => '',
+                'ColumnName' => 'name',
                 'ColumnDescription' => 'name',
             ],
         ];
@@ -156,19 +156,19 @@ class SpreadSheetReaderTest extends TestCase
     /**
      * @test
      */
-    public function getParentAttributeKeyName(): void
+    public function get_parent_attribute_key_name(): void
     {
         $sheet = [
             [
-                'TableName'         => 'characters',
-                'TableDescription'  => 'CharacterData',
-                'ColumnName'        => 'id',
+                'TableName' => 'characters',
+                'TableDescription' => 'CharacterData',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
             ],
             [
-                'TableName'         => '',
-                'TableDescription'  => '',
-                'ColumnName'        => 'name',
+                'TableName' => '',
+                'TableDescription' => '',
+                'ColumnName' => 'name',
                 'ColumnDescription' => 'name',
             ],
         ];

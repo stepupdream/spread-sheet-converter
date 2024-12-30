@@ -12,9 +12,9 @@ class AttributeTest extends TestCase
     /**
      * @test
      */
-    public function getAttributeDetailByKey(): void
+    public function get_attribute_detail_by_key(): void
     {
-        $attribute = new Attribute();
+        $attribute = new Attribute;
         $attribute->setAttributeDetails('a', 'test1');
         $attribute->setAttributeDetails(PHP_EOL.'b'.PHP_EOL, 'test2');
         $attribute->setAttributeDetails('[1,2,3]', 'test3');

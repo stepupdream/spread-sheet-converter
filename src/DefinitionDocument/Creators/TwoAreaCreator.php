@@ -23,24 +23,17 @@ class TwoAreaCreator extends Base
 
     /**
      * Delimiter column header name.
-     *
-     * @var string
      */
     protected string $separationKey;
 
     /**
      * Key name of the group.
-     *
-     * @var string
      */
     protected string $attributeGroupColumnName;
 
     /**
      * BaseCreator constructor.
      *
-     * @param  \StepUpDream\DreamAbilitySupport\Supports\File\FileOperation  $fileOperation
-     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader  $spreadSheetReader
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\BladeLoader  $bladeLoader
      * @param  string[]  $readSpreadSheet
      */
     public function __construct(
@@ -57,8 +50,6 @@ class TwoAreaCreator extends Base
 
     /**
      * Execution of processing.
-     *
-     * @param  string|null  $targetFileName
      */
     public function run(?string $targetFileName): void
     {
@@ -85,8 +76,6 @@ class TwoAreaCreator extends Base
      * Generate rule message.
      *
      * @param  string[][]  $sheet
-     * @param  int  $rowNumber
-     * @return string
      */
     protected function createRuleMessage(array $sheet, int $rowNumber): string
     {
@@ -127,8 +116,6 @@ class TwoAreaCreator extends Base
 
     /**
      * Rule column name.
-     *
-     * @return string
      */
     protected function ruleColumnName(): string
     {
@@ -143,8 +130,6 @@ class TwoAreaCreator extends Base
 
     /**
      * Request rule sheet name.
-     *
-     * @return string
      */
     protected function requestRuleSheetName(): string
     {
@@ -161,10 +146,6 @@ class TwoAreaCreator extends Base
      * Generate Attribute class based on Sheet data.
      *
      * @param  string[][]  $sheet
-     * @param  string  $spreadsheetTitle
-     * @param  int  $rowNumber
-     * @param  string  $sheetName
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute
      */
     protected function createParentAttribute(
         array $sheet,
@@ -199,7 +180,6 @@ class TwoAreaCreator extends Base
      * Create only one attributes group.
      *
      * @param  string[][]  $sheet
-     * @param  int  $rowNumber
      * @param  string[]  $headerNames
      * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]
      */
@@ -210,7 +190,7 @@ class TwoAreaCreator extends Base
         $beforeMainKeyData = $sheet[$rowNumber][$headerNames[$mainKeyName]];
 
         while (true) {
-            $attribute = new Attribute();
+            $attribute = new Attribute;
             foreach ($headerNames as $headerName) {
                 $attribute->setAttributeDetails($sheet[$rowNumber][$headerName], $headerName);
             }
@@ -241,9 +221,6 @@ class TwoAreaCreator extends Base
 
     /**
      * File output destination.
-     *
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
-     * @return string
      */
     protected function outputPath(ParentAttribute $parentAttribute): string
     {

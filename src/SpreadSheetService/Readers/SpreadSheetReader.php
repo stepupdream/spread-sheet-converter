@@ -32,17 +32,16 @@ class SpreadSheetReader
     protected array $googleServiceSheets = [];
 
     /**
-     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService  $googleService
+     * Initializes the class with the provided GoogleService dependency.
      */
     public function __construct(protected GoogleService $googleService)
     {
+        //
     }
 
     /**
      * Read spreadsheet data.
      *
-     * @param  string  $sheetId
-     * @param  string  $targetSheetName
      * @return string[][] Table information array containing information for each sheet：key is sheet name.
      */
     public function readBySheetName(string $sheetId, string $targetSheetName): array
@@ -59,7 +58,6 @@ class SpreadSheetReader
     /**
      * Read spreadsheet data.
      *
-     * @param  string  $sheetId
      * @return string[][][] Table information array containing information for each sheet：key is sheet name.
      */
     public function read(string $sheetId): array
@@ -70,7 +68,6 @@ class SpreadSheetReader
     /**
      * Read spreadsheet title.
      *
-     * @param  string  $sheetId
      * @return string[][][] Table information array containing information for each sheet：key is sheet name.
      */
     protected function readSpreadSheetValue(string $sheetId): array
@@ -87,7 +84,6 @@ class SpreadSheetReader
     /**
      * Read spreadsheet data.
      *
-     * @param  string  $sheetId
      * @return GoogleServiceSheet Table information array containing information for each sheet：key is sheet name.
      */
     protected function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
@@ -107,7 +103,6 @@ class SpreadSheetReader
      * Make the first row the key of the associative array.
      *
      * @param  string[][]  $sheet
-     * @param  string  $sheetName
      * @return string[][]
      */
     protected function getTitleArray(array $sheet, string $sheetName): array
@@ -139,9 +134,6 @@ class SpreadSheetReader
 
     /**
      * Read spreadsheet data.
-     *
-     * @param  string  $sheetId
-     * @return string
      */
     public function spreadSheetTitle(string $sheetId): string
     {
@@ -163,7 +155,6 @@ class SpreadSheetReader
      * Gets the first row of the array up to the specified key.
      *
      * @param  string[][]  $sheet
-     * @param  string  $separationKey
      * @return string[] Sheet header list
      */
     public function getParentAttributeKeyName(array $sheet, string $separationKey): array
@@ -196,7 +187,6 @@ class SpreadSheetReader
      * Gets the first row of the array after the specified key.
      *
      * @param  string[][]  $sheet
-     * @param  string  $separationKey
      * @return string[] Sheet header list
      */
     public function getAttributeKeyName(array $sheet, string $separationKey): array
@@ -235,7 +225,6 @@ class SpreadSheetReader
      * Whether the entire row is all empty.
      *
      * @param  string[]  $values
-     * @return bool
      */
     public function isAllEmpty(array $values): bool
     {

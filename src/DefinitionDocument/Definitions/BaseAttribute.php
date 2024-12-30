@@ -15,7 +15,6 @@ abstract class BaseAttribute
      * It can be obtained as an array.
      *
      * @param  string[]  $attributes
-     * @param  string  $headerKey
      * @return mixed[]
      */
     protected function attributeJsonByKey(array $attributes, string $headerKey): array
@@ -35,8 +34,6 @@ abstract class BaseAttribute
      * Get attribute by key.
      *
      * @param  string[]  $attributes
-     * @param  string  $headerKey
-     * @return string
      */
     protected function attributeByKey(array $attributes, string $headerKey): string
     {

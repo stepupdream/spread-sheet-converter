@@ -11,10 +11,6 @@ class BladeLoader
 {
     /**
      * Read the blade file.
-     *
-     * @param  string  $useBladeFileName
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute  $parentAttribute
-     * @return string
      */
     public function loadBladeFile(string $useBladeFileName, ParentAttribute $parentAttribute): string
     {

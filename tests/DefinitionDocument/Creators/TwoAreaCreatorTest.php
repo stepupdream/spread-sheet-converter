@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 class TwoAreaCreatorTest extends TestCase
 {
     private array $mock = [
-        'sheetName1'  => [
+        'sheetName1' => [
             [
                 'ApiName',
                 'ApiDescription',
@@ -115,7 +115,7 @@ class TwoAreaCreatorTest extends TestCase
     /**
      * @test
      */
-    public function twoAreaCreator(): void
+    public function two_area_creator(): void
     {
         Config::set('stepupdream.spread-sheet-converter.request_rule_sheet_name', 'RequestRule');
         Config::set('stepupdream.spread-sheet-converter.request_rule_column_name', 'RequestRule');
@@ -123,92 +123,92 @@ class TwoAreaCreatorTest extends TestCase
         $googleServiceSheet = new GoogleServiceSheet('spreadSheetTitle', $this->mock);
 
         $sheetValues = [
-            'sheetName1'  => [
+            'sheetName1' => [
                 [
-                    'ApiName'           => 'Get',
-                    'ApiDescription'    => 'get',
-                    'GroupType'         => 'Request',
-                    'ColumnName'        => 'id',
+                    'ApiName' => 'Get',
+                    'ApiDescription' => 'get',
+                    'GroupType' => 'Request',
+                    'ColumnName' => 'id',
                     'ColumnDescription' => 'id',
-                    'DataType'          => 'int',
-                    'RequestRule'       => 'required|int',
+                    'DataType' => 'int',
+                    'RequestRule' => 'required|int',
                 ],
                 [
-                    'ApiName'           => '',
-                    'ApiDescription'    => '',
-                    'GroupType'         => '',
-                    'ColumnName'        => 'name',
+                    'ApiName' => '',
+                    'ApiDescription' => '',
+                    'GroupType' => '',
+                    'ColumnName' => 'name',
                     'ColumnDescription' => 'name',
-                    'DataType'          => 'string',
-                    'RequestRule'       => 'required',
+                    'DataType' => 'string',
+                    'RequestRule' => 'required',
                 ],
                 [
-                    'ApiName'           => '',
-                    'ApiDescription'    => '',
-                    'GroupType'         => 'Response',
-                    'ColumnName'        => 'id',
+                    'ApiName' => '',
+                    'ApiDescription' => '',
+                    'GroupType' => 'Response',
+                    'ColumnName' => 'id',
                     'ColumnDescription' => 'id',
-                    'DataType'          => 'int',
-                    'RequestRule'       => '',
+                    'DataType' => 'int',
+                    'RequestRule' => '',
                 ],
                 [
-                    'ApiName'           => '',
-                    'ApiDescription'    => '',
-                    'GroupType'         => '',
-                    'ColumnName'        => '',
+                    'ApiName' => '',
+                    'ApiDescription' => '',
+                    'GroupType' => '',
+                    'ColumnName' => '',
                     'ColumnDescription' => '',
-                    'DataType'          => '',
-                    'RequestRule'       => '',
+                    'DataType' => '',
+                    'RequestRule' => '',
                 ],
                 [
-                    'ApiName'           => 'Get2',
-                    'ApiDescription'    => 'get2',
-                    'GroupType'         => 'Request',
-                    'ColumnName'        => '',
+                    'ApiName' => 'Get2',
+                    'ApiDescription' => 'get2',
+                    'GroupType' => 'Request',
+                    'ColumnName' => '',
                     'ColumnDescription' => '',
-                    'DataType'          => '',
-                    'RequestRule'       => '',
+                    'DataType' => '',
+                    'RequestRule' => '',
                 ],
                 [
-                    'ApiName'           => '',
-                    'ApiDescription'    => '',
-                    'GroupType'         => 'Response',
-                    'ColumnName'        => 'id',
+                    'ApiName' => '',
+                    'ApiDescription' => '',
+                    'GroupType' => 'Response',
+                    'ColumnName' => 'id',
                     'ColumnDescription' => 'id',
-                    'DataType'          => 'int',
-                    'RequestRule'       => '',
+                    'DataType' => 'int',
+                    'RequestRule' => '',
                 ],
                 [
-                    'ApiName'           => '',
-                    'ApiDescription'    => '',
-                    'GroupType'         => '',
-                    'ColumnName'        => 'name',
+                    'ApiName' => '',
+                    'ApiDescription' => '',
+                    'GroupType' => '',
+                    'ColumnName' => 'name',
                     'ColumnDescription' => 'name',
-                    'DataType'          => 'string',
-                    'RequestRule'       => '',
+                    'DataType' => 'string',
+                    'RequestRule' => '',
                 ],
             ],
             'RequestRule' => [
                 [
                     'ruleDataType' => 'int',
-                    'ruleMessage'  => 'int rule',
+                    'ruleMessage' => 'int rule',
                 ],
                 [
                     'ruleDataType' => 'required',
-                    'ruleMessage'  => 'required rule',
+                    'ruleMessage' => 'required rule',
                 ],
             ],
         ];
 
         $readSpreadSheet = [
-            'category_tag'                => 'TwoArea',
-            'use_blade'                   => 'TwoAreaBlade',
-            'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => __DIR__.'/TestCode/output',
-            'definition_directory_path'   => __DIR__.'/TestCode/definition',
-            'separation_key'              => 'GroupType',
+            'category_tag' => 'TwoArea',
+            'use_blade' => 'TwoAreaBlade',
+            'sheet_id' => 'sheet_id',
+            'output_directory_path' => __DIR__.'/TestCode/output',
+            'definition_directory_path' => __DIR__.'/TestCode/definition',
+            'separation_key' => 'GroupType',
             'attribute_group_column_name' => 'GroupType',
-            'file_extension'              => 'yml',
+            'file_extension' => 'yml',
         ];
         $fileOperation = $this->app->make(FileOperation::class);
         $googleService = Mockery::mock(GoogleService::class);
@@ -226,7 +226,7 @@ class TwoAreaCreatorTest extends TestCase
         self::assertEquals($readSpreadSheetValue, $sheetValues);
 
         // command test.
-        $bufferedOutput = new BufferedOutput();
+        $bufferedOutput = new BufferedOutput;
         $style = new OutputStyle(new ArrayInput([]), $bufferedOutput);
         $twoAreaCreator = new TwoAreaCreator($fileOperation, $spreadSheetReader, $bladeLoader, $readSpreadSheet);
         $twoAreaCreator->setOutput($style)->run(null);
@@ -252,7 +252,7 @@ class TwoAreaCreatorTest extends TestCase
     /**
      * @test
      */
-    public function convertSheetData(): void
+    public function convert_sheet_data(): void
     {
         Config::set('stepupdream.spread-sheet-converter.request_rule_sheet_name', 'RequestRule');
         Config::set('stepupdream.spread-sheet-converter.request_rule_column_name', 'RequestRule');
@@ -261,96 +261,96 @@ class TwoAreaCreatorTest extends TestCase
 
         $sheetValues = [
             [
-                'ApiName'           => 'Get',
-                'ApiDescription'    => 'get',
-                'GroupType'         => 'Request',
-                'ColumnName'        => 'id',
+                'ApiName' => 'Get',
+                'ApiDescription' => 'get',
+                'GroupType' => 'Request',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int',
-                'RequestRule'       => 'required|int',
+                'DataType' => 'int',
+                'RequestRule' => 'required|int',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => '',
-                'ColumnName'        => 'name',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => '',
+                'ColumnName' => 'name',
                 'ColumnDescription' => 'name',
-                'DataType'          => 'string',
-                'RequestRule'       => 'required',
+                'DataType' => 'string',
+                'RequestRule' => 'required',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => 'Response',
-                'ColumnName'        => 'id',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => 'Response',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int',
-                'RequestRule'       => '',
+                'DataType' => 'int',
+                'RequestRule' => '',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => '',
-                'ColumnName'        => '',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => '',
+                'ColumnName' => '',
                 'ColumnDescription' => '',
-                'DataType'          => '',
-                'RequestRule'       => '',
+                'DataType' => '',
+                'RequestRule' => '',
             ],
             [
-                'ApiName'           => 'Get2',
-                'ApiDescription'    => 'get2',
-                'GroupType'         => 'Request',
-                'ColumnName'        => '',
+                'ApiName' => 'Get2',
+                'ApiDescription' => 'get2',
+                'GroupType' => 'Request',
+                'ColumnName' => '',
                 'ColumnDescription' => '',
-                'DataType'          => '',
-                'RequestRule'       => '',
+                'DataType' => '',
+                'RequestRule' => '',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => 'Response',
-                'ColumnName'        => 'id',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => 'Response',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int',
-                'RequestRule'       => '',
+                'DataType' => 'int',
+                'RequestRule' => '',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => '',
-                'ColumnName'        => 'name',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => '',
+                'ColumnName' => 'name',
                 'ColumnDescription' => 'name',
-                'DataType'          => 'string',
-                'RequestRule'       => '',
+                'DataType' => 'string',
+                'RequestRule' => '',
             ],
         ];
 
         $headerNamesChild = [
-            'GroupType'         => 'GroupType',
-            'ColumnName'        => 'ColumnName',
+            'GroupType' => 'GroupType',
+            'ColumnName' => 'ColumnName',
             'ColumnDescription' => 'ColumnDescription',
-            'DataType'          => 'DataType',
-            'RequestRule'       => 'RequestRule',
+            'DataType' => 'DataType',
+            'RequestRule' => 'RequestRule',
         ];
 
         // Group1
         $parentAttribute = new ParentAttribute('spreadSheetTitle', 'sheetName', $headerNamesChild);
         $parentAttribute->setParentAttributeDetails('Get', 'ApiName');
         $parentAttribute->setParentAttributeDetails('get', 'ApiDescription');
-        $attribute = new Attribute();
+        $attribute = new Attribute;
         $attribute->setAttributeDetails('id', 'ColumnName');
         $attribute->setAttributeDetails('id', 'ColumnDescription');
         $attribute->setAttributeDetails('int', 'DataType');
         $attribute->setAttributeDetails('required|int', 'RequestRule');
         $attribute->setRuleMessage("{'required': 'required rule', 'int': 'int rule'}");
-        $attribute2 = new Attribute();
+        $attribute2 = new Attribute;
         $attribute2->setAttributeDetails('name', 'ColumnName');
         $attribute2->setAttributeDetails('name', 'ColumnDescription');
         $attribute2->setAttributeDetails('string', 'DataType');
         $attribute2->setAttributeDetails('required', 'RequestRule');
         $attribute2->setRuleMessage("{'required': 'required rule'}");
         $parentAttribute->setAttributesGroup([$attribute, $attribute2], 'Request');
-        $attribute3 = new Attribute();
+        $attribute3 = new Attribute;
         $attribute3->setAttributeDetails('id', 'ColumnName');
         $attribute3->setAttributeDetails('id', 'ColumnDescription');
         $attribute3->setAttributeDetails('int', 'DataType');
@@ -362,12 +362,12 @@ class TwoAreaCreatorTest extends TestCase
         $parentAttribute2->setParentAttributeDetails('Get2', 'ApiName');
         $parentAttribute2->setParentAttributeDetails('get2', 'ApiDescription');
         $parentAttribute2->setAttributesGroup([], 'Request');
-        $attribute4 = new Attribute();
+        $attribute4 = new Attribute;
         $attribute4->setAttributeDetails('id', 'ColumnName');
         $attribute4->setAttributeDetails('id', 'ColumnDescription');
         $attribute4->setAttributeDetails('int', 'DataType');
         $attribute4->setAttributeDetails('', 'RequestRule');
-        $attribute5 = new Attribute();
+        $attribute5 = new Attribute;
         $attribute5->setAttributeDetails('name', 'ColumnName');
         $attribute5->setAttributeDetails('name', 'ColumnDescription');
         $attribute5->setAttributeDetails('string', 'DataType');
@@ -375,14 +375,14 @@ class TwoAreaCreatorTest extends TestCase
         $parentAttribute2->setAttributesGroup([$attribute4, $attribute5], 'Response');
 
         $readSpreadSheet = [
-            'category_tag'                => 'TwoArea',
-            'use_blade'                   => 'TwoAreaBlade',
-            'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => __DIR__.'/TestCode/output',
-            'definition_directory_path'   => __DIR__.'/TestCode/definition',
-            'separation_key'              => 'GroupType',
+            'category_tag' => 'TwoArea',
+            'use_blade' => 'TwoAreaBlade',
+            'sheet_id' => 'sheet_id',
+            'output_directory_path' => __DIR__.'/TestCode/output',
+            'definition_directory_path' => __DIR__.'/TestCode/definition',
+            'separation_key' => 'GroupType',
             'attribute_group_column_name' => 'GroupType',
-            'file_extension'              => 'yml',
+            'file_extension' => 'yml',
         ];
 
         $fileOperation = $this->app->make(FileOperation::class);
@@ -408,7 +408,7 @@ class TwoAreaCreatorTest extends TestCase
     /**
      * @test
      */
-    public function multiGroup(): void
+    public function multi_group(): void
     {
         Config::set('stepupdream.spread-sheet-converter.request_rule_sheet_name', 'RequestRule');
         Config::set('stepupdream.spread-sheet-converter.request_rule_column_name', 'RequestRule');
@@ -417,97 +417,97 @@ class TwoAreaCreatorTest extends TestCase
 
         $sheetValues = [
             [
-                'ApiName'           => 'Get',
-                'ApiDescription'    => 'get',
-                'GroupType'         => 'Group1',
-                'ColumnName'        => 'id',
+                'ApiName' => 'Get',
+                'ApiDescription' => 'get',
+                'GroupType' => 'Group1',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int',
+                'DataType' => 'int',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => '',
-                'ColumnName'        => 'name',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => '',
+                'ColumnName' => 'name',
                 'ColumnDescription' => 'name',
-                'DataType'          => 'string',
+                'DataType' => 'string',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => 'Group2',
-                'ColumnName'        => 'id',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => 'Group2',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int',
+                'DataType' => 'int',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => 'Group3',
-                'ColumnName'        => 'level',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => 'Group3',
+                'ColumnName' => 'level',
                 'ColumnDescription' => 'level',
-                'DataType'          => 'int',
+                'DataType' => 'int',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => '',
-                'ColumnName'        => '',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => '',
+                'ColumnName' => '',
                 'ColumnDescription' => '',
-                'DataType'          => '',
+                'DataType' => '',
             ],
             [
-                'ApiName'           => 'Get2',
-                'ApiDescription'    => 'get2',
-                'GroupType'         => 'Group1',
-                'ColumnName'        => '',
+                'ApiName' => 'Get2',
+                'ApiDescription' => 'get2',
+                'GroupType' => 'Group1',
+                'ColumnName' => '',
                 'ColumnDescription' => '',
-                'DataType'          => '',
+                'DataType' => '',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => 'Group2',
-                'ColumnName'        => 'id',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => 'Group2',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int',
+                'DataType' => 'int',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => 'Group3',
-                'ColumnName'        => 'level',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => 'Group3',
+                'ColumnName' => 'level',
                 'ColumnDescription' => 'level',
-                'DataType'          => 'int',
+                'DataType' => 'int',
             ],
         ];
 
         $headerNamesChild = [
-            'GroupType'         => 'GroupType',
-            'ColumnName'        => 'ColumnName',
+            'GroupType' => 'GroupType',
+            'ColumnName' => 'ColumnName',
             'ColumnDescription' => 'ColumnDescription',
-            'DataType'          => 'DataType',
+            'DataType' => 'DataType',
         ];
 
         // Group1
         $parentAttribute = new ParentAttribute('spreadSheetTitle', 'sheetName', $headerNamesChild);
         $parentAttribute->setParentAttributeDetails('Get', 'ApiName');
         $parentAttribute->setParentAttributeDetails('get', 'ApiDescription');
-        $attribute = new Attribute();
+        $attribute = new Attribute;
         $attribute->setAttributeDetails('id', 'ColumnName');
         $attribute->setAttributeDetails('id', 'ColumnDescription');
         $attribute->setAttributeDetails('int', 'DataType');
-        $attribute2 = new Attribute();
+        $attribute2 = new Attribute;
         $attribute2->setAttributeDetails('name', 'ColumnName');
         $attribute2->setAttributeDetails('name', 'ColumnDescription');
         $attribute2->setAttributeDetails('string', 'DataType');
         $parentAttribute->setAttributesGroup([$attribute, $attribute2], 'Group1');
-        $attribute3 = new Attribute();
+        $attribute3 = new Attribute;
         $attribute3->setAttributeDetails('id', 'ColumnName');
         $attribute3->setAttributeDetails('id', 'ColumnDescription');
         $attribute3->setAttributeDetails('int', 'DataType');
         $parentAttribute->setAttributesGroup([$attribute3], 'Group2');
-        $attribute4 = new Attribute();
+        $attribute4 = new Attribute;
         $attribute4->setAttributeDetails('level', 'ColumnName');
         $attribute4->setAttributeDetails('level', 'ColumnDescription');
         $attribute4->setAttributeDetails('int', 'DataType');
@@ -518,26 +518,26 @@ class TwoAreaCreatorTest extends TestCase
         $parentAttribute2->setParentAttributeDetails('Get2', 'ApiName');
         $parentAttribute2->setParentAttributeDetails('get2', 'ApiDescription');
         $parentAttribute2->setAttributesGroup([], 'Group1');
-        $attribute4 = new Attribute();
+        $attribute4 = new Attribute;
         $attribute4->setAttributeDetails('id', 'ColumnName');
         $attribute4->setAttributeDetails('id', 'ColumnDescription');
         $attribute4->setAttributeDetails('int', 'DataType');
         $parentAttribute2->setAttributesGroup([$attribute4], 'Group2');
-        $attribute5 = new Attribute();
+        $attribute5 = new Attribute;
         $attribute5->setAttributeDetails('level', 'ColumnName');
         $attribute5->setAttributeDetails('level', 'ColumnDescription');
         $attribute5->setAttributeDetails('int', 'DataType');
         $parentAttribute2->setAttributesGroup([$attribute5], 'Group3');
 
         $readSpreadSheet = [
-            'category_tag'                => 'TwoArea',
-            'use_blade'                   => 'TwoAreaBlade',
-            'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => __DIR__.'/TestCode/output',
-            'definition_directory_path'   => __DIR__.'/TestCode/definition',
-            'separation_key'              => 'GroupType',
+            'category_tag' => 'TwoArea',
+            'use_blade' => 'TwoAreaBlade',
+            'sheet_id' => 'sheet_id',
+            'output_directory_path' => __DIR__.'/TestCode/output',
+            'definition_directory_path' => __DIR__.'/TestCode/definition',
+            'separation_key' => 'GroupType',
             'attribute_group_column_name' => 'GroupType',
-            'file_extension'              => 'yml',
+            'file_extension' => 'yml',
         ];
 
         $fileOperation = $this->app->make(FileOperation::class);
@@ -558,7 +558,7 @@ class TwoAreaCreatorTest extends TestCase
     /**
      * @test
      */
-    public function oneGroup(): void
+    public function one_group(): void
     {
         Config::set('stepupdream.spread-sheet-converter.request_rule_sheet_name', 'RequestRule');
         Config::set('stepupdream.spread-sheet-converter.request_rule_column_name', 'RequestRule');
@@ -567,58 +567,58 @@ class TwoAreaCreatorTest extends TestCase
 
         $sheetValues = [
             [
-                'ApiName'           => 'Get',
-                'ApiDescription'    => 'get',
-                'ColumnName'        => 'id',
+                'ApiName' => 'Get',
+                'ApiDescription' => 'get',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int',
+                'DataType' => 'int',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'ColumnName'        => 'name',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'ColumnName' => 'name',
                 'ColumnDescription' => 'name',
-                'DataType'          => 'string',
+                'DataType' => 'string',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'GroupType'         => '',
-                'ColumnName'        => '',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'GroupType' => '',
+                'ColumnName' => '',
                 'ColumnDescription' => '',
-                'DataType'          => '',
+                'DataType' => '',
             ],
             [
-                'ApiName'           => 'Get2',
-                'ApiDescription'    => 'get2',
-                'ColumnName'        => 'id',
+                'ApiName' => 'Get2',
+                'ApiDescription' => 'get2',
+                'ColumnName' => 'id',
                 'ColumnDescription' => 'id',
-                'DataType'          => 'int',
+                'DataType' => 'int',
             ],
             [
-                'ApiName'           => '',
-                'ApiDescription'    => '',
-                'ColumnName'        => 'level',
+                'ApiName' => '',
+                'ApiDescription' => '',
+                'ColumnName' => 'level',
                 'ColumnDescription' => 'level',
-                'DataType'          => 'int',
+                'DataType' => 'int',
             ],
         ];
 
         $headerNamesChild = [
-            'ColumnName'        => 'ColumnName',
+            'ColumnName' => 'ColumnName',
             'ColumnDescription' => 'ColumnDescription',
-            'DataType'          => 'DataType',
+            'DataType' => 'DataType',
         ];
 
         // Group1
         $parentAttribute = new ParentAttribute('spreadSheetTitle', 'sheetName', $headerNamesChild);
         $parentAttribute->setParentAttributeDetails('Get', 'ApiName');
         $parentAttribute->setParentAttributeDetails('get', 'ApiDescription');
-        $attribute = new Attribute();
+        $attribute = new Attribute;
         $attribute->setAttributeDetails('id', 'ColumnName');
         $attribute->setAttributeDetails('id', 'ColumnDescription');
         $attribute->setAttributeDetails('int', 'DataType');
-        $attribute2 = new Attribute();
+        $attribute2 = new Attribute;
         $attribute2->setAttributeDetails('name', 'ColumnName');
         $attribute2->setAttributeDetails('name', 'ColumnDescription');
         $attribute2->setAttributeDetails('string', 'DataType');
@@ -628,25 +628,25 @@ class TwoAreaCreatorTest extends TestCase
         $parentAttribute2 = new ParentAttribute('spreadSheetTitle', 'sheetName', $headerNamesChild);
         $parentAttribute2->setParentAttributeDetails('Get2', 'ApiName');
         $parentAttribute2->setParentAttributeDetails('get2', 'ApiDescription');
-        $attribute4 = new Attribute();
+        $attribute4 = new Attribute;
         $attribute4->setAttributeDetails('id', 'ColumnName');
         $attribute4->setAttributeDetails('id', 'ColumnDescription');
         $attribute4->setAttributeDetails('int', 'DataType');
-        $attribute5 = new Attribute();
+        $attribute5 = new Attribute;
         $attribute5->setAttributeDetails('level', 'ColumnName');
         $attribute5->setAttributeDetails('level', 'ColumnDescription');
         $attribute5->setAttributeDetails('int', 'DataType');
         $parentAttribute2->setAttributesGroup([$attribute4, $attribute5]);
 
         $readSpreadSheet = [
-            'category_tag'                => 'TwoArea',
-            'use_blade'                   => 'TwoAreaBlade',
-            'sheet_id'                    => 'sheet_id',
-            'output_directory_path'       => __DIR__.'/TestCode/output',
-            'definition_directory_path'   => __DIR__.'/TestCode/definition',
-            'separation_key'              => 'ColumnName',
+            'category_tag' => 'TwoArea',
+            'use_blade' => 'TwoAreaBlade',
+            'sheet_id' => 'sheet_id',
+            'output_directory_path' => __DIR__.'/TestCode/output',
+            'definition_directory_path' => __DIR__.'/TestCode/definition',
+            'separation_key' => 'ColumnName',
             'attribute_group_column_name' => null,
-            'file_extension'              => 'yml',
+            'file_extension' => 'yml',
         ];
 
         $fileOperation = $this->app->make(FileOperation::class);
