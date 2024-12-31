@@ -4,33 +4,108 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\Test\DefinitionDocument\Definitions;
 
+use Exception;
+use JsonException;
+use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
-use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
-class AttributeTest extends TestCase
-{
-    /**
-     * @test
-     */
-    public function get_attribute_detail_by_key(): void
-    {
-        $attribute = new Attribute;
-        $attribute->setAttributeDetails('a', 'test1');
-        $attribute->setAttributeDetails(PHP_EOL.'b'.PHP_EOL, 'test2');
-        $attribute->setAttributeDetails('[1,2,3]', 'test3');
-        $attribute->setAttributeDetails('[[1,2,3],[1,2,3]]', 'test4');
-        $attribute->setAttributeDetails('{ "aaa" : 50, "bbb" : 150}', 'test5');
+beforeEach(function () {
+    $this->attribute = new Attribute;
+});
 
-        $response1 = $attribute->getAttributeDetailByKey('test1');
-        $response2 = $attribute->getAttributeDetailByKey('test2');
-        $response3 = $attribute->getAttributeDetailJsonByKey('test3');
-        $response4 = $attribute->getAttributeDetailJsonByKey('test4');
-        $response5 = $attribute->getAttributeDetailJsonByKey('test5');
+describe('attributeDetails', function () {
+    it('returns an empty array by default', function () {
+        expect($this->attribute->attributeDetails())->toBeArray()
+            ->toBeEmpty();
+    });
 
-        self::assertEquals('a', $response1);
-        self::assertEquals('b', $response2);
-        self::assertEquals([1, 2, 3], $response3);
-        self::assertEquals([[1, 2, 3], [1, 2, 3]], $response4);
-        self::assertEquals(['aaa' => 50, 'bbb' => 150], $response5);
-    }
-}
+    it('adds and retrieves an attribute detail using header key', function () {
+        $headerKey = 'header1';
+        $value = 'value1';
+
+        $this->attribute->setAttributeDetails($value, $headerKey);
+
+        expect($this->attribute->attributeDetails())->toHaveKey($headerKey, $value);
+    });
+
+    it('removes an attribute detail using a header key', function () {
+        $headerKey = 'header1';
+        $value = 'value1';
+
+        $this->attribute->setAttributeDetails($value, $headerKey);
+        $this->attribute->unsetAttributeDetail($headerKey);
+
+        expect($this->attribute->attributeDetails())->not->toHaveKey($headerKey);
+    });
+});
+
+describe('getAttributeDetailByKey', function () {
+    it('returns the correct value for a valid header key', function () {
+        $headerKey = 'header1';
+        $value = 'value1';
+
+        $this->attribute->setAttributeDetails($value, $headerKey);
+
+        expect($this->attribute->getAttributeDetailByKey($headerKey))->toBe($value);
+    });
+});
+
+describe('getAttributeDetailJsonByKey', function () {
+    it('retrieves JSON data for a valid key', function () {
+        $headerKey = 'header1';
+        $value = json_encode(['key1' => 'value1', 'key2' => 'value2']);
+
+        $this->attribute->setAttributeDetails($value, $headerKey);
+
+        expect($this->attribute->getAttributeDetailJsonByKey($headerKey))->toBeArray()
+            ->toMatchArray(['key1' => 'value1', 'key2' => 'value2']);
+    });
+
+    it('throws an exception if the value is not valid JSON', function () {
+        $headerKey = 'header1';
+        $invalidValue = 'invalid_json';
+
+        $this->attribute->setAttributeDetails($invalidValue, $headerKey);
+
+        expect(fn () => $this->attribute->getAttributeDetailJsonByKey($headerKey))
+            ->toThrow(JsonException::class);
+    });
+
+    it('throws an exception when trying to retrieve JSON for a non-existent key', function () {
+        expect(fn () => $this->attribute->getAttributeDetailJsonByKey('non_existent'))
+            ->toThrow(LogicException::class);
+    });
+});
+
+describe('ruleMessage', function () {
+    it('returns an empty string by default', function () {
+        expect($this->attribute->ruleMessage())->toBe('');
+    });
+
+    it('allows setting and retrieving the rule message', function () {
+        $message = 'This is a rule message';
+
+        $this->attribute->setRuleMessage($message);
+
+        expect($this->attribute->ruleMessage())->toBe($message);
+    });
+});
+
+describe('setAttributeDetails', function () {
+    it('overrides an existing attribute detail with the same header key', function () {
+        $headerKey = 'header1';
+        $value1 = 'value1';
+        $value2 = 'value2';
+
+        $this->attribute->setAttributeDetails($value1, $headerKey);
+        $this->attribute->setAttributeDetails($value2, $headerKey);
+
+        expect($this->attribute->attributeDetails())->toHaveKey($headerKey, $value2);
+    });
+});
+
+describe('unsetAttributeDetail', function () {
+    it('does not throw an error when unsetting a non-existent key', function () {
+        expect(fn () => $this->attribute->unsetAttributeDetail('non_existent'))->not->toThrow(Exception::class);
+    });
+});
