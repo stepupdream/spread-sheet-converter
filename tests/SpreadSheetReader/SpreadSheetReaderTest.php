@@ -53,7 +53,7 @@ describe('readBySheetName', function () {
             ->andReturn([]);
 
         expect(fn () => $this->reader->readBySheetName($sheetId, $nonExistentSheet))
-            ->toThrow(LogicException::class, "can't read sheet data: {$nonExistentSheet}");
+            ->toThrow(LogicException::class, "can't read sheet data: $nonExistentSheet");
     });
 });
 
