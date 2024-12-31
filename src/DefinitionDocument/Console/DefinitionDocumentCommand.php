@@ -54,7 +54,7 @@ class DefinitionDocumentCommand extends BaseCommand
     /**
      * Read Spread Sheets
      *
-     * @return mixed[][]
+     * @return array<int, array<string, mixed>>
      */
     private function readSpreadSheets(): array
     {
@@ -64,6 +64,7 @@ class DefinitionDocumentCommand extends BaseCommand
             throw new LogicException('Must be a two-dimensional array:read_spread_sheets');
         }
 
+        /** @var array<int, array<string, mixed>> $readSpreadSheets */
         foreach ($readSpreadSheets as $readSpreadSheet) {
             $this->verifyKey($readSpreadSheet);
         }
@@ -74,7 +75,7 @@ class DefinitionDocumentCommand extends BaseCommand
     /**
      * Verify the existence of the key.
      *
-     * @param  mixed[]  $readSpreadSheet
+     * @param  array<string, mixed>  $readSpreadSheet
      */
     private function verifyKey(array $readSpreadSheet): void
     {

@@ -37,14 +37,14 @@ class GoogleService
     /**
      * Update spreadsheet data.
      *
-     * @param  mixed[][]  $values
+     * @param  mixed[]  $values
      */
     public function updateGoogleServiceSheet(
         string $sheetId,
         array $values,
         string $sheetName,
         string $range,
-        string $option
+        string $option,
     ): string {
         $spreadsheetService = $this->googleSpreadsheetService();
         $range = sprintf('%s!%s', $sheetName, $range);
@@ -75,7 +75,7 @@ class GoogleService
         array $values,
         string $sheetName,
         string $range,
-        string $option
+        string $option,
     ): string {
         $spreadsheetService = $this->googleSpreadsheetService();
         $body = new Google_Service_Sheets_ValueRange([

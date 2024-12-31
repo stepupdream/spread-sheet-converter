@@ -9,7 +9,7 @@
     ],
     "require": {
         "php": ">=8.3.0",
-        "google/apiclient": "^2.12.1",
+        "google/apiclient": "^2.18.2",
         "laravel/framework": "^11.0",
         "stepupdream/dream-ability-support": "dev-develop"
     },
@@ -17,7 +17,8 @@
         "roave/security-advisories": "dev-latest",
         "larastan/larastan": "^3.0",
         "pestphp/pest": "^3.7",
-        "laravel/pint": "^1.18"
+        "laravel/pint": "^1.18",
+        "mockery/mockery": "^1.6"
     },
     "autoload": {
         "psr-4": {

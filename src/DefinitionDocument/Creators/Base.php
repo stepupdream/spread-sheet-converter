@@ -57,7 +57,7 @@ abstract class Base implements CreatorInterface
         protected FileOperation $fileOperation,
         protected SpreadSheetReader $spreadSheetReader,
         protected BladeLoader $bladeLoader,
-        array $readSpreadSheet
+        array $readSpreadSheet,
     ) {
         $this->useBladeFileName = $readSpreadSheet['use_blade'];
         $this->sheetId = $readSpreadSheet['sheet_id'];
@@ -116,26 +116,37 @@ abstract class Base implements CreatorInterface
     {
         foreach ($parentAttributes as $parentAttribute) {
             $description = $this->outputPath($parentAttribute);
-            (new Task($this->output))->render($description, function () use ($parentAttribute, $targetFileName) {
-                $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
-                $outputPath = $this->outputPath($parentAttribute);
-                $fileName = basename($outputPath);
 
-                // If there is a specification to get only a part, skip other data
-                if ($this->isReadSkip($mainKeyName, $targetFileName)) {
-                    return 'SKIP';
-                }
-                $loadBladeFile = $this->bladeLoader->loadBladeFile($this->useBladeFileName, $parentAttribute);
-
-                if ($this->fileOperation->shouldCreate($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
-                    $this->fileOperation->createFile($loadBladeFile, $outputPath, true);
-
-                    return 'DONE';
-                }
-
-                return 'SKIP';
-            });
+            (new Task($this->output))->render($description, $this->task($parentAttribute, $targetFileName));
         }
+    }
+
+    /**
+     * Executes a task based on the parent attribute and target file name, performing file operations as necessary.
+     *
+     * @param  ParentAttribute  $parentAttribute  The parent attribute containing details needed for the task.
+     * @param  string|null  $targetFileName  The target file name to compare or process, if specified.
+     * @return string Returns 'DONE' if the operation completes successfully, otherwise 'SKIP'.
+     */
+    private function task(ParentAttribute $parentAttribute, ?string $targetFileName): string
+    {
+        $mainKeyName = collect($parentAttribute->parentAttributeDetails())->first();
+        $outputPath = $this->outputPath($parentAttribute);
+        $fileName = basename($outputPath);
+
+        // If there is a specification to get only a part, skip other data
+        if ($this->isReadSkip($mainKeyName, $targetFileName)) {
+            return 'SKIP';
+        }
+        $loadBladeFile = $this->bladeLoader->loadBladeFile($this->useBladeFileName, $parentAttribute);
+
+        if ($this->fileOperation->isContentDifferent($loadBladeFile, $this->definitionDirectoryPath, $fileName)) {
+            $this->fileOperation->createFile($loadBladeFile, $outputPath, true);
+
+            return 'DONE';
+        }
+
+        return 'SKIP';
     }
 
     /**
@@ -163,15 +174,19 @@ abstract class Base implements CreatorInterface
     }
 
     /**
-     * Generate Attribute class based on Sheet data.
+     * Creates and returns the parent attribute for the specified spreadsheet.
      *
-     * @param  string[][]  $sheet
+     * @param  string[][]  $sheet  The data of the current sheet.
+     * @param  string  $spreadsheetTitle  The title of the spreadsheet.
+     * @param  int  &$rowNumber  The current row number, passed by reference.
+     * @param  string  $sheetName  The name of the sheet.
+     * @return ParentAttribute The created parent attribute object.
      */
     abstract protected function createParentAttribute(
         array $sheet,
         string $spreadsheetTitle,
         int &$rowNumber,
-        string $sheetName
+        string $sheetName,
     ): ParentAttribute;
 
     /**

@@ -20,6 +20,9 @@ abstract class BaseAttribute
     protected function attributeJsonByKey(array $attributes, string $headerKey): array
     {
         $attributeNotIndent = $this->attributeByKey($attributes, $headerKey);
+        if ($attributeNotIndent === '') {
+            throw new LogicException('Failed to convert from json to array.');
+        }
 
         $decodedText = json_decode($attributeNotIndent, true, 512, JSON_THROW_ON_ERROR);
 
@@ -37,6 +40,10 @@ abstract class BaseAttribute
      */
     protected function attributeByKey(array $attributes, string $headerKey): string
     {
+        if (! array_key_exists($headerKey, $attributes)) {
+            return '';
+        }
+
         return str_replace(PHP_EOL, '', $attributes[$headerKey]);
     }
 }
