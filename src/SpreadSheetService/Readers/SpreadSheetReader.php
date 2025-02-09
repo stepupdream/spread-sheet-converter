@@ -49,7 +49,7 @@ class SpreadSheetReader
         $spreadsheets = $this->read($sheetId);
 
         if (empty($spreadsheets[$targetSheetName])) {
-            throw new LogicException("can't read sheet data: ".$targetSheetName);
+            throw new LogicException("can't read sheet data: " . $targetSheetName);
         }
 
         return $spreadsheets[$targetSheetName];
@@ -70,7 +70,7 @@ class SpreadSheetReader
      *
      * @return string[][][] Table information array containing information for each sheet：key is sheet name.
      */
-    protected function readSpreadSheetValue(string $sheetId): array
+    private function readSpreadSheetValue(string $sheetId): array
     {
         $googleServiceSheet = $this->readFromGoogleServiceSheet($sheetId);
         $spreadsheets = $googleServiceSheet->spreadSheets();
@@ -86,9 +86,9 @@ class SpreadSheetReader
      *
      * @return GoogleServiceSheet Table information array containing information for each sheet：key is sheet name.
      */
-    protected function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
+    private function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
     {
-        if (! empty($this->googleServiceSheets[$sheetId])) {
+        if (!empty($this->googleServiceSheets[$sheetId])) {
             return $this->googleServiceSheets[$sheetId];
         }
 
@@ -102,17 +102,17 @@ class SpreadSheetReader
     /**
      * Make the first row the key of the associative array.
      *
-     * @param  string[][]  $sheet
+     * @param string[][] $sheet
      * @return string[][]
      */
-    protected function getTitleArray(array $sheet, string $sheetName): array
+    private function getTitleArray(array $sheet, string $sheetName): array
     {
         $result = [];
         $headerRow = [];
         $isHeader = true;
 
         if (empty($sheet)) {
-            throw new LogicException('need sheet header: '.$sheetName);
+            throw new LogicException('need sheet header: ' . $sheetName);
         }
 
         foreach ($sheet as $row) {
@@ -142,11 +142,8 @@ class SpreadSheetReader
 
     /**
      * Verification of correct type specification.
-     *
-     * @param  string[]  $attribute
-     * @noinspection PhpUnused
      */
-    public function verifySheetDataDetail(array $attribute): void
+    public function verifySheetDataDetail(array $_): void
     {
         // Optional
     }
@@ -154,16 +151,16 @@ class SpreadSheetReader
     /**
      * Gets the first row of the array up to the specified key.
      *
-     * @param  string[][]  $sheet
+     * @param string[][] $sheet
      * @return string[] Sheet header list
      */
     public function getParentAttributeKeyName(array $sheet, string $separationKey): array
     {
         $sheetFirstRow = collect($sheet)->first();
-        $cacheKey = (string) collect($sheetFirstRow)->first();
+        $cacheKey = (string)collect($sheetFirstRow)->first();
         $names = [];
 
-        if (! empty($this->parentAttributeKeyName[$cacheKey])) {
+        if (!empty($this->parentAttributeKeyName[$cacheKey])) {
             return $this->parentAttributeKeyName[$cacheKey];
         }
 
@@ -186,7 +183,7 @@ class SpreadSheetReader
     /**
      * Gets the first row of the array after the specified key.
      *
-     * @param  string[][]  $sheet
+     * @param string[][] $sheet
      * @return string[] Sheet header list
      */
     public function getAttributeKeyName(array $sheet, string $separationKey): array
@@ -195,9 +192,9 @@ class SpreadSheetReader
         $shouldAddStart = false;
         $names = [];
 
-        $cacheKey = (string) collect($sheetFirstRow)->first();
+        $cacheKey = (string)collect($sheetFirstRow)->first();
 
-        if (! empty($this->attributeKeyName[$cacheKey])) {
+        if (!empty($this->attributeKeyName[$cacheKey])) {
             return $this->attributeKeyName[$cacheKey];
         }
 
@@ -224,9 +221,9 @@ class SpreadSheetReader
     /**
      * Whether the entire row is all empty.
      *
-     * @param  string[]  $values
+     * @param string[] $values
      */
-    public function isAllEmpty(array $values): bool
+    public function isRowEmpty(array $values): bool
     {
         foreach ($values as $value) {
             if ($value !== '') {

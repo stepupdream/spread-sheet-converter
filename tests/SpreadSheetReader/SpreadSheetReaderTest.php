@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 describe('readBySheetName', function () {
-    test('returns correct sheet data when sheet exists', function () {
+    test('returns correct sheet data when a sheet exists', function () {
         $sheetId = '123';
         $sheetName = 'TestSheet';
         $expectedData = [
@@ -38,7 +38,7 @@ describe('readBySheetName', function () {
             ->toBe($expectedData);
     });
 
-    test('throws exception when sheet does not exist', function () {
+    test('throws exception when a sheet does not exist', function () {
         $sheetId = '123';
         $nonExistentSheet = 'NonExistentSheet';
 
@@ -52,7 +52,7 @@ describe('readBySheetName', function () {
             ->once()
             ->andReturn([]);
 
-        expect(fn () => $this->reader->readBySheetName($sheetId, $nonExistentSheet))
+        expect(fn() => $this->reader->readBySheetName($sheetId, $nonExistentSheet))
             ->toThrow(LogicException::class, "can't read sheet data: $nonExistentSheet");
     });
 });
@@ -116,7 +116,7 @@ describe('spreadSheetTitle', function () {
 });
 
 describe('getParentAttributeKeyName', function () {
-    test('returns keys up to separation key', function () {
+    test('returns keys up to a separation key', function () {
         $sheet = [
             ['key1' => 'val1', 'separator' => 'sep', 'key3' => 'val3'],
         ];
@@ -127,17 +127,17 @@ describe('getParentAttributeKeyName', function () {
             ->toBe($expected);
     });
 
-    test('throws exception when sheet is empty', function () {
+    test('throws exception when a sheet is empty', function () {
         $sheet = [];
         $separationKey = 'separator';
 
-        expect(fn () => $this->reader->getParentAttributeKeyName($sheet, $separationKey))
+        expect(fn() => $this->reader->getParentAttributeKeyName($sheet, $separationKey))
             ->toThrow(LogicException::class, 'The value of sheet-first row is not an array');
     });
 });
 
 describe('getAttributeKeyName', function () {
-    test('returns keys after separation key', function () {
+    test('returns keys after a separation key', function () {
         $sheet = [
             ['key1' => 'val1', 'separator' => 'sep', 'key3' => 'val3'],
         ];
@@ -148,11 +148,11 @@ describe('getAttributeKeyName', function () {
             ->toBe($expected);
     });
 
-    test('throws exception when sheet is empty', function () {
+    test('throws exception when a sheet is empty', function () {
         $sheet = [];
         $separationKey = 'separator';
 
-        expect(fn () => $this->reader->getAttributeKeyName($sheet, $separationKey))
+        expect(fn() => $this->reader->getAttributeKeyName($sheet, $separationKey))
             ->toThrow(LogicException::class, 'The value of sheet-first row is not an array');
     });
 });
@@ -161,14 +161,14 @@ describe('isAllEmpty', function () {
     test('returns true when all values are empty', function () {
         $values = ['', '', ''];
 
-        expect($this->reader->isAllEmpty($values))
+        expect($this->reader->isRowEmpty($values))
             ->toBeTrue();
     });
 
-    test('returns false when any value is not empty', function () {
+    test('returns are false when any value is not empty', function () {
         $values = ['', 'not empty', ''];
 
-        expect($this->reader->isAllEmpty($values))
+        expect($this->reader->isRowEmpty($values))
             ->toBeFalse();
     });
 });

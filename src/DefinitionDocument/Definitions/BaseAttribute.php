@@ -14,20 +14,20 @@ abstract class BaseAttribute
      * Get a string that indicates an array.
      * It can be obtained as an array.
      *
-     * @param  string[]  $attributes
+     * @param string[] $attributes
      * @return mixed[]
      */
     protected function attributeJsonByKey(array $attributes, string $headerKey): array
     {
         $attributeNotIndent = $this->attributeByKey($attributes, $headerKey);
         if ($attributeNotIndent === '') {
-            throw new LogicException('Failed to convert from json to array.');
+            throw new LogicException('Failed to convert from JSON to array.');
         }
 
         $decodedText = json_decode($attributeNotIndent, true, 512, JSON_THROW_ON_ERROR);
 
-        if (! is_array($decodedText)) {
-            throw new LogicException('Failed to convert from json to array.');
+        if (!is_array($decodedText)) {
+            throw new LogicException('Failed to convert from JSON to array.');
         }
 
         return $decodedText;
@@ -36,11 +36,11 @@ abstract class BaseAttribute
     /**
      * Get attribute by key.
      *
-     * @param  string[]  $attributes
+     * @param string[] $attributes
      */
     protected function attributeByKey(array $attributes, string $headerKey): string
     {
-        if (! array_key_exists($headerKey, $attributes)) {
+        if (!array_key_exists($headerKey, $attributes)) {
             return '';
         }
 

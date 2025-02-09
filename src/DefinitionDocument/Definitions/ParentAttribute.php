@@ -16,14 +16,14 @@ class ParentAttribute extends BaseAttribute
     /**
      * The Attribute instance array.
      *
-     * @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[][]
+     * @var Attribute[][]
      */
     protected array $attributesGroup = [];
 
     /**
      * Attribute constructor.
      *
-     * @param  string[]  $headerNamesChild
+     * @param string[] $headerNamesChild
      */
     public function __construct(
         protected string $spreadsheetTitle,
@@ -104,7 +104,7 @@ class ParentAttribute extends BaseAttribute
     /**
      * Get attributes group.
      *
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[][]
+     * @return Attribute[][]
      */
     public function attributesGroup(): array
     {
@@ -114,7 +114,7 @@ class ParentAttribute extends BaseAttribute
     /**
      * Set attributes group.
      *
-     * @param  \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]  $attributesGroup
+     * @param Attribute[] $attributesGroup
      */
     public function setAttributesGroup(array $attributesGroup, string $groupKey = '*'): void
     {
@@ -124,7 +124,7 @@ class ParentAttribute extends BaseAttribute
     /**
      * Get attributes group.
      *
-     * @return \StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute[]
+     * @return Attribute[]
      * @noinspection PhpUnused
      */
     public function getAttributesGroupByKeyName(string $groupKey): array

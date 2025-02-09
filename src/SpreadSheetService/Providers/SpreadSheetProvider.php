@@ -19,7 +19,7 @@ class SpreadSheetProvider extends ServiceProvider implements DeferrableProvider
     public function register(): void
     {
         $this->app->singleton(SpreadSheetReader::class, function () {
-            $googleService = new GoogleService;
+            $googleService = new GoogleService();
 
             return new SpreadSheetReader($googleService);
         });

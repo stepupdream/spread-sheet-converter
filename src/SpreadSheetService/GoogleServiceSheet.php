@@ -9,7 +9,7 @@ class GoogleServiceSheet
     /**
      * Constructor method for initializing the spreadsheet title and sheets.
      *
-     * @param  string[][][]  $spreadSheets
+     * @param string[][][] $spreadSheets
      */
     public function __construct(
         protected string $spreadSheetTitle,

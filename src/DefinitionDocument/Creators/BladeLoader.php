@@ -14,7 +14,7 @@ class BladeLoader
      */
     public function loadBladeFile(string $useBladeFileName, ParentAttribute $parentAttribute): string
     {
-        return view('spread-sheet-converter::'.Str::snake($useBladeFileName), [
+        return view('spread-sheet-converter::' . Str::snake($useBladeFileName), [
             'parentAttribute' => $parentAttribute,
         ])->render();
     }

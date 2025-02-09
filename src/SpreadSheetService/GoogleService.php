@@ -37,7 +37,7 @@ class GoogleService
     /**
      * Update spreadsheet data.
      *
-     * @param  mixed[]  $values
+     * @param mixed[] $values
      */
     public function updateGoogleServiceSheet(
         string $sheetId,
@@ -53,7 +53,8 @@ class GoogleService
         $valueRange[] = new Google_Service_Sheets_ValueRange(compact('range', 'values'));
 
         $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
-            'valueInputOption' => $option, 'data' => $valueRange,
+            'valueInputOption' => $option,
+            'data' => $valueRange,
         ]);
 
         try {
@@ -68,7 +69,7 @@ class GoogleService
     /**
      * Append spreadsheet data.
      *
-     * @param  mixed[][]  $values
+     * @param mixed[][] $values
      */
     public function appendGoogleServiceSheet(
         string $sheetId,
@@ -103,7 +104,7 @@ class GoogleService
     {
         $credentialsPath = config('stepupdream.spread-sheet-converter.credentials_path');
 
-        $client = new Google_Client;
+        $client = new Google_Client();
         $client->setScopes([Google_Service_Sheets::SPREADSHEETS]);
         $client->setAuthConfig($credentialsPath);
 
