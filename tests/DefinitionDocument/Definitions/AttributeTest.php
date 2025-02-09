@@ -67,12 +67,12 @@ describe('getAttributeDetailJsonByKey', function () {
 
         $this->attribute->setAttributeDetails($invalidValue, $headerKey);
 
-        expect(fn() => $this->attribute->getAttributeDetailJsonByKey($headerKey))
+        expect(fn () => $this->attribute->getAttributeDetailJsonByKey($headerKey))
             ->toThrow(JsonException::class);
     });
 
     it('throw an exception when trying to retrieve JSON for a non-existent key.', function () {
-        expect(fn() => $this->attribute->getAttributeDetailJsonByKey('non_existent'))
+        expect(fn () => $this->attribute->getAttributeDetailJsonByKey('non_existent'))
             ->toThrow(LogicException::class);
     });
 });
@@ -106,6 +106,6 @@ describe('setAttributeDetails', function () {
 
 describe('unsetAttributeDetail', function () {
     it('does not throw an error when unsetting a non-existent key', function () {
-        expect(fn() => $this->attribute->unsetAttributeDetail('non_existent'))->not->toThrow(Exception::class);
+        expect(fn () => $this->attribute->unsetAttributeDetail('non_existent'))->not->toThrow(Exception::class);
     });
 });

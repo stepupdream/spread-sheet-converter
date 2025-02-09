@@ -24,7 +24,7 @@ class SpreadSheetWriter
     /**
      * Write spreadsheet data.
      *
-     * @param  mixed[][]  $values
+     * @param mixed[][] $values
      */
     public function write(
         string $sheetId,
@@ -33,10 +33,10 @@ class SpreadSheetWriter
         string $range = 'A1',
         string $option = 'USER_ENTERED',
     ): void {
-        $style = new OutputStyle(new ArgvInput, new ConsoleOutput);
+        $style = new OutputStyle(new ArgvInput(), new ConsoleOutput());
 
         (new Task($style))->render(
-            'write: '.$sheetName,
+            'write: ' . $sheetName,
             $this->googleService->appendGoogleServiceSheet($sheetId, $values, $sheetName, $range, $option),
         );
     }
@@ -44,7 +44,7 @@ class SpreadSheetWriter
     /**
      * Update spreadsheet data.
      *
-     * @param  mixed[]  $values
+     * @param mixed[] $values
      */
     public function update(
         string $sheetId,
@@ -53,10 +53,10 @@ class SpreadSheetWriter
         string $range = 'A1',
         string $option = 'USER_ENTERED',
     ): void {
-        $style = new OutputStyle(new ArgvInput, new ConsoleOutput);
+        $style = new OutputStyle(new ArgvInput(), new ConsoleOutput());
 
         (new Task($style))->render(
-            'write: '.$sheetName,
+            'write: ' . $sheetName,
             $this->googleService->updateGoogleServiceSheet($sheetId, $values, $sheetName, $range, $option),
         );
     }

@@ -52,7 +52,7 @@ describe('readBySheetName', function () {
             ->once()
             ->andReturn([]);
 
-        expect(fn() => $this->reader->readBySheetName($sheetId, $nonExistentSheet))
+        expect(fn () => $this->reader->readBySheetName($sheetId, $nonExistentSheet))
             ->toThrow(LogicException::class, "can't read sheet data: $nonExistentSheet");
     });
 });
@@ -131,7 +131,7 @@ describe('getParentAttributeKeyName', function () {
         $sheet = [];
         $separationKey = 'separator';
 
-        expect(fn() => $this->reader->getParentAttributeKeyName($sheet, $separationKey))
+        expect(fn () => $this->reader->getParentAttributeKeyName($sheet, $separationKey))
             ->toThrow(LogicException::class, 'The value of sheet-first row is not an array');
     });
 });
@@ -152,7 +152,7 @@ describe('getAttributeKeyName', function () {
         $sheet = [];
         $separationKey = 'separator';
 
-        expect(fn() => $this->reader->getAttributeKeyName($sheet, $separationKey))
+        expect(fn () => $this->reader->getAttributeKeyName($sheet, $separationKey))
             ->toThrow(LogicException::class, 'The value of sheet-first row is not an array');
     });
 });
