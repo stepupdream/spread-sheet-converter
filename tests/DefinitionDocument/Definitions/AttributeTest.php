@@ -10,7 +10,7 @@ use LogicException;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 
 beforeEach(function () {
-    $this->attribute = new Attribute;
+    $this->attribute = new Attribute();
 });
 
 describe('attributeDetails', function () {
@@ -19,7 +19,7 @@ describe('attributeDetails', function () {
             ->toBeEmpty();
     });
 
-    it('adds and retrieves an attribute detail using header key', function () {
+    it('adds and retrieves an attribute detail using a header key', function () {
         $headerKey = 'header1';
         $value = 'value1';
 
@@ -28,7 +28,7 @@ describe('attributeDetails', function () {
         expect($this->attribute->attributeDetails())->toHaveKey($headerKey, $value);
     });
 
-    it('removes an attribute detail using a header key', function () {
+    it('remove an attribute detail using a header key', function () {
         $headerKey = 'header1';
         $value = 'value1';
 
@@ -53,7 +53,7 @@ describe('getAttributeDetailByKey', function () {
 describe('getAttributeDetailJsonByKey', function () {
     it('retrieves JSON data for a valid key', function () {
         $headerKey = 'header1';
-        $value = json_encode(['key1' => 'value1', 'key2' => 'value2']);
+        $value = json_encode(['key1' => 'value1', 'key2' => 'value2'], JSON_THROW_ON_ERROR);
 
         $this->attribute->setAttributeDetails($value, $headerKey);
 
@@ -67,12 +67,12 @@ describe('getAttributeDetailJsonByKey', function () {
 
         $this->attribute->setAttributeDetails($invalidValue, $headerKey);
 
-        expect(fn () => $this->attribute->getAttributeDetailJsonByKey($headerKey))
+        expect(fn() => $this->attribute->getAttributeDetailJsonByKey($headerKey))
             ->toThrow(JsonException::class);
     });
 
-    it('throws an exception when trying to retrieve JSON for a non-existent key', function () {
-        expect(fn () => $this->attribute->getAttributeDetailJsonByKey('non_existent'))
+    it('throw an exception when trying to retrieve JSON for a non-existent key.', function () {
+        expect(fn() => $this->attribute->getAttributeDetailJsonByKey('non_existent'))
             ->toThrow(LogicException::class);
     });
 });
@@ -106,6 +106,6 @@ describe('setAttributeDetails', function () {
 
 describe('unsetAttributeDetail', function () {
     it('does not throw an error when unsetting a non-existent key', function () {
-        expect(fn () => $this->attribute->unsetAttributeDetail('non_existent'))->not->toThrow(Exception::class);
+        expect(fn() => $this->attribute->unsetAttributeDetail('non_existent'))->not->toThrow(Exception::class);
     });
 });
