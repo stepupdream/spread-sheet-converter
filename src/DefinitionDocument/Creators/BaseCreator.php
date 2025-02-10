@@ -9,11 +9,15 @@ use Illuminate\Support\Str;
 use StepUpDream\DreamAbilitySupport\Console\View\Components\Task;
 use StepUpDream\DreamAbilitySupport\Supports\File\FileOperation;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\interface\AreaCreatorInterface;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\interface\CreatorInterface;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Struct\SpreadSheetConfig;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 
-readonly class BaseCreator
+/**
+ * Class BaseCreator.
+ */
+readonly class BaseCreator implements CreatorInterface
 {
     /**
      * BaseCreator constructor.
@@ -128,8 +132,6 @@ readonly class BaseCreator
         if ($targetFileName === null || $mainKeyName === null) {
             return false;
         }
-
-        app()->make('config')->set('stepupdream.spread-sheet-converter.read_skip', true);
 
         return Str::snake(pathinfo($targetFileName, PATHINFO_FILENAME)) !== Str::snake($mainKeyName);
     }

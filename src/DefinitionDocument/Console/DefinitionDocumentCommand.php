@@ -7,7 +7,11 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Console;
 use LogicException;
 use StepUpDream\DreamAbilitySupport\Console\BaseCommand;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\CreatorFactory;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Struct\SpreadSheetConfig;
 
+/**
+ * Console command for creating definition documents.
+ */
 class DefinitionDocumentCommand extends BaseCommand
 {
     /**
@@ -34,7 +38,7 @@ class DefinitionDocumentCommand extends BaseCommand
         $readSpreadSheetConfigs = $this->readSpreadSheetConfigs();
 
         foreach ($readSpreadSheetConfigs as $readSpreadSheetConfig) {
-            if (!empty($targetCategory) && $targetCategory !== $readSpreadSheetConfig['category_tag']) {
+            if ($targetCategory !== $readSpreadSheetConfig->categoryTag()) {
                 continue;
             }
 
@@ -48,7 +52,7 @@ class DefinitionDocumentCommand extends BaseCommand
     /**
      * Read Spread Sheets
      *
-     * @return array<int, array<string, mixed>>
+     * @return SpreadSheetConfig[] $spreadSheetConfigs
      */
     private function readSpreadSheetConfigs(): array
     {
@@ -58,6 +62,12 @@ class DefinitionDocumentCommand extends BaseCommand
             throw new LogicException('Must be a two-dimensional array:read_spread_sheets');
         }
 
-        return $readSpreadSheets;
+        $spreadSheetConfigs = [];
+        foreach ($readSpreadSheets as $readSpreadSheet) {
+            /** @var array<string, string> $readSpreadSheet */
+            $spreadSheetConfigs[] = new SpreadSheetConfig($readSpreadSheet);
+        }
+
+        return $spreadSheetConfigs;
     }
 }

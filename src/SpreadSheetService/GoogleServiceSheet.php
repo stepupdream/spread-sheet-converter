@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\SpreadSheetService;
 
+/**
+ * Class GoogleServiceSheet
+ *
+ * Provides data structure and methods for interacting with Google Sheets.
+ */
 class GoogleServiceSheet
 {
     /**

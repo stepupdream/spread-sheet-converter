@@ -6,6 +6,9 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 
 use LogicException;
 
+/**
+ * BaseAttribute class.
+ */
 abstract class BaseAttribute
 {
     /**

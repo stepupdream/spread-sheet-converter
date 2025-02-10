@@ -10,6 +10,9 @@ use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+/**
+ * Class SpreadSheetWriter
+ */
 class SpreadSheetWriter
 {
     /**

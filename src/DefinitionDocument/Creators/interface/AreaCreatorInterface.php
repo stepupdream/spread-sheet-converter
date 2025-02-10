@@ -6,6 +6,9 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\interface
 
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 
+/**
+ * Interface AreaCreatorInterface
+ */
 interface AreaCreatorInterface
 {
     /**

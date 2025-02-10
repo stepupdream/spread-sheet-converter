@@ -11,6 +11,11 @@ use Google_Service_Sheets;
 use Google_Service_Sheets_BatchUpdateValuesRequest;
 use Google_Service_Sheets_ValueRange;
 
+/**
+ * Class GoogleService
+ *
+ * Provides functionality for interacting with Google Spreadsheet services.
+ */
 class GoogleService
 {
     /**

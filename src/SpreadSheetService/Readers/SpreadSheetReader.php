@@ -8,6 +8,9 @@ use LogicException;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleServiceSheet;
 
+/**
+ * Class SpreadSheetReader
+ */
 class SpreadSheetReader
 {
     /**
@@ -142,6 +145,8 @@ class SpreadSheetReader
 
     /**
      * Verification of correct type specification.
+     *
+     * @param string[] $_
      */
     public function verifySheetDataDetail(array $_): void
     {

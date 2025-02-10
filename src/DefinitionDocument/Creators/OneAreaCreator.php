@@ -9,6 +9,9 @@ use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Struct\SpreadSh
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 
+/**
+ * Class OneAreaCreator.
+ */
 readonly class OneAreaCreator implements AreaCreatorInterface
 {
     /**

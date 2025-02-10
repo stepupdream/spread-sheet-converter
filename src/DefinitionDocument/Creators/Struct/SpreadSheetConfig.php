@@ -6,6 +6,9 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Struct;
 
 use LogicException;
 
+/**
+ * Class SpreadSheetConfig
+ */
 class SpreadSheetConfig
 {
     /**
@@ -56,14 +59,14 @@ class SpreadSheetConfig
     /**
      * Constructor.
      *
-     * @param array<string, mixed> $readSpreadSheet
+     * @param array<string, string> $readSpreadSheet
      */
     public function __construct(
         public array $readSpreadSheet,
     ) {
         $this->verifyKey($readSpreadSheet);
 
-        $this->sheetId = (string)$readSpreadSheet['sheet_id'];
+        $this->sheetId = $readSpreadSheet['sheet_id'];
         $this->categoryTag = $readSpreadSheet['category_tag'];
         $this->readType = $readSpreadSheet['read_type'];
         $this->useBladeFileName = $readSpreadSheet['use_blade_file_name'];

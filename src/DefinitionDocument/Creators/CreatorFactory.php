@@ -6,9 +6,11 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 
 use Illuminate\Console\OutputStyle;
 use LogicException;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\interface\CreatorInterface;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Struct\SpreadSheetConfig;
 
+/**
+ * Class CreatorFactory.
+ */
 readonly class CreatorFactory
 {
     /**
@@ -24,9 +26,8 @@ readonly class CreatorFactory
     /**
      * Creates and returns an instance of a creator object based on the 'read_type' provided in the input array.
      */
-    public function make(array $readSpreadSheet): CreatorInterface
+    public function make(SpreadSheetConfig $spreadSheetConfig): BaseCreator
     {
-        $spreadSheetConfig = new SpreadSheetConfig($readSpreadSheet);
         $attributesGroupCreator = app()->make(AttributeGroupCreator::class, ['spreadSheetConfig' => $spreadSheetConfig]);
 
         return match ($spreadSheetConfig->readType()) {

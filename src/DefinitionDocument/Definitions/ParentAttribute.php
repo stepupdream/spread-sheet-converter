@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 
+/**
+ * ParentAttribute class.
+ */
 class ParentAttribute extends BaseAttribute
 {
     /**

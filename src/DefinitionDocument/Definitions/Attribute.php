@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 
+/**
+ * Attribute class.
+ */
 class Attribute extends BaseAttribute
 {
     /**

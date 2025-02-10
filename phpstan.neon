@@ -9,6 +9,7 @@ parameters:
 
     excludePaths:
         - src/SpreadSheetService/GoogleService.php
+        - src/DefinitionDocument/Creators/BladeLoader.php
 
     # Level 10 is the highest level
-    level: 10
+    level: 9

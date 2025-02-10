@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\interface;
 
+/**
+ * Interface CreatorInterface
+ */
 interface CreatorInterface
 {
     /**

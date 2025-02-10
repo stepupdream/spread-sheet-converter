@@ -9,7 +9,10 @@ use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Struct\SpreadSh
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\Attribute;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 
-readonly class AttributeGroupCreator
+/**
+ * Class AttributeGroupCreator.
+ */
+class AttributeGroupCreator
 {
     /**
      * Request Rule Sheet.
@@ -22,8 +25,8 @@ readonly class AttributeGroupCreator
      * BaseCreator constructor.
      */
     public function __construct(
-        private SpreadSheetReader $spreadSheetReader,
-        private SpreadSheetConfig $spreadSheetConfig,
+        private readonly SpreadSheetReader $spreadSheetReader,
+        private readonly SpreadSheetConfig $spreadSheetConfig,
     ) {
     }
 

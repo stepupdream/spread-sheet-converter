@@ -8,6 +8,9 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Console\DefinitionDocumentCommand;
 
+/**
+ * Class DefinitionDocumentCommandServiceProvider
+ */
 class DefinitionDocumentCommandServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**

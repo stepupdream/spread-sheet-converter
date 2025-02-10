@@ -7,6 +7,9 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators;
 use Illuminate\Support\Str;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions\ParentAttribute;
 
+/**
+ * Class BladeLoader.
+ */
 class BladeLoader
 {
     /**

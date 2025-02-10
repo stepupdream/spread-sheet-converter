@@ -11,6 +11,9 @@ use Illuminate\Support\ServiceProvider;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
 
+/**
+ * Class SpreadSheetProvider
+ */
 class SpreadSheetProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
