@@ -11,12 +11,16 @@ use Google_Service_Sheets;
 use Google_Service_Sheets_BatchUpdateValuesRequest;
 use Google_Service_Sheets_ValueRange;
 
+/**
+ * Class GoogleService
+ *
+ * Provides functionality for interacting with Google Spreadsheet services.
+ */
 class GoogleService
 {
     /**
      * Read spreadsheet data.
      *
-     * @param  string  $sheetId
      * @return GoogleServiceSheet Table information array containing information for each sheet：key is sheet name.
      */
     public function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
@@ -38,31 +42,24 @@ class GoogleService
     /**
      * Update spreadsheet data.
      *
-     * @param  string  $sheetId
-     * @param  mixed[][]  $values
-     * @param  string  $sheetName
-     * @param  string  $range
-     * @param  string  $option
-     * @return string
-     * @throws \Google\Exception
+     * @param mixed[] $values
      */
     public function updateGoogleServiceSheet(
         string $sheetId,
         array $values,
         string $sheetName,
         string $range,
-        string $option
+        string $option,
     ): string {
         $spreadsheetService = $this->googleSpreadsheetService();
         $range = sprintf('%s!%s', $sheetName, $range);
 
         $valueRange = [];
-        $valueRange[] = new Google_Service_Sheets_ValueRange([
-            'range' => $range, 'values' => $values,
-        ]);
+        $valueRange[] = new Google_Service_Sheets_ValueRange(compact('range', 'values'));
 
-        $body = new  Google_Service_Sheets_BatchUpdateValuesRequest([
-            'valueInputOption' => $option, 'data' => $valueRange,
+        $body = new Google_Service_Sheets_BatchUpdateValuesRequest([
+            'valueInputOption' => $option,
+            'data' => $valueRange,
         ]);
 
         try {
@@ -77,27 +74,21 @@ class GoogleService
     /**
      * Append spreadsheet data.
      *
-     * @param  string  $sheetId
-     * @param  mixed[][]  $values
-     * @param  string  $sheetName
-     * @param  string  $range
-     * @param  string  $option
-     * @return string
-     * @throws \Google\Exception
+     * @param mixed[][] $values
      */
     public function appendGoogleServiceSheet(
         string $sheetId,
         array $values,
         string $sheetName,
         string $range,
-        string $option
+        string $option,
     ): string {
         $spreadsheetService = $this->googleSpreadsheetService();
         $body = new Google_Service_Sheets_ValueRange([
             'values' => $values,
         ]);
 
-        // USER_ENTERED or RAW
+        // USER ENTERED or RAW
         // In case of RAW, values are displayed as they are.
         $params = ['valueInputOption' => $option];
         $range = sprintf('%s!%s', $sheetName, $range);
@@ -113,9 +104,6 @@ class GoogleService
 
     /**
      * Object class for manipulating Spreadsheet.
-     *
-     * @return \Google\Service\Sheets
-     * @throws \Google\Exception
      */
     protected function googleSpreadsheetService(): Sheets
     {

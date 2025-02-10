@@ -2,184 +2,173 @@
 
 declare(strict_types=1);
 
-namespace StepUpDream\SpreadSheetConverter\Test\SpreadSheetReader;
-
-use Mockery;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleServiceSheet;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\Readers\SpreadSheetReader;
-use StepUpDream\SpreadSheetConverter\Test\TestCase;
 
-class SpreadSheetReaderTest extends TestCase
-{
-    protected array $sheetValues = [
-        'sheet_title1' => [
-            [
-                'TableName',
-                'TableDescription',
-                'ColumnName',
-                'ColumnDescription',
-            ],
-            [
-                'characters',
-                'CharacterData',
-                'id',
-                'id',
-            ],
-            [
-                '',
-                '',
-                'name',
-                'name',
-            ],
-        ],
-        'sheet_title2' => [
-            [
-                'TableName',
-                'TableDescription',
-                'ColumnName',
-                'ColumnDescription',
-            ],
-            [
-                'characters2',
-                'CharacterData2',
-                'id',
-                'id',
-            ],
-            [
-                '',
-                '',
-                'name2',
-                'name2',
-            ],
-        ],
-    ];
+beforeEach(function () {
+    $this->googleService = mock(GoogleService::class);
+    $this->reader = new SpreadSheetReader($this->googleService);
+});
 
-    /**
-     * @test
-     */
-    public function read(): void
-    {
-        $resultValues = [
-            'sheet_title1' => [
-                [
-                    'TableName'         => 'characters',
-                    'TableDescription'  => 'CharacterData',
-                    'ColumnName'        => 'id',
-                    'ColumnDescription' => 'id',
+describe('readBySheetName', function () {
+    test('returns correct sheet data when a sheet exists', function () {
+        $sheetId = '123';
+        $sheetName = 'TestSheet';
+        $expectedData = [
+            ['header1' => 'value1', 'header2' => 'value2'],
+        ];
+
+        $googleServiceSheet = mock(GoogleServiceSheet::class);
+        $this->googleService->shouldReceive('readFromGoogleServiceSheet')
+            ->once()
+            ->with($sheetId)
+            ->andReturn($googleServiceSheet);
+
+        $googleServiceSheet->shouldReceive('spreadSheets')
+            ->once()
+            ->andReturn([
+                $sheetName => [
+                    ['header1', 'header2'],
+                    ['value1', 'value2'],
                 ],
-                [
-                    'TableName'         => '',
-                    'TableDescription'  => '',
-                    'ColumnName'        => 'name',
-                    'ColumnDescription' => 'name',
-                ],
+            ]);
+
+        expect($this->reader->readBySheetName($sheetId, $sheetName))
+            ->toBe($expectedData);
+    });
+
+    test('throws exception when a sheet does not exist', function () {
+        $sheetId = '123';
+        $nonExistentSheet = 'NonExistentSheet';
+
+        $googleServiceSheet = mock(GoogleServiceSheet::class);
+        $this->googleService->shouldReceive('readFromGoogleServiceSheet')
+            ->once()
+            ->with($sheetId)
+            ->andReturn($googleServiceSheet);
+
+        $googleServiceSheet->shouldReceive('spreadSheets')
+            ->once()
+            ->andReturn([]);
+
+        expect(fn () => $this->reader->readBySheetName($sheetId, $nonExistentSheet))
+            ->toThrow(LogicException::class, "can't read sheet data: $nonExistentSheet");
+    });
+});
+
+describe('read', function () {
+    test('returns processed sheet data for all sheets', function () {
+        $sheetId = '123';
+        $sheets = [
+            'Sheet1' => [
+                ['header1', 'header2'],
+                ['value1', 'value2'],
             ],
-            'sheet_title2' => [
-                [
-                    'TableName'         => 'characters2',
-                    'TableDescription'  => 'CharacterData2',
-                    'ColumnName'        => 'id',
-                    'ColumnDescription' => 'id',
-                ],
-                [
-                    'TableName'         => '',
-                    'TableDescription'  => '',
-                    'ColumnName'        => 'name2',
-                    'ColumnDescription' => 'name2',
-                ],
+            'Sheet2' => [
+                ['header3', 'header4'],
+                ['value3', 'value4'],
             ],
         ];
 
-        $mock = Mockery::mock(GoogleService::class);
+        $expectedData = [
+            'Sheet1' => [
+                ['header1' => 'value1', 'header2' => 'value2'],
+            ],
+            'Sheet2' => [
+                ['header3' => 'value3', 'header4' => 'value4'],
+            ],
+        ];
 
-        $googleServiceSheet = new GoogleServiceSheet('Test', $this->sheetValues);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($googleServiceSheet);
-        $spreadSheetReaderMock = new SpreadSheetReader($mock);
+        $googleServiceSheet = mock(GoogleServiceSheet::class);
+        $this->googleService->shouldReceive('readFromGoogleServiceSheet')
+            ->once()
+            ->with($sheetId)
+            ->andReturn($googleServiceSheet);
 
-        $response = $spreadSheetReaderMock->read('sheet_id');
-        self::assertEquals($response, $resultValues);
+        $googleServiceSheet->shouldReceive('spreadSheets')
+            ->once()
+            ->andReturn($sheets);
 
-        $response = $spreadSheetReaderMock->readBySheetName('sheet_id', 'sheet_title1');
-        self::assertEquals($response, $resultValues['sheet_title1']);
-    }
+        expect($this->reader->read($sheetId))
+            ->toBe($expectedData);
+    });
+});
 
-    /**
-     * @test
-     */
-    public function isAllEmpty(): void
-    {
-        $values = ['TableName' => '', 'TableDescription' => '', 'ColumnName' => '', 'ColumnDescription' => ''];
-        $values2 = ['TableName' => 'hoge', 'TableDescription' => '', 'ColumnName' => '', 'ColumnDescription' => ''];
+describe('spreadSheetTitle', function () {
+    test('returns correct spreadsheet title', function () {
+        $sheetId = '123';
+        $expectedTitle = 'Test Spreadsheet';
 
-        $mock = Mockery::mock(GoogleService::class);
-        $googleServiceSheet = new GoogleServiceSheet('Test', $this->sheetValues);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($googleServiceSheet);
-        $spreadSheetReaderMock = new SpreadSheetReader($mock);
-        $isAllEmpty = $spreadSheetReaderMock->isAllEmpty($values);
-        self::assertTrue($isAllEmpty);
+        $googleServiceSheet = mock(GoogleServiceSheet::class);
+        $this->googleService->shouldReceive('readFromGoogleServiceSheet')
+            ->once()
+            ->with($sheetId)
+            ->andReturn($googleServiceSheet);
 
-        $isAllEmpty2 = $spreadSheetReaderMock->isAllEmpty($values2);
-        self::assertFalse($isAllEmpty2);
-    }
+        $googleServiceSheet->shouldReceive('spreadSheetTitle')
+            ->once()
+            ->andReturn($expectedTitle);
 
-    /**
-     * @test
-     */
-    public function getAttributeKeyName(): void
-    {
+        expect($this->reader->spreadSheetTitle($sheetId))
+            ->toBe($expectedTitle);
+    });
+});
+
+describe('getParentAttributeKeyName', function () {
+    test('returns keys up to a separation key', function () {
         $sheet = [
-            [
-                'TableName'         => 'characters',
-                'TableDescription'  => 'CharacterData',
-                'ColumnName'        => 'id',
-                'ColumnDescription' => 'id',
-            ],
-            [
-                'TableName'         => '',
-                'TableDescription'  => '',
-                'ColumnName'        => 'name',
-                'ColumnDescription' => 'name',
-            ],
+            ['key1' => 'val1', 'separator' => 'sep', 'key3' => 'val3'],
         ];
+        $separationKey = 'separator';
+        $expected = ['key1' => 'key1'];
 
-        $mock = Mockery::mock(GoogleService::class);
-        $googleServiceSheet = new GoogleServiceSheet('Test', $this->sheetValues);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($googleServiceSheet);
-        $spreadSheetReaderMock = new SpreadSheetReader($mock);
-        $attributeKeyName = $spreadSheetReaderMock->getAttributeKeyName($sheet, 'ColumnName');
-        $testResult = ['ColumnName' => 'ColumnName', 'ColumnDescription' => 'ColumnDescription'];
+        expect($this->reader->getParentAttributeKeyName($sheet, $separationKey))
+            ->toBe($expected);
+    });
 
-        self::assertEquals($attributeKeyName, $testResult);
-    }
+    test('throws exception when a sheet is empty', function () {
+        $sheet = [];
+        $separationKey = 'separator';
 
-    /**
-     * @test
-     */
-    public function getParentAttributeKeyName(): void
-    {
+        expect(fn () => $this->reader->getParentAttributeKeyName($sheet, $separationKey))
+            ->toThrow(LogicException::class, 'The value of sheet-first row is not an array');
+    });
+});
+
+describe('getAttributeKeyName', function () {
+    test('returns keys after a separation key', function () {
         $sheet = [
-            [
-                'TableName'         => 'characters',
-                'TableDescription'  => 'CharacterData',
-                'ColumnName'        => 'id',
-                'ColumnDescription' => 'id',
-            ],
-            [
-                'TableName'         => '',
-                'TableDescription'  => '',
-                'ColumnName'        => 'name',
-                'ColumnDescription' => 'name',
-            ],
+            ['key1' => 'val1', 'separator' => 'sep', 'key3' => 'val3'],
         ];
+        $separationKey = 'separator';
+        $expected = ['separator' => 'separator', 'key3' => 'key3'];
 
-        $mock = Mockery::mock(GoogleService::class);
-        $googleServiceSheet = new GoogleServiceSheet('Test', $this->sheetValues);
-        $mock->allows('readFromGoogleServiceSheet')->andReturns($googleServiceSheet);
-        $spreadSheetReaderMock = new SpreadSheetReader($mock);
-        $parentAttributeKeyName = $spreadSheetReaderMock->getParentAttributeKeyName($sheet, 'ColumnName');
-        $testResult = ['TableName' => 'TableName', 'TableDescription' => 'TableDescription'];
+        expect($this->reader->getAttributeKeyName($sheet, $separationKey))
+            ->toBe($expected);
+    });
 
-        self::assertEquals($parentAttributeKeyName, $testResult);
-    }
-}
+    test('throws exception when a sheet is empty', function () {
+        $sheet = [];
+        $separationKey = 'separator';
+
+        expect(fn () => $this->reader->getAttributeKeyName($sheet, $separationKey))
+            ->toThrow(LogicException::class, 'The value of sheet-first row is not an array');
+    });
+});
+
+describe('isAllEmpty', function () {
+    test('returns true when all values are empty', function () {
+        $values = ['', '', ''];
+
+        expect($this->reader->isRowEmpty($values))
+            ->toBeTrue();
+    });
+
+    test('returns are false when any value is not empty', function () {
+        $values = ['', 'not empty', ''];
+
+        expect($this->reader->isRowEmpty($values))
+            ->toBeFalse();
+    });
+});

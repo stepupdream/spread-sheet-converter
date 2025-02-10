@@ -4,22 +4,27 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\SpreadSheetService;
 
+/**
+ * Class GoogleServiceSheet
+ *
+ * Provides data structure and methods for interacting with Google Sheets.
+ */
 class GoogleServiceSheet
 {
     /**
-     * @param  string  $spreadSheetTitle
-     * @param  string[][][]  $spreadSheets
+     * Constructor method for initializing the spreadsheet title and sheets.
+     *
+     * @param string[][][] $spreadSheets
      */
     public function __construct(
         protected string $spreadSheetTitle,
-        protected array $spreadSheets
+        protected array $spreadSheets,
     ) {
+        //
     }
 
     /**
      * Get spreadSheetTitle.
-     *
-     * @return string
      */
     public function spreadSheetTitle(): string
     {

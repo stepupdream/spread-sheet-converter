@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Definitions;
 
+/**
+ * Attribute class.
+ */
 class Attribute extends BaseAttribute
 {
     /**
+     * One line of information in the child element part.
+     *
      * @var string[]
      */
     protected array $attributeDetails = [];
 
     /**
-     * @var string
+     * Rule message.
      */
     protected string $ruleMessage = '';
 
@@ -28,9 +33,6 @@ class Attribute extends BaseAttribute
 
     /**
      * Get attribute detail by header key.
-     *
-     * @param  string  $headerKey
-     * @return string
      */
     public function getAttributeDetailByKey(string $headerKey): string
     {
@@ -40,7 +42,6 @@ class Attribute extends BaseAttribute
     /**
      * Get attribute detail by header key.
      *
-     * @param  string  $headerKey
      * @return mixed[]
      */
     public function getAttributeDetailJsonByKey(string $headerKey): array
@@ -50,9 +51,6 @@ class Attribute extends BaseAttribute
 
     /**
      * Set attribute details.
-     *
-     * @param  string  $value
-     * @param  string  $headerName
      */
     public function setAttributeDetails(string $value, string $headerName): void
     {
@@ -61,8 +59,6 @@ class Attribute extends BaseAttribute
 
     /**
      * Unset attribute detail.
-     *
-     * @param  string  $headerName
      */
     public function unsetAttributeDetail(string $headerName): void
     {
@@ -72,7 +68,7 @@ class Attribute extends BaseAttribute
     /**
      * Get rule message.
      *
-     * @return string
+     * @noinspection PhpUnused
      */
     public function ruleMessage(): string
     {
@@ -81,8 +77,6 @@ class Attribute extends BaseAttribute
 
     /**
      * Set rule message.
-     *
-     * @param  string  $ruleMessage
      */
     public function setRuleMessage(string $ruleMessage): void
     {

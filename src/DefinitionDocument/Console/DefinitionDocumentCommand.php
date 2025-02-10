@@ -6,10 +6,12 @@ namespace StepUpDream\SpreadSheetConverter\DefinitionDocument\Console;
 
 use LogicException;
 use StepUpDream\DreamAbilitySupport\Console\BaseCommand;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\MultiGroup;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Other;
-use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\SingleGroup;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\CreatorFactory;
+use StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Struct\SpreadSheetConfig;
 
+/**
+ * Console command for creating definition documents.
+ */
 class DefinitionDocumentCommand extends BaseCommand
 {
     /**
@@ -24,7 +26,7 @@ class DefinitionDocumentCommand extends BaseCommand
      *
      * @var string
      */
-    protected $description = 'create definition document {any:category} {any:file_name}';
+    protected $description = 'create definition document {any:category} {any:file_name}.';
 
     /**
      * Run command.
@@ -33,21 +35,15 @@ class DefinitionDocumentCommand extends BaseCommand
     {
         $targetCategory = $this->optionText('category');
         $targetFileName = $this->optionText('file_name');
-        $readSpreadSheets = $this->readSpreadSheets();
+        $readSpreadSheetConfigs = $this->readSpreadSheetConfigs();
 
-        foreach ($readSpreadSheets as $readSpreadSheet) {
-            if (! empty($targetCategory) && $targetCategory !== $readSpreadSheet['category_tag']) {
+        foreach ($readSpreadSheetConfigs as $readSpreadSheetConfig) {
+            if ($targetCategory !== $readSpreadSheetConfig->categoryTag()) {
                 continue;
             }
 
-            /** @var \StepUpDream\SpreadSheetConverter\DefinitionDocument\Creators\Base $creator */
-            $creator = match ($readSpreadSheet['read_type']) {
-                'SingleGroup' => app()->make(SingleGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
-                'MultiGroup' => app()->make(MultiGroup::class, ['readSpreadSheet' => $readSpreadSheet]),
-                'Other' => app()->make(Other::class, ['readSpreadSheet' => $readSpreadSheet]),
-                default => throw new LogicException('There were no matching conditions'),
-            };
-            $creator->setOutput($this->output)->run($targetFileName);
+            $creator = (new CreatorFactory($this->output))->make($readSpreadSheetConfig);
+            $creator->run($targetFileName);
         }
 
         $this->commandDetailLog();
@@ -56,46 +52,22 @@ class DefinitionDocumentCommand extends BaseCommand
     /**
      * Read Spread Sheets
      *
-     * @return mixed[][]
+     * @return SpreadSheetConfig[] $spreadSheetConfigs
      */
-    private function readSpreadSheets(): array
+    private function readSpreadSheetConfigs(): array
     {
         $readSpreadSheets = config('stepupdream.spread-sheet-converter.read_spread_sheets');
 
-        if (! is_array($readSpreadSheets) || ! $this->isMultidimensional($readSpreadSheets)) {
+        if (!is_array($readSpreadSheets) || !$this->isMultidimensional($readSpreadSheets)) {
             throw new LogicException('Must be a two-dimensional array:read_spread_sheets');
         }
 
+        $spreadSheetConfigs = [];
         foreach ($readSpreadSheets as $readSpreadSheet) {
-            $this->verifyKey($readSpreadSheet);
+            /** @var array<string, string> $readSpreadSheet */
+            $spreadSheetConfigs[] = new SpreadSheetConfig($readSpreadSheet);
         }
 
-        return $readSpreadSheets;
-    }
-
-    /**
-     * Verify the existence of the key.
-     *
-     * @param  mixed[]  $readSpreadSheet
-     * @return void
-     */
-    private function verifyKey(array $readSpreadSheet): void
-    {
-        $keys = [
-            'sheet_id',
-            'category_tag',
-            'read_type',
-            'use_blade',
-            'output_directory_path',
-            'definition_directory_path',
-            'separation_key',
-            'attribute_group_column_name',
-        ];
-
-        foreach ($keys as $key) {
-            if (! array_key_exists($key, $readSpreadSheet)) {
-                throw new LogicException('There is no required setting value:'.$key);
-            }
-        }
+        return $spreadSheetConfigs;
     }
 }

@@ -8,6 +8,9 @@ use LogicException;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService;
 use StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleServiceSheet;
 
+/**
+ * Class SpreadSheetReader
+ */
 class SpreadSheetReader
 {
     /**
@@ -32,17 +35,16 @@ class SpreadSheetReader
     protected array $googleServiceSheets = [];
 
     /**
-     * @param  \StepUpDream\SpreadSheetConverter\SpreadSheetService\GoogleService  $googleService
+     * Initializes the class with the provided GoogleService dependency.
      */
     public function __construct(protected GoogleService $googleService)
     {
+        //
     }
 
     /**
      * Read spreadsheet data.
      *
-     * @param  string  $sheetId
-     * @param  string  $targetSheetName
      * @return string[][] Table information array containing information for each sheet：key is sheet name.
      */
     public function readBySheetName(string $sheetId, string $targetSheetName): array
@@ -50,7 +52,7 @@ class SpreadSheetReader
         $spreadsheets = $this->read($sheetId);
 
         if (empty($spreadsheets[$targetSheetName])) {
-            throw new LogicException('can not read sheet data: '.$targetSheetName);
+            throw new LogicException("can't read sheet data: " . $targetSheetName);
         }
 
         return $spreadsheets[$targetSheetName];
@@ -59,7 +61,6 @@ class SpreadSheetReader
     /**
      * Read spreadsheet data.
      *
-     * @param  string  $sheetId
      * @return string[][][] Table information array containing information for each sheet：key is sheet name.
      */
     public function read(string $sheetId): array
@@ -70,15 +71,14 @@ class SpreadSheetReader
     /**
      * Read spreadsheet title.
      *
-     * @param  string  $sheetId
      * @return string[][][] Table information array containing information for each sheet：key is sheet name.
      */
-    protected function readSpreadSheetValue(string $sheetId): array
+    private function readSpreadSheetValue(string $sheetId): array
     {
         $googleServiceSheet = $this->readFromGoogleServiceSheet($sheetId);
         $spreadsheets = $googleServiceSheet->spreadSheets();
-        foreach ($spreadsheets as $sheetTitle => $sheet) {
-            $spreadsheets[$sheetTitle] = $this->getTitleArray($sheet, $sheetTitle);
+        foreach ($spreadsheets as $sheetName => $sheet) {
+            $spreadsheets[$sheetName] = $this->getTitleArray($sheet, $sheetName);
         }
 
         return $spreadsheets;
@@ -87,12 +87,11 @@ class SpreadSheetReader
     /**
      * Read spreadsheet data.
      *
-     * @param  string  $sheetId
      * @return GoogleServiceSheet Table information array containing information for each sheet：key is sheet name.
      */
-    protected function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
+    private function readFromGoogleServiceSheet(string $sheetId): GoogleServiceSheet
     {
-        if (! empty($this->googleServiceSheets[$sheetId])) {
+        if (!empty($this->googleServiceSheets[$sheetId])) {
             return $this->googleServiceSheets[$sheetId];
         }
 
@@ -106,18 +105,17 @@ class SpreadSheetReader
     /**
      * Make the first row the key of the associative array.
      *
-     * @param  string[][]  $sheet
-     * @param  string  $sheetTitle
+     * @param string[][] $sheet
      * @return string[][]
      */
-    protected function getTitleArray(array $sheet, string $sheetTitle): array
+    private function getTitleArray(array $sheet, string $sheetName): array
     {
         $result = [];
         $headerRow = [];
         $isHeader = true;
 
         if (empty($sheet)) {
-            throw new LogicException('need sheet header: '.$sheetTitle);
+            throw new LogicException('need sheet header: ' . $sheetName);
         }
 
         foreach ($sheet as $row) {
@@ -139,9 +137,6 @@ class SpreadSheetReader
 
     /**
      * Read spreadsheet data.
-     *
-     * @param  string  $sheetId
-     * @return string
      */
     public function spreadSheetTitle(string $sheetId): string
     {
@@ -151,9 +146,9 @@ class SpreadSheetReader
     /**
      * Verification of correct type specification.
      *
-     * @param  string[]  $attribute
+     * @param string[] $_
      */
-    public function verifySheetDataDetail(array $attribute): void
+    public function verifySheetDataDetail(array $_): void
     {
         // Optional
     }
@@ -161,22 +156,21 @@ class SpreadSheetReader
     /**
      * Gets the first row of the array up to the specified key.
      *
-     * @param  string[][]  $sheet
-     * @param  string  $separationKey
+     * @param string[][] $sheet
      * @return string[] Sheet header list
      */
     public function getParentAttributeKeyName(array $sheet, string $separationKey): array
     {
         $sheetFirstRow = collect($sheet)->first();
-        $cacheKey = (string) collect($sheetFirstRow)->first();
+        $cacheKey = (string)collect($sheetFirstRow)->first();
         $names = [];
 
-        if (! empty($this->parentAttributeKeyName[$cacheKey])) {
+        if (!empty($this->parentAttributeKeyName[$cacheKey])) {
             return $this->parentAttributeKeyName[$cacheKey];
         }
 
         if ($sheetFirstRow === null) {
-            throw new LogicException('The value of sheet first row is not an array');
+            throw new LogicException('The value of sheet-first row is not an array');
         }
 
         foreach ($sheetFirstRow as $key => $value) {
@@ -194,8 +188,7 @@ class SpreadSheetReader
     /**
      * Gets the first row of the array after the specified key.
      *
-     * @param  string[][]  $sheet
-     * @param  string  $separationKey
+     * @param string[][] $sheet
      * @return string[] Sheet header list
      */
     public function getAttributeKeyName(array $sheet, string $separationKey): array
@@ -204,17 +197,17 @@ class SpreadSheetReader
         $shouldAddStart = false;
         $names = [];
 
-        $cacheKey = (string) collect($sheetFirstRow)->first();
+        $cacheKey = (string)collect($sheetFirstRow)->first();
 
-        if (! empty($this->attributeKeyName[$cacheKey])) {
+        if (!empty($this->attributeKeyName[$cacheKey])) {
             return $this->attributeKeyName[$cacheKey];
         }
 
         if ($sheetFirstRow === null) {
-            throw new LogicException('The value of sheet first row is not an array');
+            throw new LogicException('The value of sheet-first row is not an array');
         }
 
-        // Get what's to the right of the separation key part of the header row in Spreadsheet.
+        // Get what’s to the right of the separation key part of the header row in the Spreadsheet.
         foreach ($sheetFirstRow as $key => $value) {
             if ($key === $separationKey) {
                 $shouldAddStart = true;
@@ -233,10 +226,9 @@ class SpreadSheetReader
     /**
      * Whether the entire row is all empty.
      *
-     * @param  string[]  $values
-     * @return bool
+     * @param string[] $values
      */
-    public function isAllEmpty(array $values): bool
+    public function isRowEmpty(array $values): bool
     {
         foreach ($values as $value) {
             if ($value !== '') {

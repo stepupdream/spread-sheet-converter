@@ -1,0 +1,14 @@
+{
+    "preset": "psr12",
+    "exclude": [
+    ],
+    "rules": {
+        "array_syntax": {
+            "syntax": "short"
+        },
+        "date_time_immutable": true,
+        "mb_str_functions": true,
+        "phpdoc_separation": false,
+        "simplified_if_return": true
+    }
+}

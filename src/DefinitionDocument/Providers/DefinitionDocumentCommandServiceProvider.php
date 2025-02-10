@@ -8,14 +8,15 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use StepUpDream\SpreadSheetConverter\DefinitionDocument\Console\DefinitionDocumentCommand;
 
+/**
+ * Class DefinitionDocumentCommandServiceProvider
+ */
 class DefinitionDocumentCommandServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Config path to output.
-     *
-     * @var string
      */
-    protected string $originPathConfig = __DIR__.'/../Config/stepupdream/spread-sheet-converter.php';
+    protected string $originPathConfig = __DIR__ . '/../Config/stepupdream/spread-sheet-converter.php';
 
     /**
      * The commands to be registered.
@@ -32,9 +33,9 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->loadViewsFrom(__DIR__.'/../../../resources/DefinitionDocument', 'spread-sheet-converter');
+            $this->loadViewsFrom(__DIR__ . '/../../../resources/DefinitionDocument', 'spread-sheet-converter');
 
-            $originPathDocument = __DIR__.'/../../../resources/DefinitionDocument';
+            $originPathDocument = __DIR__ . '/../../../resources/DefinitionDocument';
             $targetPathDocument = 'views/vendor/spread-sheet-converter';
             $this->publishes([
                 $originPathDocument => $this->app->resourcePath($targetPathDocument),
@@ -57,6 +58,8 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
 
             $this->commands(array_values($this->commands));
         }
+
+        parent::register();
     }
 
     /**
@@ -66,6 +69,6 @@ class DefinitionDocumentCommandServiceProvider extends ServiceProvider implement
      */
     public function provides(): array
     {
-        return array_values($this->commands);
+        return array_values(array_merge(parent::provides(), $this->commands));
     }
 }
